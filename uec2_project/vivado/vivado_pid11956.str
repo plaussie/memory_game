@@ -1,0 +1,164 @@
+/*
+
+Xilinx Vivado v2017.3 (64-bit) [Major: 2017, Minor: 3]
+SW Build: 2018833 on Wed Oct  4 19:58:22 MDT 2017
+IP Build: 2016188 on Wed Oct  4 21:52:56 MDT 2017
+
+Process ID: 11956
+License: Customer
+
+Current time: 	Tue Jul 07 22:48:24 CEST 2020
+Time zone: 	Central European Time (Europe/Belgrade)
+
+OS: Windows 10
+OS Version: 10.0
+OS Architecture: amd64
+Available processors (cores): 16
+
+Screen size: 1920x1080
+Screen resolution (DPI): 96
+Available screens: 1
+Available disk space: 410 GB
+Default font: family=Dialog,name=Dialog,style=plain,size=12
+
+Java version: 	1.8.0_112 64-bit
+Java home: 	D:/Program_Files_Studies/Xilinx/Vivado/2017.3/tps/win64/jre
+JVM executable location: 	D:/Program_Files_Studies/Xilinx/Vivado/2017.3/tps/win64/jre/bin/java.exe
+
+User name: 	Krzysztof
+User home directory: C:/Users/Krzysztof
+User working directory: C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado
+User country: 	PL
+User language: 	pl
+User locale: 	pl_PL
+
+RDI_BASEROOT: D:/Program_Files_Studies/Xilinx/Vivado
+HDI_APPROOT: D:/Program_Files_Studies/Xilinx/Vivado/2017.3
+RDI_DATADIR: D:/Program_Files_Studies/Xilinx/Vivado/2017.3/data
+RDI_BINDIR: D:/Program_Files_Studies/Xilinx/Vivado/2017.3/bin
+
+User preferences location: C:/Users/Krzysztof/AppData/Roaming/Xilinx/Vivado
+Vivado preferences directory: C:/Users/Krzysztof/AppData/Roaming/Xilinx/Vivado/2017.3/vivado.xml
+Vivado layouts directory: C:/Users/Krzysztof/AppData/Roaming/Xilinx/Vivado/2017.3/layouts
+PlanAhead jar file location: 	D:/Program_Files_Studies/Xilinx/Vivado/2017.3/lib/classes/planAhead.jar
+Vivado log file location: 	C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado/vivado.log
+Vivado journal file location: 	C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado/vivado.jou
+Engine tmp dir: 	C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado/.Xil/Vivado-11956-DESKTOP-5178MCU
+
+GUI allocated memory:	281 MB
+GUI max memory:		3,052 MB
+Engine allocated memory: 702 MB
+
+Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
+
+*/
+
+// TclEventType: START_GUI
+// TclEventType: PROJECT_OPEN_DIALOG
+// Tcl Message: start_gui 
+// TclEventType: PROJECT_OPEN_DIALOG
+// Opening Vivado Project: C:\Users\Krzysztof\Dropbox\IV_term\Uklady-elektroniki-cyfrowej2\Project\memory_game\uec2_project\vivado\memory_game.xpr. Version: Vivado v2017.3 
+// bs (cl):  Open Project : addNotify
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// [GUI Memory]: 68 MB (+68480kb) [00:00:03]
+// [Engine Memory]: 569 MB (+445626kb) [00:00:03]
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_CURRENT
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 101 MB (+31181kb) [00:00:04]
+// [Engine Memory]: 636 MB (+39590kb) [00:00:04]
+// [GUI Memory]: 110 MB (+4707kb) [00:00:04]
+// [Engine Memory]: 688 MB (+21216kb) [00:00:04]
+// [GUI Memory]: 120 MB (+4672kb) [00:00:05]
+// Tcl Message: open_project C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado/memory_game.xpr 
+// Tcl Message: INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter. Current project path is 'C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado' 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/Program_Files_Studies/Xilinx/Vivado/2017.3/data/ip'. 
+// Project name: memory_game; location: C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado; part: xc7a35tcpg236-1
+dismissDialog("Open Project"); // bs (cl)
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// HMemoryUtils.trashcanNow. Engine heap size: 711 MB. GUI used memory: 43 MB. Current time: 7/7/20 10:48:26 PM CEST
+// TclEventType: DG_GRAPH_GENERATED
+selectMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // U (q, cl)
+// Tcl Message: update_compile_order -fileset sources_1 
+dismissMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // U (q, cl)
+selectMenu(PAResourceItoN.MainMenuMgr_EDIT, "Edit"); // U (q, cl)
+dismissMenu(PAResourceItoN.MainMenuMgr_EDIT, "Edit"); // U (q, cl)
+selectMenu(PAResourceItoN.MainMenuMgr_FLOW, "Flow"); // U (q, cl)
+dismissMenu(PAResourceItoN.MainMenuMgr_FLOW, "Flow"); // U (q, cl)
+selectMenu(PAResourceItoN.MainMenuMgr_TOOLS, "Tools"); // U (q, cl)
+dismissMenu(PAResourceItoN.MainMenuMgr_TOOLS, "Tools"); // U (q, cl)
+selectMenu(PAResourceItoN.MainMenuMgr_FLOW, "Flow"); // U (q, cl)
+dismissMenu(PAResourceItoN.MainMenuMgr_FLOW, "Flow"); // U (q, cl)
+selectMenu(PAResourceItoN.MainMenuMgr_EDIT, "Edit"); // U (q, cl)
+dismissMenu(PAResourceItoN.MainMenuMgr_EDIT, "Edit"); // U (q, cl)
+selectMenu(PAResourceItoN.MainMenuMgr_FLOW, "Flow"); // U (q, cl)
+dismissMenu(PAResourceItoN.MainMenuMgr_FLOW, "Flow"); // U (q, cl)
+selectMenu(PAResourceItoN.MainMenuMgr_TOOLS, "Tools"); // U (q, cl)
+selectMenu(PAResourceItoN.MainMenuMgr_REPORT, "Report"); // Z (cl)
+selectMenu(RDIResourceCommand.RDICommands_CUSTOM_COMMANDS, "Custom Commands"); // Z (cl)
+dismissMenu(PAResourceItoN.MainMenuMgr_TOOLS, "Tools"); // U (q, cl)
+// Elapsed time: 14 seconds
+selectMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // U (q, cl)
+selectMenu(PAResourceItoN.MainMenuMgr_OPEN_RECENT_PROJECT, "Open Recent Project"); // Z (cl)
+selectMenu(PAResourceItoN.MainMenuMgr_OPEN_RECENT_FILE, "Open Recent File"); // Z (cl)
+selectMenu(PAResourceItoN.MainMenuMgr_EXPORT, "Export"); // Z (cl)
+selectMenu(PAResourceItoN.MainMenuMgr_EXPORT, "Export"); // Z (cl)
+selectMenu(PAResourceItoN.MainMenuMgr_OPEN_RECENT_FILE, "Open Recent File"); // Z (cl)
+selectMenuItem(PAResourceCommand.PACommandNames_ARCHIVE_PROJECT, "Archive Project..."); // ac (cl)
+dismissMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // U (q, cl)
+// Run Command: PAResourceCommand.PACommandNames_ARCHIVE_PROJECT
+// a (cl): Archive Project: addNotify
+selectCheckBox(PAResourceAtoD.ArchiveProjectDialog_INCLUDE_RUN_RESULTS, "Include run results", false); // g (N, a): FALSE
+// Elapsed time: 15 seconds
+selectButton(PAResourceAtoD.ArchiveProjectDialog_CHOOSE_ARCHIVE_LOCATION, (String) null); // q (af)
+setFolderChooser("C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/backup");
+// [Engine Memory]: 725 MB (+3467kb) [00:01:18]
+// Elapsed time: 32 seconds
+setText(PAResourceAtoD.ArchiveProjectDialog_ARCHIVE_NAME, "memory_game_07_07_2020"); // X (N, a)
+// Elapsed time: 11 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (a)
+// bs (cl):  Archive Project : addNotify
+// TclEventType: PROJECT_ARCHIVE_PRE
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_CURRENT
+// Tcl Message: archive_project C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/backup/memory_game_07_07_2020.xpr.zip -temp_dir C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado/.Xil/Vivado-11956-DESKTOP-5178MCU -force -exclude_run_results -include_local_ip_cache 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PROJECT_NEW
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// Tcl Message: INFO: [Coretcl 2-1211] Creating project copy for archival... 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/Program_Files_Studies/Xilinx/Vivado/2017.3/data/ip'. 
+// TclEventType: DG_GRAPH_GENERATED
+// TclEventType: DG_ANALYSIS_MSG_RESET
+// TclEventType: DG_GRAPH_GENERATED
+// TclEventType: PROJECT_RENAME
+// TclEventType: RUN_COMPLETED
+// Tcl Message: INFO: [ProjectBase 1-495] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience any problem with archiving the project, please consider setting environment variable $TEMP to a shorter path. Current project path is 'C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado/.Xil/Vivado-11956-DESKTOP-5178MCU/PrjAr/_X_'. 
+// TclEventType: RUN_COMPLETED
+// TclEventType: PROJECT_RENAME
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: PROJECT_CLOSE
+// Tcl Message: INFO: [Coretcl 2-135] resetting runs for excluding generated files from archive... 
+// Tcl Message: INFO: [Coretcl 2-133] re-setting run 'synth_1'... INFO: [Coretcl 2-133] re-setting run 'impl_1'... INFO: [Coretcl 2-1212] Importing remotely added design sources and verilog include files (if any)... INFO: [filemgmt 20-348] Importing the appropriate files for fileset: 'constrs_1' INFO: [filemgmt 20-348] Importing the appropriate files for fileset: 'sources_1' INFO: [Coretcl 2-1209] Adding archive summary file to the project... 
+// TclEventType: PROJECT_ARCHIVE_POST
+// HMemoryUtils.trashcanNow. Engine heap size: 725 MB. GUI used memory: 46 MB. Current time: 7/7/20 10:50:18 PM CEST
+// TclEventType: PROJECT_ARCHIVE_POST
+// Tcl Message: INFO: [Coretcl 2-1214] Preparing project files for archive... INFO: [Coretcl 2-1210] Compressing project files and data... INFO: [Coretcl 2-1215] Project archived (C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/backup/memory_game_07_07_2020.xpr.zip) INFO: [Coretcl 2-1216] To view the archive summary log in GUI, double click on 'Design Sources->Text->archive_project_summary.txt', or open this file from the archived project directory. 
+// 'a' command handler elapsed time: 74 seconds
+selectButton("PAResourceAtoD.ArchiveProjectDialog_PROJECT_HAS_BEEN_SUCCESSFULLY_ARCHIVED_OK", "OK"); // JButton (A, G)
+// HMemoryUtils.trashcanNow. Engine heap size: 731 MB. GUI used memory: 45 MB. Current time: 7/7/20 10:53:16 PM CEST
