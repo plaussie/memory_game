@@ -1,3 +1,23 @@
+//////////////////////////////////////////////////////////////////////////////////
+// Company: AGH UST
+// Engineers: Krzysztof Cislo & Jakub Dzialowy
+// 
+// Create Date: 08.07.2020 19:53:42
+// Module Name: font_rom
+// Project Name: Memory Game
+// Target Devices: Basys3
+// Tool Versions: Vivado 2017.3
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Revision 0.10 - File Copied from UEC2 Lab
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
 `timescale 1ns / 1ps
 // ROM with synchronous read (inferring Block RAM)
 // character ROM

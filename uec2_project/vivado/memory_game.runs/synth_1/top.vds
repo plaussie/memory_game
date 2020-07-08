@@ -2,8 +2,8 @@
 # Vivado v2017.3 (64-bit)
 # SW Build 2018833 on Wed Oct  4 19:58:22 MDT 2017
 # IP Build 2016188 on Wed Oct  4 21:52:56 MDT 2017
-# Start of session at: Tue Jul  7 22:23:10 2020
-# Process ID: 11340
+# Start of session at: Wed Jul  8 19:59:22 2020
+# Process ID: 12216
 # Current directory: C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado/memory_game.runs/synth_1
 # Command line: vivado.exe -log top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top.tcl
 # Log file: C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado/memory_game.runs/synth_1/top.vds
@@ -15,11 +15,11 @@ Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xc7a35t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a35t'
 INFO: Launching helper process for spawning children vivado processes
-INFO: Helper process launched with PID 17588 
+INFO: Helper process launched with PID 12952 
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 353.145 ; gain = 93.996
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:05 . Memory (MB): peak = 353.121 ; gain = 94.098
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-638] synthesizing module 'top' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/top.v:23]
+INFO: [Synth 8-638] synthesizing module 'top' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/top.v:24]
 INFO: [Synth 8-638] synthesizing module 'clock_generator' [c:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/ip/clock_generator/clock_generator.v:71]
 INFO: [Synth 8-638] synthesizing module 'clock_generator_clk_wiz' [c:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/ip/clock_generator/clock_generator_clk_wiz.v:69]
 INFO: [Synth 8-5534] Detected attribute (* KEEP = "TRUE" *) [c:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/ip/clock_generator/clock_generator_clk_wiz.v:127]
@@ -114,32 +114,32 @@ WARNING: [Synth 8-6014] Unused sequential element x_inter_reg was removed.  [C:/
 WARNING: [Synth 8-6014] Unused sequential element inc_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/MouseCtl.vhd:514]
 WARNING: [Synth 8-6014] Unused sequential element y_inter_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/MouseCtl.vhd:520]
 INFO: [Synth 8-256] done synthesizing module 'MouseCtl' (10#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/MouseCtl.vhd:207]
-INFO: [Synth 8-638] synthesizing module 'delay' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/delay.v:3]
+INFO: [Synth 8-638] synthesizing module 'delay' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/delay.v:24]
 	Parameter WIDTH bound to: 24 - type: integer 
 	Parameter CLK_DEL bound to: 1 - type: integer 
-INFO: [Synth 8-256] done synthesizing module 'delay' (11#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/delay.v:3]
-INFO: [Synth 8-638] synthesizing module 'vga_timing' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/vga_timing.v:13]
-INFO: [Synth 8-256] done synthesizing module 'vga_timing' (12#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/vga_timing.v:13]
-INFO: [Synth 8-638] synthesizing module 'draw_background' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_background.v:3]
-INFO: [Synth 8-256] done synthesizing module 'draw_background' (13#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_background.v:3]
-INFO: [Synth 8-638] synthesizing module 'font_rom' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/font_rom.v:9]
-INFO: [Synth 8-256] done synthesizing module 'font_rom' (14#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/font_rom.v:9]
-INFO: [Synth 8-638] synthesizing module 'char_rom_16x16' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/char_rom_16x16.v:3]
-INFO: [Synth 8-256] done synthesizing module 'char_rom_16x16' (15#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/char_rom_16x16.v:3]
-INFO: [Synth 8-638] synthesizing module 'draw_rect_char' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect_char.v:3]
+INFO: [Synth 8-256] done synthesizing module 'delay' (11#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/delay.v:24]
+INFO: [Synth 8-638] synthesizing module 'vga_timing' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/vga_timing.v:33]
+INFO: [Synth 8-256] done synthesizing module 'vga_timing' (12#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/vga_timing.v:33]
+INFO: [Synth 8-638] synthesizing module 'draw_background' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_background.v:23]
+INFO: [Synth 8-256] done synthesizing module 'draw_background' (13#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_background.v:23]
+INFO: [Synth 8-638] synthesizing module 'font_rom' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/font_rom.v:29]
+INFO: [Synth 8-256] done synthesizing module 'font_rom' (14#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/font_rom.v:29]
+INFO: [Synth 8-638] synthesizing module 'char_rom_16x16' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/char_rom_16x16.v:23]
+INFO: [Synth 8-256] done synthesizing module 'char_rom_16x16' (15#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/char_rom_16x16.v:23]
+INFO: [Synth 8-638] synthesizing module 'draw_rect_char' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect_char.v:23]
 	Parameter RECT_POS_X bound to: 330 - type: integer 
 	Parameter RECT_POS_Y bound to: 200 - type: integer 
 	Parameter RECT_WIDTH bound to: 128 - type: integer 
 	Parameter RECT_HEIGHT bound to: 256 - type: integer 
-INFO: [Synth 8-638] synthesizing module 'delay__parameterized0' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/delay.v:3]
+INFO: [Synth 8-638] synthesizing module 'delay__parameterized0' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/delay.v:24]
 	Parameter WIDTH bound to: 41 - type: integer 
 	Parameter CLK_DEL bound to: 3 - type: integer 
-INFO: [Synth 8-256] done synthesizing module 'delay__parameterized0' (15#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/delay.v:3]
-INFO: [Synth 8-256] done synthesizing module 'draw_rect_char' (16#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect_char.v:3]
-INFO: [Synth 8-638] synthesizing module 'image_rom' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/image_rom.v:8]
-INFO: [Synth 8-3876] $readmem data file '/image_rom.data' is read successfully [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/image_rom.v:17]
-INFO: [Synth 8-256] done synthesizing module 'image_rom' (17#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/image_rom.v:8]
-INFO: [Synth 8-638] synthesizing module 'draw_rect_ctl' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect_ctl.v:23]
+INFO: [Synth 8-256] done synthesizing module 'delay__parameterized0' (15#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/delay.v:24]
+INFO: [Synth 8-256] done synthesizing module 'draw_rect_char' (16#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect_char.v:23]
+INFO: [Synth 8-638] synthesizing module 'image_rom' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/image_rom.v:28]
+INFO: [Synth 8-3876] $readmem data file '/image_rom.data' is read successfully [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/image_rom.v:37]
+INFO: [Synth 8-256] done synthesizing module 'image_rom' (17#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/image_rom.v:28]
+INFO: [Synth 8-638] synthesizing module 'draw_rect_ctl' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect_ctl.v:24]
 	Parameter STATE_DOWN bound to: 2'b01 
 	Parameter STATE_UP bound to: 2'b10 
 	Parameter STATE_END bound to: 2'b11 
@@ -148,20 +148,20 @@ INFO: [Synth 8-638] synthesizing module 'draw_rect_ctl' [C:/Users/Krzysztof/Drop
 	Parameter ACCELERATION_CONST bound to: 2 - type: integer 
 	Parameter SCREEN_HEIGHT bound to: 600 - type: integer 
 	Parameter RECT_HEIGHT bound to: 64 - type: integer 
-INFO: [Synth 8-256] done synthesizing module 'draw_rect_ctl' (18#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect_ctl.v:23]
-INFO: [Synth 8-638] synthesizing module 'draw_rect' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect.v:3]
+INFO: [Synth 8-256] done synthesizing module 'draw_rect_ctl' (18#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect_ctl.v:24]
+INFO: [Synth 8-638] synthesizing module 'draw_rect' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect.v:23]
 	Parameter RECT_WIDTH bound to: 48 - type: integer 
 	Parameter RECT_HEIGHT bound to: 64 - type: integer 
-INFO: [Synth 8-638] synthesizing module 'delay__parameterized1' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/delay.v:3]
+INFO: [Synth 8-638] synthesizing module 'delay__parameterized1' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/delay.v:24]
 	Parameter WIDTH bound to: 38 - type: integer 
 	Parameter CLK_DEL bound to: 2 - type: integer 
-INFO: [Synth 8-256] done synthesizing module 'delay__parameterized1' (18#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/delay.v:3]
-INFO: [Synth 8-256] done synthesizing module 'draw_rect' (19#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect.v:3]
+INFO: [Synth 8-256] done synthesizing module 'delay__parameterized1' (18#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/delay.v:24]
+INFO: [Synth 8-256] done synthesizing module 'draw_rect' (19#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect.v:23]
 INFO: [Synth 8-638] synthesizing module 'MouseDisplay' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/MouseDisplay.vhd:135]
 INFO: [Synth 8-256] done synthesizing module 'MouseDisplay' (20#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/MouseDisplay.vhd:135]
-INFO: [Synth 8-256] done synthesizing module 'top' (21#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/top.v:23]
+INFO: [Synth 8-256] done synthesizing module 'top' (21#1) [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/top.v:24]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 406.246 ; gain = 147.098
+Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 406.227 ; gain = 147.203
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -171,7 +171,7 @@ Report Check Netlist:
 |1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
 +------+------------------+-------+---------+-------+------------------+
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 406.246 ; gain = 147.098
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 406.227 ; gain = 147.203
 ---------------------------------------------------------------------------------
 INFO: [Netlist 29-17] Analyzing 5 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -203,16 +203,16 @@ INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 2 instances were transformed.
   BUFGCE => BUFGCTRL: 2 instances
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.009 . Memory (MB): peak = 721.234 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.006 . Memory (MB): peak = 721.223 ; gain = 0.000
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 721.234 ; gain = 462.086
+Finished Constraint Validation : Time (s): cpu = 00:00:13 ; elapsed = 00:00:15 . Memory (MB): peak = 721.223 ; gain = 462.199
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a35tcpg236-1
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 721.234 ; gain = 462.086
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:13 ; elapsed = 00:00:15 . Memory (MB): peak = 721.223 ; gain = 462.199
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
@@ -220,7 +220,7 @@ Start Applying 'set_property' XDC Constraints
 Applied set_property DONT_TOUCH = true for my_clock/inst. (constraint file  C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado/memory_game.runs/synth_1/dont_touch.xdc, line 10).
 Applied set_property DONT_TOUCH = true for my_clock. (constraint file  auto generated constraint, line ).
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 721.234 ; gain = 462.086
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:13 ; elapsed = 00:00:15 . Memory (MB): peak = 721.223 ; gain = 462.199
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'Ps2Interface'
 INFO: [Synth 8-5546] ROM "reset_bit_count" won't be mapped to RAM because it is too sparse
@@ -294,12 +294,12 @@ INFO: [Synth 8-5544] ROM "state" won't be mapped to Block RAM because address si
 INFO: [Synth 8-5544] ROM "state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
 INFO: [Synth 8-5544] ROM "state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
 INFO: [Synth 8-5544] ROM "state" won't be mapped to Block RAM because address size (1) smaller than threshold (5)
-WARNING: [Synth 8-6014] Unused sequential element hcount_reg_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/vga_timing.v:38]
-WARNING: [Synth 8-6014] Unused sequential element char_line_pixels_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/font_rom.v:21]
-WARNING: [Synth 8-6014] Unused sequential element char_code_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/char_rom_16x16.v:15]
-WARNING: [Synth 8-6014] Unused sequential element rgb_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/image_rom.v:21]
-INFO: [Synth 8-4471] merging register 'xpos_reg[11:0]' into 'xpos_temp_reg[11:0]' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect_ctl.v:52]
-WARNING: [Synth 8-6014] Unused sequential element xpos_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect_ctl.v:52]
+WARNING: [Synth 8-6014] Unused sequential element hcount_reg_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/vga_timing.v:58]
+WARNING: [Synth 8-6014] Unused sequential element char_line_pixels_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/font_rom.v:41]
+WARNING: [Synth 8-6014] Unused sequential element char_code_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/char_rom_16x16.v:35]
+WARNING: [Synth 8-6014] Unused sequential element rgb_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/image_rom.v:41]
+INFO: [Synth 8-4471] merging register 'xpos_reg[11:0]' into 'xpos_temp_reg[11:0]' [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect_ctl.v:53]
+WARNING: [Synth 8-6014] Unused sequential element xpos_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/draw_rect_ctl.v:53]
 INFO: [Synth 8-5546] ROM "ypos_upper_limit_nxt" won't be mapped to RAM because it is too sparse
 INFO: [Synth 8-5546] ROM "ypos_upper_limit_nxt" won't be mapped to RAM because it is too sparse
 INFO: [Synth 8-5546] ROM "state_nxt" won't be mapped to RAM because it is too sparse
@@ -376,7 +376,7 @@ reset_enable_reporting_wait_ack |                           011100 |            
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'MouseCtl'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 721.234 ; gain = 462.086
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:15 ; elapsed = 00:00:17 . Memory (MB): peak = 721.223 ; gain = 462.199
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -638,11 +638,11 @@ WARNING: [Synth 8-6014] Unused sequential element Inst_Ps2Interface/bit_count_re
 WARNING: [Synth 8-6014] Unused sequential element Inst_Ps2Interface/delay_100us_count_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/Ps2Interface.vhd:697]
 WARNING: [Synth 8-6014] Unused sequential element Inst_Ps2Interface/delay_20us_count_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/Ps2Interface.vhd:721]
 WARNING: [Synth 8-6014] Unused sequential element Inst_Ps2Interface/delay_63clk_count_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/Ps2Interface.vhd:745]
-WARNING: [Synth 8-6014] Unused sequential element hcount_reg_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/vga_timing.v:38]
+WARNING: [Synth 8-6014] Unused sequential element hcount_reg_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/vga_timing.v:58]
 INFO: [Synth 8-5546] ROM "ypos_upper_limit_nxt" won't be mapped to RAM because it is too sparse
-WARNING: [Synth 8-6014] Unused sequential element my_font_rom/char_line_pixels_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/font_rom.v:21]
-WARNING: [Synth 8-6014] Unused sequential element my_chars/char_code_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/char_rom_16x16.v:15]
-WARNING: [Synth 8-6014] Unused sequential element my_image_rom/rgb_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/image_rom.v:21]
+WARNING: [Synth 8-6014] Unused sequential element my_font_rom/char_line_pixels_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/font_rom.v:41]
+WARNING: [Synth 8-6014] Unused sequential element my_chars/char_code_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/char_rom_16x16.v:35]
+WARNING: [Synth 8-6014] Unused sequential element my_image_rom/rgb_reg was removed.  [C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/image_rom.v:41]
 INFO: [Synth 8-3333] propagating constant 0 across sequential element (\my_timing/vcount_reg_reg[10] )
 INFO: [Synth 8-3886] merging instance 'my_background/rgb_out_reg[0]' (FDC) to 'my_background/rgb_out_reg[1]'
 INFO: [Synth 8-3886] merging instance 'my_background/rgb_out_reg[1]' (FDC) to 'my_background/rgb_out_reg[2]'
@@ -734,7 +734,7 @@ WARNING: [Synth 8-3332] Sequential element (my_rect/delay_in_draw_rect/del_mem_r
 WARNING: [Synth 8-3332] Sequential element (my_rect/delay_in_draw_rect/delay_stage[1].del_mem_reg[1][14]) is unused and will be removed from module top.
 WARNING: [Synth 8-3332] Sequential element (my_rect/vcount_out_reg[10]) is unused and will be removed from module top.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 721.234 ; gain = 462.086
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 721.223 ; gain = 462.199
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP and Shift Register Reporting
@@ -767,13 +767,13 @@ Report RTL Partitions:
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:25 ; elapsed = 00:00:26 . Memory (MB): peak = 721.234 ; gain = 462.086
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:25 ; elapsed = 00:00:27 . Memory (MB): peak = 721.223 ; gain = 462.199
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:26 ; elapsed = 00:00:27 . Memory (MB): peak = 733.480 ; gain = 474.332
+Finished Timing Optimization : Time (s): cpu = 00:00:26 ; elapsed = 00:00:28 . Memory (MB): peak = 734.500 ; gain = 475.477
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -794,7 +794,7 @@ INFO: [Synth 8-4480] The timing for the instance my_font_rom/char_line_pixels_re
 INFO: [Synth 8-4480] The timing for the instance my_image_rom/rgb_reg_0 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 INFO: [Synth 8-4480] The timing for the instance my_image_rom/rgb_reg_1 (implemented as a block RAM) might be sub-optimal as no optional output register could be merged into the block ram. Providing additional output register may help in improving timing.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:27 ; elapsed = 00:00:28 . Memory (MB): peak = 741.934 ; gain = 482.785
+Finished Technology Mapping : Time (s): cpu = 00:00:27 ; elapsed = 00:00:28 . Memory (MB): peak = 741.949 ; gain = 482.926
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -818,7 +818,7 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:27 ; elapsed = 00:00:28 . Memory (MB): peak = 741.934 ; gain = 482.785
+Finished IO Insertion : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 741.949 ; gain = 482.926
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -831,7 +831,7 @@ Report Check Netlist:
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:27 ; elapsed = 00:00:28 . Memory (MB): peak = 741.934 ; gain = 482.785
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 741.949 ; gain = 482.926
 ---------------------------------------------------------------------------------
 
 Report RTL Partitions: 
@@ -843,25 +843,25 @@ Report RTL Partitions:
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:27 ; elapsed = 00:00:28 . Memory (MB): peak = 741.934 ; gain = 482.785
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 741.949 ; gain = 482.926
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:27 ; elapsed = 00:00:28 . Memory (MB): peak = 741.934 ; gain = 482.785
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:27 ; elapsed = 00:00:29 . Memory (MB): peak = 741.949 ; gain = 482.926
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:27 ; elapsed = 00:00:28 . Memory (MB): peak = 741.934 ; gain = 482.785
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 741.949 ; gain = 482.926
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:27 ; elapsed = 00:00:28 . Memory (MB): peak = 741.934 ; gain = 482.785
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 741.949 ; gain = 482.926
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP and Shift Register Reporting
@@ -947,11 +947,11 @@ Report Instance Areas:
 |17    |  my_timing                 |vga_timing              |   137|
 +------+----------------------------+------------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:27 ; elapsed = 00:00:28 . Memory (MB): peak = 741.934 ; gain = 482.785
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 741.949 ; gain = 482.926
 ---------------------------------------------------------------------------------
 Synthesis finished with 0 errors, 0 critical warnings and 44 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:18 ; elapsed = 00:00:25 . Memory (MB): peak = 741.934 ; gain = 167.797
-Synthesis Optimization Complete : Time (s): cpu = 00:00:27 ; elapsed = 00:00:28 . Memory (MB): peak = 741.934 ; gain = 482.785
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:19 ; elapsed = 00:00:25 . Memory (MB): peak = 741.949 ; gain = 167.930
+Synthesis Optimization Complete : Time (s): cpu = 00:00:28 ; elapsed = 00:00:29 . Memory (MB): peak = 741.949 ; gain = 482.926
 INFO: [Project 1-571] Translating synthesized netlist
 INFO: [Netlist 29-17] Analyzing 141 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
@@ -965,8 +965,8 @@ INFO: [Project 1-111] Unisim Transformation Summary:
 INFO: [Common 17-83] Releasing license: Synthesis
 228 Infos, 48 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:28 ; elapsed = 00:00:30 . Memory (MB): peak = 741.934 ; gain = 491.184
+synth_design: Time (s): cpu = 00:00:28 ; elapsed = 00:00:30 . Memory (MB): peak = 741.949 ; gain = 491.203
 INFO: [Common 17-1381] The checkpoint 'C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado/memory_game.runs/synth_1/top.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file top_utilization_synth.rpt -pb top_utilization_synth.pb
-report_utilization: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.027 . Memory (MB): peak = 741.934 ; gain = 0.000
-INFO: [Common 17-206] Exiting Vivado at Tue Jul  7 22:23:43 2020...
+report_utilization: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.026 . Memory (MB): peak = 741.949 ; gain = 0.000
+INFO: [Common 17-206] Exiting Vivado at Wed Jul  8 19:59:55 2020...

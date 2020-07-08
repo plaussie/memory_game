@@ -1,5 +1,26 @@
+//////////////////////////////////////////////////////////////////////////////////
+// Company: AGH UST
+// Engineers: Krzysztof Cislo & Jakub Dzialowy
+// 
+// Create Date: 08.07.2020 19:48:41
+// Module Name: delay
+// Project Name: Memory Game
+// Target Devices: Basys3
+// Tool Versions: Vivado 2017.3
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Revision 0.10 - File Copied from UEC2 Lab
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
 // The module delays the input data 'din' by the number of clock cycles
 // set by CLK_DEL input parameter
+
 module delay
     #( parameter
         WIDTH   = 8, // bit width of the input/output data
