@@ -13,6 +13,7 @@
 // 
 // Revision:
 // Revision 0.01 - File Created
+// Revision 0.10 - File Copied from UEC2 Lab
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
@@ -25,12 +26,11 @@ module top (
     inout wire ps2_data,
     input wire clk,
     input wire rst,
-    output reg vs,
-    output reg hs,
-    output reg [3:0] r,
-    output reg [3:0] g,
-    output reg [3:0] b,
-    output wire pclk_mirror
+    output wire vs,
+    output wire hs,
+    output wire [3:0] r,
+    output wire [3:0] g,
+    output wire [3:0] b
     );
 
     //CLOCK GENERATOR
@@ -50,17 +50,6 @@ module top (
     .clk(clk)
     );
 
-    // pclk mirror is only for testbench
-    
-    ODDR pclk_oddr (
-        .Q(pclk_mirror),
-        .C(clk40MHz),
-        .CE(1'b1),
-        .D1(1'b1),
-        .D2(1'b0),
-        .R(1'b0),
-        .S(1'b0)
-    );
     
     //MOUSE Controller
     wire [11:0] xpos_mousectl_out;
@@ -170,11 +159,15 @@ module top (
     );
     
     // rect_char
-    
+    /*
     wire [11:0] rgb_rect_in;
     wire vsync_rect_in, hsync_rect_in;
     wire vblnk_rect_in, hblnk_rect_in;
-    wire [10:0] vcount_rect_in, hcount_rect_in;
+    wire [10:0] vcount_rect_in, hcount_rect_in;*/
+    wire vsync_mousedispl_in, hsync_mousedispl_in;
+    wire [11:0] rgb_mousedispl_in;
+    wire vblnk_mousedispl_in, hblnk_mousedispl_in;
+    wire [10:0] vcount_mousedispl_in, hcount_mousedispl_in;
 
     
     draw_rect_char my_rect_char(
@@ -185,20 +178,20 @@ module top (
             .hsync_in(hsync_rect_char_in),
             .hblnk_in(hblnk_rect_char_in),
             .rgb_in(rgb_rect_char_in),
-            .vcount_out(vcount_rect_in),
-            .vsync_out(vsync_rect_in),
-            .vblnk_out(vblnk_rect_in),
-            .hcount_out(hcount_rect_in),
-            .hsync_out(hsync_rect_in),
-            .hblnk_out(hblnk_rect_in),
-            .rgb_out(rgb_rect_in),
-            .pclk(clk40MHz),
+            .vcount_out(vcount_mousedispl_in),
+            .vsync_out(vsync_mousedispl_in),
+            .vblnk_out(vblnk_mousedispl_in),
+            .hcount_out(hcount_mousedispl_in),
+            .hsync_out(hsync_mousedispl_in),
+            .hblnk_out(hblnk_mousedispl_in),
+            .rgb_out(rgb_mousedispl_in),
+            .clk(clk40MHz),
             .rst(rst),
             .char_pixels(char_pixels),
             .char_yx(char_yx),
             .char_line(char_line)
         );
-
+/*
     // drawing image from ROM
     
     wire [11:0] address;
@@ -222,9 +215,9 @@ module top (
         .xpos(xpos_rect_in),
         .ypos(ypos_rect_in)
     );
-
+*/
     // drawing rectangle
-
+/*
     wire vsync_mousedispl_in, hsync_mousedispl_in;
     wire [11:0] rgb_mousedispl_in;
     wire vblnk_mousedispl_in, hblnk_mousedispl_in;
@@ -251,7 +244,7 @@ module top (
         .rst(rst),
         .rgb_pixel(rgb_rom),
         .pixel_addr(address)
-    );
+    );*/
     
     //Mouse display cursor
     wire [3:0] r_last, g_last, b_last;
@@ -269,23 +262,14 @@ module top (
         .red_in(rgb_mousedispl_in[11:8]),
         .green_in(rgb_mousedispl_in[7:4]),
         .blue_in(rgb_mousedispl_in[3:0]),
-        .red_out(r_last),
-        .green_out(g_last),
-        .blue_out(b_last),
+        .red_out(r),
+        .green_out(g),
+        .blue_out(b),
         .vs_in(vsync_mousedispl_in),
         .hs_in(hsync_mousedispl_in),
-        .vs_out(vs_last),
-        .hs_out(hs_last),
+        .vs_out(vs),
+        .hs_out(hs),
         .enable_mouse_display_out(enable_mouse_display_out)
     );
-  
-    always @(posedge clk40MHz)
-    begin
-        r <= r_last;
-        g <= g_last;
-        b <= b_last;
-        vs <= vs_last;
-        hs <= hs_last;
-    end
 
 endmodule

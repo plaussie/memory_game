@@ -1,5 +1,5 @@
 set_property SRC_FILE_INFO {cfile:c:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/ip/clock_generator/clock_generator.xdc rfile:../../../../src/ip/clock_generator/clock_generator.xdc id:1 order:EARLY scoped_inst:my_clock/inst} [current_design]
-set_property SRC_FILE_INFO {cfile:C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/vga_example.xdc rfile:../../../../src/vga_example.xdc id:2} [current_design]
+set_property SRC_FILE_INFO {cfile:C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/basys3_constraints.xdc rfile:../../../../src/basys3_constraints.xdc id:2} [current_design]
 set_property src_info {type:SCOPED_XDC file:1 line:57 export:INPUT save:INPUT read:READ} [current_design]
 set_input_jitter [get_clocks -of_objects [get_ports clk]] 0.1
 set_property src_info {type:XDC file:2 line:2 export:INPUT save:INPUT read:READ} [current_design]
@@ -38,5 +38,3 @@ set_property src_info {type:XDC file:2 line:49 export:INPUT save:INPUT read:READ
 set_property PACKAGE_PIN K18 [get_ports {b[2]}]
 set_property src_info {type:XDC file:2 line:51 export:INPUT save:INPUT read:READ} [current_design]
 set_property PACKAGE_PIN J18 [get_ports {b[3]}]
-set_property src_info {type:XDC file:2 line:55 export:INPUT save:INPUT read:READ} [current_design]
-set_property PACKAGE_PIN J1 [get_ports {pclk_mirror}]

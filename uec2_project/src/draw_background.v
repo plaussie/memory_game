@@ -1,3 +1,23 @@
+//////////////////////////////////////////////////////////////////////////////////
+// Company: AGH UST
+// Engineers: Krzysztof Cislo & Jakub Dzialowy
+// 
+// Create Date: 08.07.2020 19:52:42
+// Module Name: draw_background
+// Project Name: Memory Game
+// Target Devices: Basys3
+// Tool Versions: Vivado 2017.3
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Revision 0.10 - File Copied from UEC2 Lab
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
 `timescale 1ns / 1ps
 
 module draw_background(
@@ -23,7 +43,7 @@ module draw_background(
     
     reg [11:0] rgb_nxt;
     
-    always @(posedge pclk or posedge rst)
+    always @(posedge pclk)
     begin
         if(rst) begin
             hsync_out <= 0;

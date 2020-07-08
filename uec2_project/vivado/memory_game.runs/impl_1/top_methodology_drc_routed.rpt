@@ -1,7 +1,7 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.3 (win64) Build 2018833 Wed Oct  4 19:58:22 MDT 2017
-| Date         : Tue Jul  7 22:24:25 2020
+| Date         : Wed Jul  8 21:25:15 2020
 | Host         : DESKTOP-5178MCU running 64-bit major release  (build 9200)
 | Command      : report_methodology -file top_methodology_drc_routed.rpt -pb top_methodology_drc_routed.pb -rpx top_methodology_drc_routed.rpx
 | Design       : top
@@ -23,11 +23,11 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max violations: <unlimited>
-             Violations found: 7
+             Violations found: 4
 +-----------+----------+--------------------------------------------+------------+
 | Rule      | Severity | Description                                | Violations |
 +-----------+----------+--------------------------------------------+------------+
-| SYNTH-6   | Warning  | Timing of a block RAM might be sub-optimal | 4          |
+| SYNTH-6   | Warning  | Timing of a block RAM might be sub-optimal | 1          |
 | TIMING-18 | Warning  | Missing input or output delay              | 3          |
 +-----------+----------+--------------------------------------------+------------+
 
@@ -35,22 +35,7 @@ Table of Contents
 -----------------
 SYNTH-6#1 Warning
 Timing of a block RAM might be sub-optimal  
-The timing for the instance my_chars/char_code_reg, implemented as a block RAM, might be sub-optimal as no output register was merged into the block
-Related violations: <none>
-
-SYNTH-6#2 Warning
-Timing of a block RAM might be sub-optimal  
-The timing for the instance my_font_rom/char_line_pixels_reg, implemented as a block RAM, might be sub-optimal as no output register was merged into the block
-Related violations: <none>
-
-SYNTH-6#3 Warning
-Timing of a block RAM might be sub-optimal  
-The timing for the instance my_image_rom/rgb_reg_0, implemented as a block RAM, might be sub-optimal as no output register was merged into the block
-Related violations: <none>
-
-SYNTH-6#4 Warning
-Timing of a block RAM might be sub-optimal  
-The timing for the instance my_image_rom/rgb_reg_1, implemented as a block RAM, might be sub-optimal as no output register was merged into the block
+The timing for the instance my_rect_char/char_yx_reg, implemented as a block RAM, might be sub-optimal as no output register was merged into the block
 Related violations: <none>
 
 TIMING-18#1 Warning

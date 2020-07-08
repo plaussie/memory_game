@@ -60,14 +60,12 @@ proc step_failed { step } {
   close $ch
 }
 
-set_msg_config -id {Synth 8-256} -limit 10000
-set_msg_config -id {Synth 8-638} -limit 10000
 
 start_step init_design
 set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
-  set_param synth.incrementalSynthesisCache C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado/.Xil/Vivado-14608-DESKTOP-5178MCU/incrSyn
+  set_param xicom.use_bs_reader 1
   create_project -in_memory -part xc7a35tcpg236-1
   set_property design_mode GateLvl [current_fileset]
   set_param project.singleFileAddWarning.threshold 0
@@ -78,7 +76,7 @@ set rc [catch {
   set_property XPM_LIBRARIES XPM_CDC [current_project]
   add_files -quiet C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/vivado/memory_game.runs/synth_1/top.dcp
   read_ip -quiet C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/ip/clock_generator/clock_generator.xci
-  read_xdc C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/vga_example.xdc
+  read_xdc C:/Users/Krzysztof/Dropbox/IV_term/Uklady-elektroniki-cyfrowej2/Project/memory_game/uec2_project/src/basys3_constraints.xdc
   link_design -top top -part xc7a35tcpg236-1
   close_msg_db -file init_design.pb
 } RESULT]

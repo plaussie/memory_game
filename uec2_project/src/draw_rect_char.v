@@ -1,3 +1,23 @@
+//////////////////////////////////////////////////////////////////////////////////
+// Company: AGH UST
+// Engineers: Krzysztof Cislo & Jakub Dzialowy
+// 
+// Create Date: 08.07.2020 19:55:42
+// Module Name: draw_rect_char
+// Project Name: Memory Game
+// Target Devices: Basys3
+// Tool Versions: Vivado 2017.3
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Revision 0.10 - File Copied from UEC2 Lab
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
 `timescale 1ns / 1ps
 
 module draw_rect_char(
@@ -22,7 +42,7 @@ module draw_rect_char(
     output reg [7:0]    char_yx,
     output reg [3:0]    char_line,
     
-    input wire          pclk,
+    input wire          clk,
     input wire          rst
     );
 
@@ -37,7 +57,7 @@ module draw_rect_char(
     wire [11:0] rgb_in_delayed;
     reg [11:0] rgb_nxt;
 
-    always @(posedge pclk or posedge rst)
+    always @(posedge clk)
     begin
         if(rst) begin
             hsync_out <= 0;
@@ -113,7 +133,7 @@ module draw_rect_char(
         .CLK_DEL(3)
     )
     delay_in_draw_rect_char (
-        .clk(pclk),
+        .clk(clk),
         .rst(rst),
         .din({rgb_in, hcount_in, vcount_in, hsync_in, vsync_in, hblnk_in, vblnk_in, xdiff[2:0]}),
         .dout({rgb_in_delayed, hcount_in_delayed, vcount_in_delayed, hsync_in_delayed, vsync_in_delayed, hblnk_in_delayed, vblnk_in_delayed, xdiff_delayed})

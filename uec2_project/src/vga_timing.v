@@ -1,3 +1,23 @@
+//////////////////////////////////////////////////////////////////////////////////
+// Company: AGH UST
+// Engineers: Krzysztof Cislo & Jakub Dzialowy
+// 
+// Create Date: 08.07.2020 19:51:42
+// Module Name: vga_timing
+// Project Name: Memory Game
+// Target Devices: Basys3
+// Tool Versions: Vivado 2017.3
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Revision 0.10 - File Copied from UEC2 Lab
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
 // File: vga_timing.v
 // This is the vga timing design for EE178 Lab #4.
 
@@ -33,7 +53,7 @@ module vga_timing (
         hcount_reg = 0;
     end
     
-    always @(posedge pclk or posedge rst) begin
+    always @(posedge pclk) begin
         if(rst) begin
             hcount_reg <= 0;
             vcount_reg <= 0;
