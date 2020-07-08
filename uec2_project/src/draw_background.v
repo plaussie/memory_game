@@ -43,7 +43,7 @@ module draw_background(
     
     reg [11:0] rgb_nxt;
     
-    always @(posedge pclk or posedge rst)
+    always @(posedge pclk)
     begin
         if(rst) begin
             hsync_out <= 0;

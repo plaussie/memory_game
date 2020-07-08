@@ -1,7 +1,7 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.3 (win64) Build 2018833 Wed Oct  4 19:58:22 MDT 2017
-| Date         : Wed Jul  8 20:00:23 2020
+| Date         : Wed Jul  8 21:25:01 2020
 | Host         : DESKTOP-5178MCU running 64-bit major release  (build 9200)
 | Command      : report_control_sets -file top_control_sets_placed.rpt
 | Design       : top
@@ -21,7 +21,7 @@ Table of Contents
 +-------------------------------+-------+
 |             Status            | Count |
 +-------------------------------+-------+
-| Number of unique control sets |    31 |
+| Number of unique control sets |    28 |
 +-------------------------------+-------+
 
 
@@ -31,12 +31,12 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |             102 |           40 |
-| No           | No                    | Yes                    |             271 |          104 |
-| No           | Yes                   | No                     |              70 |           18 |
+| No           | No                    | No                     |              60 |           29 |
+| No           | No                    | Yes                    |              32 |           14 |
+| No           | Yes                   | No                     |             223 |           65 |
 | Yes          | No                    | No                     |              49 |           14 |
-| Yes          | No                    | Yes                    |             120 |           44 |
-| Yes          | Yes                   | No                     |              40 |           14 |
+| Yes          | No                    | Yes                    |              20 |            8 |
+| Yes          | Yes                   | No                     |              51 |           18 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 

@@ -53,7 +53,7 @@ module vga_timing (
         hcount_reg = 0;
     end
     
-    always @(posedge pclk or posedge rst) begin
+    always @(posedge pclk) begin
         if(rst) begin
             hcount_reg <= 0;
             vcount_reg <= 0;
