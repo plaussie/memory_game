@@ -56,8 +56,8 @@
 //  Output     Output      Phase    Duty Cycle   Pk-to-Pk     Phase
 //   Clock     Freq (MHz)  (degrees)    (%)     Jitter (ps)  Error (ps)
 //----------------------------------------------------------------------------
-// clk100MHz___100.000______0.000______50.0______130.958_____98.575
-// clk40MHz____40.000______0.000______50.0______159.371_____98.575
+// clk100MHz___100.000______0.000______50.0______130.067_____99.281
+// clk65MHz____65.000______0.000______50.0______142.278_____99.281
 //
 //----------------------------------------------------------------------------
 // Input Clock   Freq (MHz)    Input Jitter (UI)
@@ -71,7 +71,7 @@ module clock_generator_clk_wiz
  (// Clock in ports
   // Clock out ports
   output        clk100MHz,
-  output        clk40MHz,
+  output        clk65MHz,
   // Status and control signals
   input         reset,
   output        locked,
@@ -96,7 +96,7 @@ wire clk_in2_clock_generator;
   //    * Unused outputs are labeled unused
 
   wire        clk100MHz_clock_generator;
-  wire        clk40MHz_clock_generator;
+  wire        clk65MHz_clock_generator;
   wire        clk_out3_clock_generator;
   wire        clk_out4_clock_generator;
   wire        clk_out5_clock_generator;
@@ -135,14 +135,14 @@ wire clk_in2_clock_generator;
     .COMPENSATION         ("ZHOLD"),
     .STARTUP_WAIT         ("FALSE"),
     .DIVCLK_DIVIDE        (1),
-    .CLKFBOUT_MULT_F      (10.000),
+    .CLKFBOUT_MULT_F      (9.750),
     .CLKFBOUT_PHASE       (0.000),
     .CLKFBOUT_USE_FINE_PS ("FALSE"),
-    .CLKOUT0_DIVIDE_F     (10.000),
+    .CLKOUT0_DIVIDE_F     (9.750),
     .CLKOUT0_PHASE        (0.000),
     .CLKOUT0_DUTY_CYCLE   (0.500),
     .CLKOUT0_USE_FINE_PS  ("FALSE"),
-    .CLKOUT1_DIVIDE       (25),
+    .CLKOUT1_DIVIDE       (15),
     .CLKOUT1_PHASE        (0.000),
     .CLKOUT1_DUTY_CYCLE   (0.500),
     .CLKOUT1_USE_FINE_PS  ("FALSE"),
@@ -154,7 +154,7 @@ wire clk_in2_clock_generator;
     .CLKFBOUTB           (clkfboutb_unused),
     .CLKOUT0             (clk100MHz_clock_generator),
     .CLKOUT0B            (clkout0b_unused),
-    .CLKOUT1             (clk40MHz_clock_generator),
+    .CLKOUT1             (clk65MHz_clock_generator),
     .CLKOUT1B            (clkout1b_unused),
     .CLKOUT2             (clkout2_unused),
     .CLKOUT2B            (clkout2b_unused),
@@ -226,15 +226,15 @@ wire clk_in2_clock_generator;
 
 
   BUFGCE clkout2_buf
-   (.O   (clk40MHz),
+   (.O   (clk65MHz),
     .CE  (seq_reg2[7]),
-    .I   (clk40MHz_clock_generator));
+    .I   (clk65MHz_clock_generator));
  
   BUFH clkout2_buf_en
-   (.O   (clk40MHz_clock_generator_en_clk),
-    .I   (clk40MHz_clock_generator));
+   (.O   (clk65MHz_clock_generator_en_clk),
+    .I   (clk65MHz_clock_generator));
  
-  always @(posedge clk40MHz_clock_generator_en_clk or posedge reset_high) begin
+  always @(posedge clk65MHz_clock_generator_en_clk or posedge reset_high) begin
     if(reset_high == 1'b1) begin
 	  seq_reg2 <= 8'h00;
     end

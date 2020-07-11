@@ -36,13 +36,13 @@ module top (
     //CLOCK GENERATOR
     
     wire clk100MHz;
-    wire clk40MHz;
+    wire clk65MHz;
     wire locked;
 
     clock_generator my_clock (
     // Clock out ports
     .clk100MHz(clk100MHz),
-    .clk40MHz(clk40MHz),
+    .clk65MHz(clk65MHz),
     // Status and control signals
     .reset(rst),
     .locked(locked),
@@ -90,7 +90,7 @@ module top (
         .CLK_DEL(1)
     )    
     mouse_pos_delay (
-        .clk(clk40MHz),
+        .clk(clk65MHz),
         .rst(rst),
         .din({xpos_mousectl_out, ypos_mousectl_out}),
         .dout({xpos, ypos})
@@ -109,7 +109,7 @@ module top (
         .hcount(hcount_background_in),
         .hsync(hsync_background_in),
         .hblnk(hblnk_background_in),
-        .pclk(clk40MHz),
+        .pclk(clk65MHz),
         .rst(rst)
     );
 
@@ -121,7 +121,7 @@ module top (
     wire [10:0] vcount_rect_char_in, hcount_rect_char_in;
 
     draw_background my_background(
-        .pclk(clk40MHz),
+        .pclk(clk65MHz),
         .vcount_in(vcount_background_in),
         .vsync_in(vsync_background_in),
         .vblnk_in(vblnk_background_in),
@@ -145,7 +145,7 @@ module top (
     wire [6:0] char_code;
     
     font_rom my_font_rom(
-        .clk(clk40MHz),
+        .clk(clk65MHz),
         .addr({char_code, char_line}),
         .char_line_pixels(char_pixels)
     );
@@ -153,7 +153,7 @@ module top (
     wire [7:0] char_yx;    
     
     char_rom_16x16 my_chars(
-        .clk(clk40MHz),
+        .clk(clk65MHz),
         .char_yx(char_yx),
         .char_code(char_code)
     );
@@ -185,7 +185,7 @@ module top (
             .hsync_out(hsync_mousedispl_in),
             .hblnk_out(hblnk_mousedispl_in),
             .rgb_out(rgb_mousedispl_in),
-            .clk(clk40MHz),
+            .clk(clk65MHz),
             .rst(rst),
             .char_pixels(char_pixels),
             .char_yx(char_yx),
@@ -198,7 +198,7 @@ module top (
     wire [11:0] rgb_rom;
     
     image_rom my_image_rom(
-        .clk(clk40MHz),
+        .clk(clk65MHz),
         .address(address),
         .rgb(rgb_rom)
     );
@@ -207,7 +207,7 @@ module top (
     wire [11:0] xpos_rect_in, ypos_rect_in;
     
     draw_rect_ctl my_draw_rect_ctl (
-        .clk(clk40MHz),
+        .clk(clk65MHz),
         .rst(rst),
         .mouse_left(left),
         .mouse_xpos(xpos),
@@ -240,7 +240,7 @@ module top (
         .hsync_out(hsync_mousedispl_in),
         .hblnk_out(hblnk_mousedispl_in),
         .rgb_out(rgb_mousedispl_in),
-        .pclk(clk40MHz),
+        .pclk(clk65MHz),
         .rst(rst),
         .rgb_pixel(rgb_rom),
         .pixel_addr(address)
@@ -253,7 +253,7 @@ module top (
     wire enable_mouse_display_out;
     
     MouseDisplay my_MouseDisplay(
-        .pixel_clk(clk40MHz),
+        .pixel_clk(clk65MHz),
         .xpos(xpos),
         .ypos(ypos),
         .hcount(hcount_mousedispl_in),
