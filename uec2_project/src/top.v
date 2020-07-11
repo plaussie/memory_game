@@ -26,32 +26,33 @@ module top (
     inout wire ps2_data,
     input wire clk,
     input wire rst,
-    output wire vs,
-    output wire hs,
-    output wire [3:0] r,
-    output wire [3:0] g,
-    output wire [3:0] b
+    output reg vs,
+    output reg hs,
+    output reg [3:0] r,
+    output reg [3:0] g,
+    output reg [3:0] b
     );
 
-    //CLOCK GENERATOR
+    //CLOCK GENERATING
     
     wire clk100MHz;
-    wire clk40MHz;
+    wire clk65MHz;
     wire locked;
 
     clock_generator my_clock (
-    // Clock out ports
-    .clk100MHz(clk100MHz),
-    .clk40MHz(clk40MHz),
-    // Status and control signals
-    .reset(rst),
-    .locked(locked),
-    // Clock in ports
-    .clk(clk)
+        // Clock out ports
+        .clk100MHz(clk100MHz),
+        .clk65MHz(clk65MHz),
+        // Status and control signals
+        .reset(rst),
+        .locked(locked),
+        // Clock in ports
+        .clk(clk)
     );
 
     
     //MOUSE Controller
+    
     wire [11:0] xpos_mousectl_out;
     wire [11:0] ypos_mousectl_out;
     wire left;
@@ -80,7 +81,8 @@ module top (
         .setmax_y(1'b0)
     );
     
-    //buf_reg_rect
+    //DELAYS ALIGNMENT
+    
     wire [11:0] xpos;
     wire [11:0] ypos;
     
@@ -90,13 +92,13 @@ module top (
         .CLK_DEL(1)
     )    
     mouse_pos_delay (
-        .clk(clk40MHz),
+        .clk(clk65MHz),
         .rst(rst),
         .din({xpos_mousectl_out, ypos_mousectl_out}),
         .dout({xpos, ypos})
     );
     
-    //vga_timing module
+    //TIMINGS GENERATING
     
     wire [10:0] vcount_background_in, hcount_background_in;
     wire vsync_background_in, hsync_background_in;
@@ -109,130 +111,51 @@ module top (
         .hcount(hcount_background_in),
         .hsync(hsync_background_in),
         .hblnk(hblnk_background_in),
-        .pclk(clk40MHz),
+        .pclk(clk65MHz),
         .rst(rst)
     );
 
-    //drawing background
+    //BACKGROUND DRAWING
     
-    wire [11:0] rgb_rect_char_in;
-    wire vsync_rect_char_in, hsync_rect_char_in;
-    wire vblnk_rect_char_in, hblnk_rect_char_in;
-    wire [10:0] vcount_rect_char_in, hcount_rect_char_in;
+    wire [11:0] rgb_start_button_in;
+    wire vsync_start_button_in, hsync_start_button_in;
+    wire vblnk_start_button_in, hblnk_start_button_in;
+    wire [10:0] vcount_start_button_in, hcount_start_button_in;
 
     draw_background my_background(
-        .pclk(clk40MHz),
+        .pclk(clk65MHz),
         .vcount_in(vcount_background_in),
         .vsync_in(vsync_background_in),
         .vblnk_in(vblnk_background_in),
         .hcount_in(hcount_background_in),
         .hsync_in(hsync_background_in),
         .hblnk_in(hblnk_background_in),
-        .vcount_out(vcount_rect_char_in),
-        .vsync_out(vsync_rect_char_in),
-        .vblnk_out(vblnk_rect_char_in),
-        .hcount_out(hcount_rect_char_in),
-        .hsync_out(hsync_rect_char_in),
-        .hblnk_out(hblnk_rect_char_in),
-        .rgb_out(rgb_rect_char_in),
+        .vcount_out(vcount_start_button_in),
+        .vsync_out(vsync_start_button_in),
+        .vblnk_out(vblnk_start_button_in),
+        .hcount_out(hcount_start_button_in),
+        .hsync_out(hsync_start_button_in),
+        .hblnk_out(hblnk_start_button_in),
+        .rgb_out(rgb_start_button_in),
         .rst(rst)
     );
     
-    // drawing characters
+    //DRAWING START BUTTON
     
-    wire [7:0] char_pixels;
-    wire [3:0] char_line;
-    wire [6:0] char_code;
-    
-    font_rom my_font_rom(
-        .clk(clk40MHz),
-        .addr({char_code, char_line}),
-        .char_line_pixels(char_pixels)
-    );
-    
-    wire [7:0] char_yx;    
-    
-    char_rom_16x16 my_chars(
-        .clk(clk40MHz),
-        .char_yx(char_yx),
-        .char_code(char_code)
-    );
-    
-    // rect_char
-    /*
-    wire [11:0] rgb_rect_in;
-    wire vsync_rect_in, hsync_rect_in;
-    wire vblnk_rect_in, hblnk_rect_in;
-    wire [10:0] vcount_rect_in, hcount_rect_in;*/
-    wire vsync_mousedispl_in, hsync_mousedispl_in;
     wire [11:0] rgb_mousedispl_in;
+    wire vsync_mousedispl_in, hsync_mousedispl_in;
     wire vblnk_mousedispl_in, hblnk_mousedispl_in;
     wire [10:0] vcount_mousedispl_in, hcount_mousedispl_in;
-
     
-    draw_rect_char my_rect_char(
-            .vcount_in(vcount_rect_char_in),
-            .hcount_in(hcount_rect_char_in),
-            .vsync_in(vsync_rect_char_in),
-            .vblnk_in(vblnk_rect_char_in),
-            .hsync_in(hsync_rect_char_in),
-            .hblnk_in(hblnk_rect_char_in),
-            .rgb_in(rgb_rect_char_in),
-            .vcount_out(vcount_mousedispl_in),
-            .vsync_out(vsync_mousedispl_in),
-            .vblnk_out(vblnk_mousedispl_in),
-            .hcount_out(hcount_mousedispl_in),
-            .hsync_out(hsync_mousedispl_in),
-            .hblnk_out(hblnk_mousedispl_in),
-            .rgb_out(rgb_mousedispl_in),
-            .clk(clk40MHz),
-            .rst(rst),
-            .char_pixels(char_pixels),
-            .char_yx(char_yx),
-            .char_line(char_line)
-        );
-/*
-    // drawing image from ROM
-    
-    wire [11:0] address;
-    wire [11:0] rgb_rom;
-    
-    image_rom my_image_rom(
-        .clk(clk40MHz),
-        .address(address),
-        .rgb(rgb_rom)
-    );
-    
-    // rectangle position controller
-    wire [11:0] xpos_rect_in, ypos_rect_in;
-    
-    draw_rect_ctl my_draw_rect_ctl (
-        .clk(clk40MHz),
-        .rst(rst),
-        .mouse_left(left),
-        .mouse_xpos(xpos),
-        .mouse_ypos(ypos),
-        .xpos(xpos_rect_in),
-        .ypos(ypos_rect_in)
-    );
-*/
-    // drawing rectangle
-/*
-    wire vsync_mousedispl_in, hsync_mousedispl_in;
-    wire [11:0] rgb_mousedispl_in;
-    wire vblnk_mousedispl_in, hblnk_mousedispl_in;
-    wire [10:0] vcount_mousedispl_in, hcount_mousedispl_in;
-  
-    draw_rect my_rect(
-        .xpos(xpos_rect_in),
-        .ypos(ypos_rect_in),
-        .vcount_in(vcount_rect_in),
-        .hcount_in(hcount_rect_in),
-        .vsync_in(vsync_rect_in),
-        .vblnk_in(vblnk_rect_in),
-        .hsync_in(hsync_rect_in),
-        .hblnk_in(hblnk_rect_in),
-        .rgb_in(rgb_rect_in),
+    draw_rect my_start_button(
+        .pclk(clk65MHz),
+        .vcount_in(vcount_start_button_in),
+        .vsync_in(vsync_start_button_in),
+        .vblnk_in(vblnk_start_button_in),
+        .hcount_in(hcount_start_button_in),
+        .hsync_in(hsync_start_button_in),
+        .hblnk_in(hblnk_start_button_in),
+        .rgb_in(rgb_start_button_in),
         .vcount_out(vcount_mousedispl_in),
         .vsync_out(vsync_mousedispl_in),
         .vblnk_out(vblnk_mousedispl_in),
@@ -240,20 +163,18 @@ module top (
         .hsync_out(hsync_mousedispl_in),
         .hblnk_out(hblnk_mousedispl_in),
         .rgb_out(rgb_mousedispl_in),
-        .pclk(clk40MHz),
-        .rst(rst),
-        .rgb_pixel(rgb_rom),
-        .pixel_addr(address)
-    );*/
+        .rst(rst)
+    );
     
-    //Mouse display cursor
+    //MOUSE CURSOR DISPLAYING
+    
     wire [3:0] r_last, g_last, b_last;
     wire vs_last, hs_last;
     //unused
     wire enable_mouse_display_out;
     
     MouseDisplay my_MouseDisplay(
-        .pixel_clk(clk40MHz),
+        .pixel_clk(clk65MHz),
         .xpos(xpos),
         .ypos(ypos),
         .hcount(hcount_mousedispl_in),
@@ -262,14 +183,18 @@ module top (
         .red_in(rgb_mousedispl_in[11:8]),
         .green_in(rgb_mousedispl_in[7:4]),
         .blue_in(rgb_mousedispl_in[3:0]),
-        .red_out(r),
-        .green_out(g),
-        .blue_out(b),
+        .red_out(r_last),
+        .green_out(g_last),
+        .blue_out(b_last),
         .vs_in(vsync_mousedispl_in),
         .hs_in(hsync_mousedispl_in),
-        .vs_out(vs),
-        .hs_out(hs),
+        .vs_out(vs_last),
+        .hs_out(hs_last),
         .enable_mouse_display_out(enable_mouse_display_out)
     );
 
+    always @(posedge clk65MHz) begin
+        {r,g,b}  <= {r_last, g_last, b_last};
+        {vs, hs} <= {vs_last, hs_last};
+    end
 endmodule

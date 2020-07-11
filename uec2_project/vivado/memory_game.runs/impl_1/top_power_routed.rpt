@@ -1,8 +1,8 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2017.3 (win64) Build 2018833 Wed Oct  4 19:58:22 MDT 2017
-| Date             : Wed Jul  8 21:25:15 2020
-| Host             : DESKTOP-5178MCU running 64-bit major release  (build 9200)
+| Date             : Sat Jul 11 14:38:41 2020
+| Host             : WOLVEPC running 64-bit major release  (build 9200)
 | Command          : report_power -file top_power_routed.rpt -pb top_power_summary_routed.pb -rpx top_power_routed.rpx
 | Design           : top
 | Device           : xc7a35tcpg236-1
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.186        |
+| Total On-Chip Power (W)  | 0.200        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.114        |
+| Dynamic (W)              | 0.128        |
 | Device Static (W)        | 0.072        |
 | Effective TJA (C/W)      | 5.0          |
-| Max Ambient (C)          | 84.1         |
-| Junction Temperature (C) | 25.9         |
+| Max Ambient (C)          | 84.0         |
+| Junction Temperature (C) | 26.0         |
 | Confidence Level         | Medium       |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -49,24 +49,22 @@ Table of Contents
 1.1 On-Chip Components
 ----------------------
 
-+-------------------------+-----------+----------+-----------+-----------------+
-| On-Chip                 | Power (W) | Used     | Available | Utilization (%) |
-+-------------------------+-----------+----------+-----------+-----------------+
-| Clocks                  |     0.004 |        6 |       --- |             --- |
-| Slice Logic             |     0.002 |     1106 |       --- |             --- |
-|   LUT as Logic          |     0.002 |      469 |     20800 |            2.25 |
-|   CARRY4                |    <0.001 |       54 |      8150 |            0.66 |
-|   Register              |    <0.001 |      435 |     41600 |            1.05 |
-|   F7/F8 Muxes           |    <0.001 |       10 |     32600 |            0.03 |
-|   LUT as Shift Register |    <0.001 |       15 |      9600 |            0.16 |
-|   Others                |     0.000 |       23 |       --- |             --- |
-| Signals                 |     0.002 |      877 |       --- |             --- |
-| Block RAM               |    <0.001 |        1 |        50 |            2.00 |
-| MMCM                    |     0.106 |        1 |         5 |           20.00 |
-| I/O                     |    <0.001 |       18 |       106 |           16.98 |
-| Static Power            |     0.072 |          |           |                 |
-| Total                   |     0.186 |          |           |                 |
-+-------------------------+-----------+----------+-----------+-----------------+
++----------------+-----------+----------+-----------+-----------------+
+| On-Chip        | Power (W) | Used     | Available | Utilization (%) |
++----------------+-----------+----------+-----------+-----------------+
+| Clocks         |     0.004 |        6 |       --- |             --- |
+| Slice Logic    |     0.002 |      938 |       --- |             --- |
+|   LUT as Logic |     0.002 |      396 |     20800 |            1.90 |
+|   CARRY4       |    <0.001 |       48 |      8150 |            0.59 |
+|   Register     |    <0.001 |      373 |     41600 |            0.90 |
+|   F7/F8 Muxes  |    <0.001 |        9 |     32600 |            0.03 |
+|   Others       |     0.000 |       19 |       --- |             --- |
+| Signals        |     0.001 |      721 |       --- |             --- |
+| MMCM           |     0.121 |        1 |         5 |           20.00 |
+| I/O            |    <0.001 |       18 |       106 |           16.98 |
+| Static Power   |     0.072 |          |           |                 |
+| Total          |     0.200 |          |           |                 |
++----------------+-----------+----------+-----------+-----------------+
 
 
 1.2 Power Supply Summary
@@ -76,7 +74,7 @@ Table of Contents
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
 | Vccint    |       1.000 |     0.018 |       0.008 |      0.010 |
-| Vccaux    |       1.800 |     0.071 |       0.059 |      0.013 |
+| Vccaux    |       1.800 |     0.079 |       0.067 |      0.013 |
 | Vcco33    |       3.300 |     0.001 |       0.000 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |
@@ -133,7 +131,7 @@ Table of Contents
 +---------------------------+-----------------------------------------+-----------------+
 | clk                       | clk                                     |            10.0 |
 | clk100MHz_clock_generator | my_clock/inst/clk100MHz_clock_generator |            10.0 |
-| clk40MHz_clock_generator  | my_clock/inst/clk40MHz_clock_generator  |            25.0 |
+| clk65MHz_clock_generator  | my_clock/inst/clk65MHz_clock_generator  |            15.4 |
 | clkfbout_clock_generator  | my_clock/inst/clkfbout_clock_generator  |            10.0 |
 +---------------------------+-----------------------------------------+-----------------+
 
@@ -144,22 +142,21 @@ Table of Contents
 3.1 By Hierarchy
 ----------------
 
-+-----------------------------+-----------+
-| Name                        | Power (W) |
-+-----------------------------+-----------+
-| top                         |     0.114 |
-|   mouse_pos_delay           |    <0.001 |
-|   my_MouseCtl               |     0.005 |
-|     Inst_Ps2Interface       |     0.002 |
-|   my_MouseDisplay           |    <0.001 |
-|   my_background             |    <0.001 |
-|   my_clock                  |     0.107 |
-|     inst                    |     0.107 |
-|   my_rect_char              |     0.001 |
-|     delay_in_draw_rect_char |    <0.001 |
-|   my_timing                 |    <0.001 |
-|   ps2_clk_IOBUF_inst        |     0.000 |
-|   ps2_data_IOBUF_inst       |     0.000 |
-+-----------------------------+-----------+
++-----------------------+-----------+
+| Name                  | Power (W) |
++-----------------------+-----------+
+| top                   |     0.128 |
+|   mouse_pos_delay     |    <0.001 |
+|   my_MouseCtl         |     0.005 |
+|     Inst_Ps2Interface |     0.002 |
+|   my_MouseDisplay     |    <0.001 |
+|   my_background       |    <0.001 |
+|   my_clock            |     0.122 |
+|     inst              |     0.122 |
+|   my_start_button     |    <0.001 |
+|   my_timing           |    <0.001 |
+|   ps2_clk_IOBUF_inst  |     0.000 |
+|   ps2_data_IOBUF_inst |     0.000 |
++-----------------------+-----------+
 
 
