@@ -14,6 +14,7 @@
 // Revision:
 // Revision 0.01 - File Created
 // Revision 0.10 - File Copied from UEC2 Lab
+// Revision 0.20 - Resolution changed to 1024x768@60fps
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
@@ -74,29 +75,14 @@ module draw_background(
             // Active display, top edge, make a yellow line.
             if (vcount_in == 0) rgb_nxt <= 12'hf_f_0;
             // Active display, bottom edge, make a red line.
-            else if (vcount_in == 599) rgb_nxt <= 12'hf_0_0;
+            else if (vcount_in == 767) rgb_nxt <= 12'hf_0_0;
             // Active display, left edge, make a green line.
             else if (hcount_in == 0) rgb_nxt <= 12'h0_f_0;
             // Active display, right edge, make a blue line.
-            else if (hcount_in == 799) rgb_nxt <= 12'h0_0_f;
+            else if (hcount_in == 1023) rgb_nxt <= 12'h0_0_f;
             // Active display, interior, fill with gray.
-            // You will replace this with your own test.
-            else begin            
-                if ((hcount_in >= 201) && (hcount_in <= 210) && (vcount_in >= 201) && (vcount_in <= 400))
-                    rgb_nxt <= 12'hf_f_0;               
-                else if ((vcount_in + hcount_in >= 501) && (vcount_in + hcount_in <= 510) && (vcount_in >= 201) && (vcount_in <=300))
-                    rgb_nxt <= 12'hf_f_0;
-                else if ((vcount_in - hcount_in >= 91) && (vcount_in - hcount_in <= 100) && (vcount_in >= 301) && (vcount_in <=400))
-                    rgb_nxt <= 12'hf_f_0;
-                else if ((hcount_in >= 501) && (hcount_in <= 510) && (vcount_in >= 201) && (vcount_in <= 400))
-                    rgb_nxt <= 12'hf_f_0;
-                else if ((hcount_in >= 501) && (hcount_in <= 600) && (vcount_in >= 201) && (vcount_in <= 210))
-                    rgb_nxt <= 12'hf_f_0;
-                else if ((hcount_in >= 501) && (hcount_in <= 600) && (vcount_in >= 391) && (vcount_in <= 400))
-                    rgb_nxt <= 12'hf_f_0;
-                else
-                    rgb_nxt <= 12'h8_8_8;
-            end
+            else
+                rgb_nxt <= 12'h8_8_8;
         end
     end 
 endmodule

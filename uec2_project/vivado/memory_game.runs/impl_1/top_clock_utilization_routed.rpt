@@ -1,8 +1,8 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.3 (win64) Build 2018833 Wed Oct  4 19:58:22 MDT 2017
-| Date         : Sat Jul 11 12:59:07 2020
-| Host         : DESKTOP-5178MCU running 64-bit major release  (build 9200)
+| Date         : Sat Jul 11 14:38:42 2020
+| Host         : WOLVEPC running 64-bit major release  (build 9200)
 | Command      : report_clock_utilization -file top_clock_utilization_routed.rpt
 | Design       : top
 | Device       : 7a35t-cpg236
@@ -52,7 +52,7 @@ Table of Contents
 +-----------+-----------+-----------------+------------+---------------+--------------+-------------------+-------------+-----------------+--------------+---------------------------+--------------------------------+------------------------------------------------+
 | g0        | src0      | BUFGCTRL/O      | None       | BUFGCTRL_X0Y0 | n/a          |                 1 |         221 |               0 |       10.000 | clk100MHz_clock_generator | my_clock/inst/clkout1_buf/O    | my_clock/inst/clk100MHz                        |
 | g1        | src0      | BUFH/O          | None       | BUFHCE_X0Y0   | X0Y0         |                 1 |           8 |               0 |       10.000 | clk100MHz_clock_generator | my_clock/inst/clkout1_buf_en/O | my_clock/inst/clk100MHz_clock_generator_en_clk |
-| g2        | src0      | BUFGCTRL/O      | None       | BUFGCTRL_X0Y1 | n/a          |                 2 |         212 |               0 |       15.385 | clk65MHz_clock_generator  | my_clock/inst/clkout2_buf/O    | my_clock/inst/clk65MHz                         |
+| g2        | src0      | BUFGCTRL/O      | None       | BUFGCTRL_X0Y1 | n/a          |                 3 |         136 |               0 |       15.385 | clk65MHz_clock_generator  | my_clock/inst/clkout2_buf/O    | my_clock/inst/clk65MHz                         |
 | g3        | src0      | BUFH/O          | None       | BUFHCE_X0Y1   | X0Y0         |                 1 |           8 |               0 |       15.385 | clk65MHz_clock_generator  | my_clock/inst/clkout2_buf_en/O | my_clock/inst/clk65MHz_clock_generator_en_clk  |
 | g4        | src0      | BUFG/O          | None       | BUFGCTRL_X0Y2 | n/a          |                 1 |           1 |               0 |       10.000 | clkfbout_clock_generator  | my_clock/inst/clkf_buf/O       | my_clock/inst/clkfbout_buf_clock_generator     |
 +-----------+-----------+-----------------+------------+---------------+--------------+-------------------+-------------+-----------------+--------------+---------------------------+--------------------------------+------------------------------------------------+
@@ -82,11 +82,11 @@ Table of Contents
 +-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
 | Clock Region Name | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail |
 +-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
-| X0Y0              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 |   16 |  1200 |    8 |   400 |    0 |    20 |    0 |    10 |    0 |    20 |
+| X0Y0              |    3 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 |   18 |  1200 |    8 |   400 |    0 |    20 |    0 |    10 |    0 |    20 |
 | X1Y0              |    1 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    1 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 |    0 |  1500 |    0 |   450 |    0 |    40 |    0 |    20 |    0 |    20 |
-| X0Y1              |    1 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 |    9 |  1200 |    0 |   400 |    0 |    20 |    0 |    10 |    0 |    20 |
+| X0Y1              |    1 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 |    7 |  1200 |    4 |   400 |    0 |    20 |    0 |    10 |    0 |    20 |
 | X1Y1              |    0 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 |    0 |  1500 |    0 |   450 |    0 |    40 |    0 |    20 |    0 |    20 |
-| X0Y2              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 |  408 |  1800 |  140 |   400 |    1 |    20 |    0 |    10 |    0 |    20 |
+| X0Y2              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |    50 |    0 |    50 |  348 |  1800 |  126 |   400 |    0 |    20 |    0 |    10 |    0 |    20 |
 | X1Y2              |    0 |    12 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     0 |    0 |     4 |    0 |     1 |    0 |     0 |    0 |     0 |    0 |   950 |    0 |   300 |    0 |    10 |    0 |     5 |    0 |    20 |
 +-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
 * Global Clock column represents track count; while other columns represents cell counts
@@ -101,7 +101,7 @@ All Modules
 +----+----+----+
 | Y2 |  2 |  0 |
 | Y1 |  1 |  0 |
-| Y0 |  2 |  1 |
+| Y0 |  3 |  1 |
 +----+----+----+
 
 
@@ -157,7 +157,7 @@ All Modules
 +-----------+-----------------+-------------------+--------------------------+-------------+---------------+-------------+----------+----------------+----------+------------------------+
 | Global Id | Driver Type/Pin | Driver Region (D) | Clock                    | Period (ns) | Waveform (ns) | Slice Loads | IO Loads | Clocking Loads | GT Loads | Net                    |
 +-----------+-----------------+-------------------+--------------------------+-------------+---------------+-------------+----------+----------------+----------+------------------------+
-| g2        | BUFGCTRL/O      | n/a               | clk65MHz_clock_generator |      15.385 | {0.000 7.692} |         212 |        0 |              0 |        0 | my_clock/inst/clk65MHz |
+| g2        | BUFGCTRL/O      | n/a               | clk65MHz_clock_generator |      15.385 | {0.000 7.692} |         136 |        0 |              0 |        0 | my_clock/inst/clk65MHz |
 +-----------+-----------------+-------------------+--------------------------+-------------+---------------+-------------+----------+----------------+----------+------------------------+
 * Logic Loads column represents load cell count of all cell types other than IO, GT and clock resources
 ** IO Loads column represents load cell count of IO types
@@ -168,9 +168,9 @@ All Modules
 +----+------+----+
 |    | X0   | X1 |
 +----+------+----+
-| Y2 |  203 |  0 |
-| Y1 |    9 |  0 |
-| Y0 |    0 |  0 |
+| Y2 |  127 |  0 |
+| Y1 |    7 |  0 |
+| Y0 |    2 |  0 |
 +----+------+----+
 
 
@@ -226,6 +226,7 @@ All Modules
 +-----------+-------+-----------------+------------+-------------+-----------------+----+--------+------+-----+----+------+-----+---------+------------------------------------------------+
 | Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF | LUTRAM | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net                                            |
 +-----------+-------+-----------------+------------+-------------+-----------------+----+--------+------+-----+----+------+-----+---------+------------------------------------------------+
+| g2        | n/a   | BUFGCTRL/O      | None       |           2 |               0 |  2 |      0 |    0 |   0 |  0 |    0 |   0 |       0 | my_clock/inst/clk65MHz                         |
 | g1        | n/a   | BUFH/O          | None       |           8 |               0 |  8 |      0 |    0 |   0 |  0 |    0 |   0 |       0 | my_clock/inst/clk100MHz_clock_generator_en_clk |
 | g3        | n/a   | BUFH/O          | None       |           8 |               0 |  8 |      0 |    0 |   0 |  0 |    0 |   0 |       0 | my_clock/inst/clk65MHz_clock_generator_en_clk  |
 +-----------+-------+-----------------+------------+-------------+-----------------+----+--------+------+-----+----+------+-----+---------+------------------------------------------------+
@@ -253,7 +254,7 @@ All Modules
 +-----------+-------+-----------------+------------+-------------+-----------------+----+--------+------+-----+----+------+-----+---------+------------------------+
 | Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF | LUTRAM | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net                    |
 +-----------+-------+-----------------+------------+-------------+-----------------+----+--------+------+-----+----+------+-----+---------+------------------------+
-| g2        | n/a   | BUFGCTRL/O      | None       |           9 |               0 |  9 |      0 |    0 |   0 |  0 |    0 |   0 |       0 | my_clock/inst/clk65MHz |
+| g2        | n/a   | BUFGCTRL/O      | None       |           7 |               0 |  7 |      0 |    0 |   0 |  0 |    0 |   0 |       0 | my_clock/inst/clk65MHz |
 +-----------+-------+-----------------+------------+-------------+-----------------+----+--------+------+-----+----+------+-----+---------+------------------------+
 * Clock Loads column represents the clock pin loads (pin count)
 ** Non-Clock Loads column represents the non-clock pin loads (pin count)
@@ -267,7 +268,7 @@ All Modules
 | Global Id | Track | Driver Type/Pin | Constraint | Clock Loads | Non-Clock Loads | FF  | LUTRAM | RAMB | DSP | GT | MMCM | PLL | Hard IP | Net                     |
 +-----------+-------+-----------------+------------+-------------+-----------------+-----+--------+------+-----+----+------+-----+---------+-------------------------+
 | g0        | n/a   | BUFGCTRL/O      | None       |         221 |               0 | 221 |      0 |    0 |   0 |  0 |    0 |   0 |       0 | my_clock/inst/clk100MHz |
-| g2        | n/a   | BUFGCTRL/O      | None       |         203 |               0 | 187 |     14 |    1 |   0 |  0 |    0 |   0 |       0 | my_clock/inst/clk65MHz  |
+| g2        | n/a   | BUFGCTRL/O      | None       |         127 |               0 | 127 |      0 |    0 |   0 |  0 |    0 |   0 |       0 | my_clock/inst/clk65MHz  |
 +-----------+-------+-----------------+------------+-------------+-----------------+-----+--------+------+-----+----+------+-----+---------+-------------------------+
 * Clock Loads column represents the clock pin loads (pin count)
 ** Non-Clock Loads column represents the non-clock pin loads (pin count)
@@ -300,7 +301,7 @@ resize_pblock [get_pblocks {CLKAG_my_clock/inst/clk65MHz_clock_generator_en_clk}
 #startgroup
 create_pblock {CLKAG_my_clock/inst/clk65MHz}
 add_cells_to_pblock [get_pblocks  {CLKAG_my_clock/inst/clk65MHz}] [get_cells -filter { PRIMITIVE_GROUP != I/O && IS_PRIMITIVE==1 && PRIMITIVE_LEVEL !=INTERNAL } -of_object [get_pins -filter {DIRECTION==IN} -of_objects [get_nets -hierarchical -filter {PARENT=="my_clock/inst/clk65MHz"}]]]
-resize_pblock [get_pblocks {CLKAG_my_clock/inst/clk65MHz}] -add {CLOCKREGION_X0Y1:CLOCKREGION_X0Y1 CLOCKREGION_X0Y2:CLOCKREGION_X0Y2}
+resize_pblock [get_pblocks {CLKAG_my_clock/inst/clk65MHz}] -add {CLOCKREGION_X0Y0:CLOCKREGION_X0Y0 CLOCKREGION_X0Y1:CLOCKREGION_X0Y1 CLOCKREGION_X0Y2:CLOCKREGION_X0Y2}
 #endgroup
 
 # Clock net "my_clock/inst/clk100MHz_clock_generator_en_clk" driven by instance "my_clock/inst/clkout1_buf_en" located at site "BUFHCE_X0Y0"

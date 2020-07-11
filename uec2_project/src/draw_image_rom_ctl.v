@@ -3,7 +3,7 @@
 // Engineers: Krzysztof Cislo & Jakub Dzialowy
 // 
 // Create Date: 08.07.2020 19:57:42
-// Module Name: draw_rect_ctl
+// Module Name: draw_image_rom_ctl
 // Project Name: Memory Game
 // Target Devices: Basys3
 // Tool Versions: Vivado 2017.3
@@ -21,7 +21,7 @@
 `timescale 1ns / 1ps
 
 
-module draw_rect_ctl(
+module draw_image_rom_ctl(
     input wire          clk,
     input wire          rst,
     input wire          mouse_left,

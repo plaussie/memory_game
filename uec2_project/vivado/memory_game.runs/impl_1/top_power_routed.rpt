@@ -1,8 +1,8 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2017.3 (win64) Build 2018833 Wed Oct  4 19:58:22 MDT 2017
-| Date             : Sat Jul 11 12:59:07 2020
-| Host             : DESKTOP-5178MCU running 64-bit major release  (build 9200)
+| Date             : Sat Jul 11 14:38:41 2020
+| Host             : WOLVEPC running 64-bit major release  (build 9200)
 | Command          : report_power -file top_power_routed.rpt -pb top_power_summary_routed.pb -rpx top_power_routed.rpx
 | Design           : top
 | Device           : xc7a35tcpg236-1
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.202        |
+| Total On-Chip Power (W)  | 0.200        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.130        |
+| Dynamic (W)              | 0.128        |
 | Device Static (W)        | 0.072        |
 | Effective TJA (C/W)      | 5.0          |
 | Max Ambient (C)          | 84.0         |
@@ -49,24 +49,22 @@ Table of Contents
 1.1 On-Chip Components
 ----------------------
 
-+-------------------------+-----------+----------+-----------+-----------------+
-| On-Chip                 | Power (W) | Used     | Available | Utilization (%) |
-+-------------------------+-----------+----------+-----------+-----------------+
-| Clocks                  |     0.004 |        6 |       --- |             --- |
-| Slice Logic             |     0.002 |     1104 |       --- |             --- |
-|   LUT as Logic          |     0.002 |      471 |     20800 |            2.26 |
-|   CARRY4                |    <0.001 |       54 |      8150 |            0.66 |
-|   Register              |    <0.001 |      433 |     41600 |            1.04 |
-|   F7/F8 Muxes           |    <0.001 |       10 |     32600 |            0.03 |
-|   LUT as Shift Register |    <0.001 |       13 |      9600 |            0.14 |
-|   Others                |     0.000 |       23 |       --- |             --- |
-| Signals                 |     0.002 |      877 |       --- |             --- |
-| Block RAM               |     0.001 |        1 |        50 |            2.00 |
-| MMCM                    |     0.121 |        1 |         5 |           20.00 |
-| I/O                     |    <0.001 |       18 |       106 |           16.98 |
-| Static Power            |     0.072 |          |           |                 |
-| Total                   |     0.202 |          |           |                 |
-+-------------------------+-----------+----------+-----------+-----------------+
++----------------+-----------+----------+-----------+-----------------+
+| On-Chip        | Power (W) | Used     | Available | Utilization (%) |
++----------------+-----------+----------+-----------+-----------------+
+| Clocks         |     0.004 |        6 |       --- |             --- |
+| Slice Logic    |     0.002 |      938 |       --- |             --- |
+|   LUT as Logic |     0.002 |      396 |     20800 |            1.90 |
+|   CARRY4       |    <0.001 |       48 |      8150 |            0.59 |
+|   Register     |    <0.001 |      373 |     41600 |            0.90 |
+|   F7/F8 Muxes  |    <0.001 |        9 |     32600 |            0.03 |
+|   Others       |     0.000 |       19 |       --- |             --- |
+| Signals        |     0.001 |      721 |       --- |             --- |
+| MMCM           |     0.121 |        1 |         5 |           20.00 |
+| I/O            |    <0.001 |       18 |       106 |           16.98 |
+| Static Power   |     0.072 |          |           |                 |
+| Total          |     0.200 |          |           |                 |
++----------------+-----------+----------+-----------+-----------------+
 
 
 1.2 Power Supply Summary
@@ -75,7 +73,7 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
 +-----------+-------------+-----------+-------------+------------+
-| Vccint    |       1.000 |     0.019 |       0.010 |      0.010 |
+| Vccint    |       1.000 |     0.018 |       0.008 |      0.010 |
 | Vccaux    |       1.800 |     0.079 |       0.067 |      0.013 |
 | Vcco33    |       3.300 |     0.001 |       0.000 |      0.001 |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
@@ -144,22 +142,21 @@ Table of Contents
 3.1 By Hierarchy
 ----------------
 
-+-----------------------------+-----------+
-| Name                        | Power (W) |
-+-----------------------------+-----------+
-| top                         |     0.130 |
-|   mouse_pos_delay           |    <0.001 |
-|   my_MouseCtl               |     0.005 |
-|     Inst_Ps2Interface       |     0.002 |
-|   my_MouseDisplay           |    <0.001 |
-|   my_background             |    <0.001 |
-|   my_clock                  |     0.122 |
-|     inst                    |     0.122 |
-|   my_rect_char              |     0.002 |
-|     delay_in_draw_rect_char |    <0.001 |
-|   my_timing                 |    <0.001 |
-|   ps2_clk_IOBUF_inst        |     0.000 |
-|   ps2_data_IOBUF_inst       |     0.000 |
-+-----------------------------+-----------+
++-----------------------+-----------+
+| Name                  | Power (W) |
++-----------------------+-----------+
+| top                   |     0.128 |
+|   mouse_pos_delay     |    <0.001 |
+|   my_MouseCtl         |     0.005 |
+|     Inst_Ps2Interface |     0.002 |
+|   my_MouseDisplay     |    <0.001 |
+|   my_background       |    <0.001 |
+|   my_clock            |     0.122 |
+|     inst              |     0.122 |
+|   my_start_button     |    <0.001 |
+|   my_timing           |    <0.001 |
+|   ps2_clk_IOBUF_inst  |     0.000 |
+|   ps2_data_IOBUF_inst |     0.000 |
++-----------------------+-----------+
 
 

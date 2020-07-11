@@ -1,8 +1,8 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.3 (win64) Build 2018833 Wed Oct  4 19:58:22 MDT 2017
-| Date         : Sat Jul 11 12:59:07 2020
-| Host         : DESKTOP-5178MCU running 64-bit major release  (build 9200)
+| Date         : Sat Jul 11 14:38:41 2020
+| Host         : WOLVEPC running 64-bit major release  (build 9200)
 | Command      : report_timing_summary -file top_timing_summary_routed.rpt -warn_on_violation -rpx top_timing_summary_routed.rpx
 | Design       : top
 | Device       : 7a35t-cpg236
@@ -126,7 +126,7 @@ Table of Contents
 
     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-     -1.595      -34.129                     23                  721        0.061        0.000                      0                  721        3.000        0.000                       0                   459  
+     -1.576      -33.778                     23                  623        0.054        0.000                      0                  623        3.000        0.000                       0                   383  
 
 
 Timing constraints are not met.
@@ -153,8 +153,8 @@ clk                          {0.000 5.000}      10.000          100.000
 Clock                            WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
 -----                            -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
 clk                                                                                                                                                                            3.000        0.000                       0                     1  
-  clk100MHz_clock_generator        4.327        0.000                      0                  430        0.148        0.000                      0                  430        4.500        0.000                       0                   232  
-  clk65MHz_clock_generator         8.887        0.000                      0                  268        0.122        0.000                      0                  268        6.712        0.000                       0                   223  
+  clk100MHz_clock_generator        4.506        0.000                      0                  430        0.137        0.000                      0                  430        4.500        0.000                       0                   232  
+  clk65MHz_clock_generator         9.791        0.000                      0                  170        0.122        0.000                      0                  170        7.192        0.000                       0                   147  
   clkfbout_clock_generator                                                                                                                                                     7.845        0.000                       0                     3  
 
 
@@ -165,7 +165,7 @@ clk                                                                             
 
 From Clock                 To Clock                       WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
 ----------                 --------                       -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
-clk100MHz_clock_generator  clk65MHz_clock_generator        -1.595      -34.129                     23                   23        0.061        0.000                      0                   23  
+clk100MHz_clock_generator  clk65MHz_clock_generator        -1.576      -33.778                     23                   23        0.054        0.000                      0                   23  
 
 
 ------------------------------------------------------------------------------------------------
@@ -212,27 +212,27 @@ High Pulse Width  Slow    MMCME2_ADV/CLKIN1  n/a            2.000         5.000 
 From Clock:  clk100MHz_clock_generator
   To Clock:  clk100MHz_clock_generator
 
-Setup :            0  Failing Endpoints,  Worst Slack        4.327ns,  Total Violation        0.000ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.148ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        4.506ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.137ns,  Total Violation        0.000ns
 PW    :            0  Failing Endpoints,  Worst Slack        4.500ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             4.327ns  (required time - arrival time)
-  Source:                 my_MouseCtl/Inst_Ps2Interface/rx_data_reg[3]/C
-                            (rising edge-triggered cell FDRE clocked by clk100MHz_clock_generator  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            my_MouseCtl/FSM_sequential_state_reg[0]/D
+Slack (MET) :             4.506ns  (required time - arrival time)
+  Source:                 my_MouseCtl/x_overflow_reg/C
                             (rising edge-triggered cell FDCE clocked by clk100MHz_clock_generator  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            my_MouseCtl/x_pos_reg[7]/D
+                            (rising edge-triggered cell FDRE clocked by clk100MHz_clock_generator  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             clk100MHz_clock_generator
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk100MHz_clock_generator rise@10.000ns - clk100MHz_clock_generator rise@0.000ns)
-  Data Path Delay:        5.640ns  (logic 1.640ns (29.079%)  route 4.000ns (70.921%))
-  Logic Levels:           5  (LUT4=1 LUT5=2 LUT6=2)
-  Clock Path Skew:        -0.036ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -1.315ns = ( 8.685 - 10.000 ) 
-    Source Clock Delay      (SCD):    -0.709ns
+  Data Path Delay:        5.412ns  (logic 2.707ns (50.015%)  route 2.705ns (49.985%))
+  Logic Levels:           7  (CARRY4=4 LUT2=1 LUT3=1 LUT5=1)
+  Clock Path Skew:        -0.040ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.386ns = ( 8.614 - 10.000 ) 
+    Source Clock Delay      (SCD):    -0.776ns
     Clock Pessimism Removal (CPR):    0.571ns
   Clock Uncertainty:      0.074ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -252,22 +252,30 @@ Slack (MET) :             4.327ns  (required time - arrival time)
                          net (fo=2, routed)           1.661    -2.608    my_clock/inst/clk100MHz_clock_generator
     BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
                                                       0.096    -2.512 r  my_clock/inst/clkout1_buf/O
-                         net (fo=221, routed)         1.803    -0.709    my_MouseCtl/Inst_Ps2Interface/clk100MHz
-    SLICE_X6Y113         FDRE                                         r  my_MouseCtl/Inst_Ps2Interface/rx_data_reg[3]/C
+                         net (fo=221, routed)         1.736    -0.776    my_MouseCtl/clk100MHz
+    SLICE_X10Y114        FDCE                                         r  my_MouseCtl/x_overflow_reg/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X6Y113         FDRE (Prop_fdre_C_Q)         0.518    -0.191 r  my_MouseCtl/Inst_Ps2Interface/rx_data_reg[3]/Q
-                         net (fo=7, routed)           1.069     0.879    my_MouseCtl/Inst_Ps2Interface/rx_data_reg_n_0_[3]
-    SLICE_X8Y112         LUT4 (Prop_lut4_I3_O)        0.152     1.031 r  my_MouseCtl/Inst_Ps2Interface/FSM_sequential_state[5]_i_10/O
-                         net (fo=3, routed)           0.753     1.784    my_MouseCtl/Inst_Ps2Interface/FSM_sequential_state[5]_i_10_n_0
-    SLICE_X8Y111         LUT5 (Prop_lut5_I0_O)        0.374     2.158 r  my_MouseCtl/Inst_Ps2Interface/FSM_sequential_state[5]_i_6/O
-                         net (fo=10, routed)          1.143     3.301    my_MouseCtl/Inst_Ps2Interface/FSM_sequential_state[5]_i_6_n_0
-    SLICE_X4Y110         LUT5 (Prop_lut5_I0_O)        0.348     3.649 r  my_MouseCtl/Inst_Ps2Interface/FSM_sequential_state[0]_i_7/O
-                         net (fo=1, routed)           0.421     4.070    my_MouseCtl/Inst_Ps2Interface/FSM_sequential_state[0]_i_7_n_0
-    SLICE_X4Y111         LUT6 (Prop_lut6_I3_O)        0.124     4.194 r  my_MouseCtl/Inst_Ps2Interface/FSM_sequential_state[0]_i_4__0/O
-                         net (fo=1, routed)           0.613     4.807    my_MouseCtl/Inst_Ps2Interface/FSM_sequential_state[0]_i_4__0_n_0
-    SLICE_X2Y111         LUT6 (Prop_lut6_I3_O)        0.124     4.931 r  my_MouseCtl/Inst_Ps2Interface/FSM_sequential_state[0]_i_1__0/O
-                         net (fo=1, routed)           0.000     4.931    my_MouseCtl/Inst_Ps2Interface_n_25
-    SLICE_X2Y111         FDCE                                         r  my_MouseCtl/FSM_sequential_state_reg[0]/D
+    SLICE_X10Y114        FDCE (Prop_fdce_C_Q)         0.518    -0.258 r  my_MouseCtl/x_overflow_reg/Q
+                         net (fo=18, routed)          1.240     0.982    my_MouseCtl/x_overflow
+    SLICE_X14Y113        LUT3 (Prop_lut3_I1_O)        0.124     1.106 r  my_MouseCtl/x_pos[3]_i_5/O
+                         net (fo=1, routed)           0.000     1.106    my_MouseCtl/x_pos[3]_i_5_n_0
+    SLICE_X14Y113        CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533     1.639 r  my_MouseCtl/x_pos_reg[3]_i_2/CO[3]
+                         net (fo=1, routed)           0.000     1.639    my_MouseCtl/x_pos_reg[3]_i_2_n_0
+    SLICE_X14Y114        CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     1.756 r  my_MouseCtl/x_pos_reg[7]_i_2/CO[3]
+                         net (fo=1, routed)           0.000     1.756    my_MouseCtl/x_pos_reg[7]_i_2_n_0
+    SLICE_X14Y115        CARRY4 (Prop_carry4_CI_O[1])
+                                                      0.323     2.079 f  my_MouseCtl/i__carry_i_1__1/O[1]
+                         net (fo=3, routed)           0.819     2.898    my_MouseCtl/plusOp6[9]
+    SLICE_X13Y115        LUT2 (Prop_lut2_I1_O)        0.306     3.204 r  my_MouseCtl/i__carry_i_4__3/O
+                         net (fo=1, routed)           0.000     3.204    my_MouseCtl/i__carry_i_4__3_n_0
+    SLICE_X13Y115        CARRY4 (Prop_carry4_S[0]_CO[1])
+                                                      0.457     3.661 r  my_MouseCtl/gtOp_inferred__0/i__carry/CO[1]
+                         net (fo=12, routed)          0.646     4.308    my_MouseCtl/gtOp
+    SLICE_X16Y114        LUT5 (Prop_lut5_I3_O)        0.329     4.637 r  my_MouseCtl/x_pos[7]_i_1/O
+                         net (fo=1, routed)           0.000     4.637    my_MouseCtl/x_pos[7]_i_1_n_0
+    SLICE_X16Y114        FDRE                                         r  my_MouseCtl/x_pos_reg[7]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk100MHz_clock_generator rise edge)
@@ -281,16 +289,16 @@ Slack (MET) :             4.327ns  (required time - arrival time)
                          net (fo=2, routed)           1.581     6.914    my_clock/inst/clk100MHz_clock_generator
     BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
                                                       0.091     7.005 r  my_clock/inst/clkout1_buf/O
-                         net (fo=221, routed)         1.680     8.685    my_MouseCtl/clk100MHz
-    SLICE_X2Y111         FDCE                                         r  my_MouseCtl/FSM_sequential_state_reg[0]/C
-                         clock pessimism              0.571     9.255    
-                         clock uncertainty           -0.074     9.181    
-    SLICE_X2Y111         FDCE (Setup_fdce_C_D)        0.077     9.258    my_MouseCtl/FSM_sequential_state_reg[0]
+                         net (fo=221, routed)         1.609     8.614    my_MouseCtl/clk100MHz
+    SLICE_X16Y114        FDRE                                         r  my_MouseCtl/x_pos_reg[7]/C
+                         clock pessimism              0.571     9.184    
+                         clock uncertainty           -0.074     9.110    
+    SLICE_X16Y114        FDRE (Setup_fdre_C_D)        0.032     9.142    my_MouseCtl/x_pos_reg[7]
   -------------------------------------------------------------------
-                         required time                          9.258    
-                         arrival time                          -4.931    
+                         required time                          9.142    
+                         arrival time                          -4.637    
   -------------------------------------------------------------------
-                         slack                                  4.327    
+                         slack                                  4.506    
 
 
 
@@ -298,20 +306,20 @@ Slack (MET) :             4.327ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.148ns  (arrival time - required time)
-  Source:                 my_MouseCtl/tx_data_reg[5]/C
+Slack (MET) :             0.137ns  (arrival time - required time)
+  Source:                 my_MouseCtl/Inst_Ps2Interface/ps2_data_clean_reg/C
                             (rising edge-triggered cell FDRE clocked by clk100MHz_clock_generator  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            my_MouseCtl/Inst_Ps2Interface/tx_parity_reg/D
+  Destination:            my_MouseCtl/Inst_Ps2Interface/ps2_data_s_reg/D
                             (rising edge-triggered cell FDRE clocked by clk100MHz_clock_generator  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             clk100MHz_clock_generator
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk100MHz_clock_generator rise@0.000ns - clk100MHz_clock_generator rise@0.000ns)
-  Data Path Delay:        0.252ns  (logic 0.186ns (73.765%)  route 0.066ns (26.235%))
-  Logic Levels:           1  (LUT5=1)
-  Clock Path Skew:        0.013ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    -0.746ns
-    Source Clock Delay      (SCD):    -0.511ns
-    Clock Pessimism Removal (CPR):    -0.248ns
+  Data Path Delay:        0.208ns  (logic 0.141ns (67.788%)  route 0.067ns (32.212%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.000ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    -0.751ns
+    Source Clock Delay      (SCD):    -0.516ns
+    Clock Pessimism Removal (CPR):    -0.235ns
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
@@ -326,14 +334,12 @@ Slack (MET) :             0.148ns  (arrival time - required time)
                          net (fo=2, routed)           0.486    -1.207    my_clock/inst/clk100MHz_clock_generator
     BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
                                                       0.026    -1.181 r  my_clock/inst/clkout1_buf/O
-                         net (fo=221, routed)         0.670    -0.511    my_MouseCtl/clk100MHz
-    SLICE_X4Y113         FDRE                                         r  my_MouseCtl/tx_data_reg[5]/C
+                         net (fo=221, routed)         0.665    -0.516    my_MouseCtl/Inst_Ps2Interface/clk100MHz
+    SLICE_X3Y121         FDRE                                         r  my_MouseCtl/Inst_Ps2Interface/ps2_data_clean_reg/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X4Y113         FDRE (Prop_fdre_C_Q)         0.141    -0.370 r  my_MouseCtl/tx_data_reg[5]/Q
-                         net (fo=2, routed)           0.066    -0.304    my_MouseCtl/Inst_Ps2Interface/Q[5]
-    SLICE_X5Y113         LUT5 (Prop_lut5_I0_O)        0.045    -0.259 r  my_MouseCtl/Inst_Ps2Interface/tx_parity_i_1/O
-                         net (fo=1, routed)           0.000    -0.259    my_MouseCtl/Inst_Ps2Interface/tx_parity_i_1_n_0
-    SLICE_X5Y113         FDRE                                         r  my_MouseCtl/Inst_Ps2Interface/tx_parity_reg/D
+    SLICE_X3Y121         FDRE (Prop_fdre_C_Q)         0.141    -0.375 r  my_MouseCtl/Inst_Ps2Interface/ps2_data_clean_reg/Q
+                         net (fo=2, routed)           0.067    -0.308    my_MouseCtl/Inst_Ps2Interface/ps2_data_clean
+    SLICE_X3Y121         FDRE                                         r  my_MouseCtl/Inst_Ps2Interface/ps2_data_s_reg/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk100MHz_clock_generator rise edge)
@@ -347,15 +353,15 @@ Slack (MET) :             0.148ns  (arrival time - required time)
                          net (fo=2, routed)           0.530    -1.718    my_clock/inst/clk100MHz_clock_generator
     BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
                                                       0.029    -1.689 r  my_clock/inst/clkout1_buf/O
-                         net (fo=221, routed)         0.943    -0.746    my_MouseCtl/Inst_Ps2Interface/clk100MHz
-    SLICE_X5Y113         FDRE                                         r  my_MouseCtl/Inst_Ps2Interface/tx_parity_reg/C
-                         clock pessimism              0.248    -0.498    
-    SLICE_X5Y113         FDRE (Hold_fdre_C_D)         0.091    -0.407    my_MouseCtl/Inst_Ps2Interface/tx_parity_reg
+                         net (fo=221, routed)         0.938    -0.751    my_MouseCtl/Inst_Ps2Interface/clk100MHz
+    SLICE_X3Y121         FDRE                                         r  my_MouseCtl/Inst_Ps2Interface/ps2_data_s_reg/C
+                         clock pessimism              0.235    -0.516    
+    SLICE_X3Y121         FDRE (Hold_fdre_C_D)         0.071    -0.445    my_MouseCtl/Inst_Ps2Interface/ps2_data_s_reg
   -------------------------------------------------------------------
-                         required time                          0.407    
-                         arrival time                          -0.259    
+                         required time                          0.445    
+                         arrival time                          -0.308    
   -------------------------------------------------------------------
-                         slack                                  0.148    
+                         slack                                  0.137    
 
 
 
@@ -371,8 +377,8 @@ Sources:            { my_clock/inst/mmcm_adv_inst/CLKOUT0 }
 Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location         Pin
 Min Period        n/a     BUFGCTRL/I0         n/a            2.155         10.000      7.845      BUFGCTRL_X0Y0    my_clock/inst/clkout1_buf/I0
 Max Period        n/a     MMCME2_ADV/CLKOUT0  n/a            213.360       10.000      203.360    MMCME2_ADV_X1Y0  my_clock/inst/mmcm_adv_inst/CLKOUT0
-Low Pulse Width   Slow    FDCE/C              n/a            0.500         5.000       4.500      SLICE_X5Y110     my_MouseCtl/FSM_sequential_state_reg[1]/C
-High Pulse Width  Slow    FDCE/C              n/a            0.500         5.000       4.500      SLICE_X2Y111     my_MouseCtl/FSM_sequential_state_reg[0]/C
+Low Pulse Width   Fast    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X2Y121     my_MouseCtl/Inst_Ps2Interface/delay_100us_count_reg[1]/C
+High Pulse Width  Slow    FDRE/C              n/a            0.500         5.000       4.500      SLICE_X5Y111     my_MouseCtl/ypos_reg[7]/C
 
 
 
@@ -380,27 +386,27 @@ High Pulse Width  Slow    FDCE/C              n/a            0.500         5.000
 From Clock:  clk65MHz_clock_generator
   To Clock:  clk65MHz_clock_generator
 
-Setup :            0  Failing Endpoints,  Worst Slack        8.887ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        9.791ns,  Total Violation        0.000ns
 Hold  :            0  Failing Endpoints,  Worst Slack        0.122ns,  Total Violation        0.000ns
-PW    :            0  Failing Endpoints,  Worst Slack        6.712ns,  Total Violation        0.000ns
+PW    :            0  Failing Endpoints,  Worst Slack        7.192ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             8.887ns  (required time - arrival time)
-  Source:                 my_timing/vcount_reg_reg[0]/C
+Slack (MET) :             9.791ns  (required time - arrival time)
+  Source:                 mouse_pos_delay/del_mem_reg[0][15]/C
                             (rising edge-triggered cell FDRE clocked by clk65MHz_clock_generator  {rise@0.000ns fall@7.692ns period=15.385ns})
-  Destination:            my_background/rgb_out_reg[10]/D
+  Destination:            my_MouseDisplay/enable_mouse_display_reg/D
                             (rising edge-triggered cell FDRE clocked by clk65MHz_clock_generator  {rise@0.000ns fall@7.692ns period=15.385ns})
   Path Group:             clk65MHz_clock_generator
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            15.385ns  (clk65MHz_clock_generator rise@15.385ns - clk65MHz_clock_generator rise@0.000ns)
-  Data Path Delay:        6.408ns  (logic 1.545ns (24.112%)  route 4.863ns (75.888%))
-  Logic Levels:           5  (LUT4=1 LUT5=2 LUT6=2)
-  Clock Path Skew:        -0.039ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -1.382ns = ( 14.002 - 15.385 ) 
-    Source Clock Delay      (SCD):    -0.773ns
+  Data Path Delay:        5.572ns  (logic 2.273ns (40.791%)  route 3.299ns (59.209%))
+  Logic Levels:           7  (CARRY4=4 LUT1=1 LUT2=1 LUT5=1)
+  Clock Path Skew:        0.029ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.317ns = ( 14.067 - 15.385 ) 
+    Source Clock Delay      (SCD):    -0.776ns
     Clock Pessimism Removal (CPR):    0.571ns
   Clock Uncertainty:      0.079ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -420,22 +426,30 @@ Slack (MET) :             8.887ns  (required time - arrival time)
                          net (fo=2, routed)           1.661    -2.608    my_clock/inst/clk65MHz_clock_generator
     BUFGCTRL_X0Y1        BUFGCTRL (Prop_bufgctrl_I0_O)
                                                       0.096    -2.512 r  my_clock/inst/clkout2_buf/O
-                         net (fo=212, routed)         1.739    -0.773    my_timing/clk65MHz
-    SLICE_X17Y107        FDRE                                         r  my_timing/vcount_reg_reg[0]/C
+                         net (fo=136, routed)         1.736    -0.776    mouse_pos_delay/clk65MHz
+    SLICE_X13Y112        FDRE                                         r  mouse_pos_delay/del_mem_reg[0][15]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X17Y107        FDRE (Prop_fdre_C_Q)         0.456    -0.317 f  my_timing/vcount_reg_reg[0]/Q
-                         net (fo=22, routed)          1.792     1.476    my_timing/vcount_reg_reg[0]_0[0]
-    SLICE_X16Y107        LUT5 (Prop_lut5_I0_O)        0.152     1.628 f  my_timing/rgb_out[10]_i_41/O
-                         net (fo=1, routed)           0.794     2.421    my_timing/rgb_out[10]_i_41_n_0
-    SLICE_X21Y106        LUT6 (Prop_lut6_I0_O)        0.332     2.753 r  my_timing/rgb_out[10]_i_23/O
-                         net (fo=4, routed)           0.851     3.604    my_timing/rgb_out[10]_i_23_n_0
-    SLICE_X19Y105        LUT5 (Prop_lut5_I0_O)        0.124     3.728 r  my_timing/rgb_out[10]_i_11/O
-                         net (fo=1, routed)           0.973     4.701    my_timing/rgb_out[10]_i_11_n_0
-    SLICE_X20Y105        LUT4 (Prop_lut4_I0_O)        0.154     4.855 r  my_timing/rgb_out[10]_i_3/O
-                         net (fo=3, routed)           0.453     5.308    my_timing/rgb_out_reg[6]_0
-    SLICE_X22Y106        LUT6 (Prop_lut6_I2_O)        0.327     5.635 r  my_timing/rgb_out[10]_i_1/O
-                         net (fo=1, routed)           0.000     5.635    my_background/vcount_reg_reg[10]_0[2]
-    SLICE_X22Y106        FDRE                                         r  my_background/rgb_out_reg[10]/D
+    SLICE_X13Y112        FDRE (Prop_fdre_C_Q)         0.456    -0.320 f  mouse_pos_delay/del_mem_reg[0][15]/Q
+                         net (fo=4, routed)           1.137     0.818    mouse_pos_delay/xpos[3]
+    SLICE_X9Y112         LUT1 (Prop_lut1_I0_O)        0.124     0.942 r  mouse_pos_delay/i__carry_i_6__0/O
+                         net (fo=1, routed)           0.000     0.942    mouse_pos_delay/i__carry_i_6__0_n_0
+    SLICE_X9Y112         CARRY4 (Prop_carry4_S[2]_CO[3])
+                                                      0.398     1.340 r  mouse_pos_delay/i__carry_i_5__0/CO[3]
+                         net (fo=1, routed)           0.000     1.340    mouse_pos_delay/i__carry_i_5__0_n_0
+    SLICE_X9Y113         CARRY4 (Prop_carry4_CI_O[0])
+                                                      0.222     1.562 r  mouse_pos_delay/i__carry__0_i_5/O[0]
+                         net (fo=1, routed)           0.824     2.386    my_start_button/del_mem_reg[0][20]_0[0]
+    SLICE_X8Y112         LUT2 (Prop_lut2_I1_O)        0.299     2.685 r  my_start_button/i__carry__0_i_3__2/O
+                         net (fo=1, routed)           0.000     2.685    my_MouseDisplay/hcount_out_reg[7][1]
+    SLICE_X8Y112         CARRY4 (Prop_carry4_S[1]_CO[3])
+                                                      0.533     3.218 r  my_MouseDisplay/_inferred__1/i__carry__0/CO[3]
+                         net (fo=1, routed)           0.000     3.218    my_MouseDisplay/_inferred__1/i__carry__0_n_0
+    SLICE_X8Y113         CARRY4 (Prop_carry4_CI_CO[3])
+                                                      0.117     3.335 f  my_MouseDisplay/_inferred__1/i__carry__1/CO[3]
+                         net (fo=1, routed)           1.338     4.673    my_MouseDisplay/_inferred__1/i__carry__1_n_0
+    SLICE_X5Y112         LUT5 (Prop_lut5_I3_O)        0.124     4.797 r  my_MouseDisplay/enable_mouse_display_i_1/O
+                         net (fo=1, routed)           0.000     4.797    my_MouseDisplay/enable_mouse_display_i_1_n_0
+    SLICE_X5Y112         FDRE                                         r  my_MouseDisplay/enable_mouse_display_reg/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk65MHz_clock_generator rise edge)
@@ -449,16 +463,16 @@ Slack (MET) :             8.887ns  (required time - arrival time)
                          net (fo=2, routed)           1.581    12.298    my_clock/inst/clk65MHz_clock_generator
     BUFGCTRL_X0Y1        BUFGCTRL (Prop_bufgctrl_I0_O)
                                                       0.091    12.389 r  my_clock/inst/clkout2_buf/O
-                         net (fo=212, routed)         1.613    14.002    my_background/clk65MHz
-    SLICE_X22Y106        FDRE                                         r  my_background/rgb_out_reg[10]/C
-                         clock pessimism              0.571    14.573    
-                         clock uncertainty           -0.079    14.494    
-    SLICE_X22Y106        FDRE (Setup_fdre_C_D)        0.029    14.523    my_background/rgb_out_reg[10]
+                         net (fo=136, routed)         1.678    14.067    my_MouseDisplay/clk65MHz
+    SLICE_X5Y112         FDRE                                         r  my_MouseDisplay/enable_mouse_display_reg/C
+                         clock pessimism              0.571    14.638    
+                         clock uncertainty           -0.079    14.559    
+    SLICE_X5Y112         FDRE (Setup_fdre_C_D)        0.029    14.588    my_MouseDisplay/enable_mouse_display_reg
   -------------------------------------------------------------------
-                         required time                         14.523    
-                         arrival time                          -5.635    
+                         required time                         14.588    
+                         arrival time                          -4.797    
   -------------------------------------------------------------------
-                         slack                                  8.887    
+                         slack                                  9.791    
 
 
 
@@ -533,10 +547,10 @@ Period(ns):         15.385
 Sources:            { my_clock/inst/mmcm_adv_inst/CLKOUT1 }
 
 Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location         Pin
-Min Period        n/a     RAMB18E1/CLKARDCLK  n/a            2.576         15.385      12.809     RAMB18_X0Y44     my_rect_char/char_yx_reg/CLKARDCLK
+Min Period        n/a     BUFGCTRL/I0         n/a            2.155         15.385      13.229     BUFGCTRL_X0Y1    my_clock/inst/clkout2_buf/I0
 Max Period        n/a     MMCME2_ADV/CLKOUT1  n/a            213.360       15.385      197.975    MMCME2_ADV_X1Y0  my_clock/inst/mmcm_adv_inst/CLKOUT1
-Low Pulse Width   Slow    SRL16E/CLK          n/a            0.980         7.692       6.712      SLICE_X14Y108    my_rect_char/delay_in_draw_rect_char/del_mem_reg[0][0]_srl2___my_rect_char_delay_in_draw_rect_char_del_mem_reg_r/CLK
-High Pulse Width  Slow    SRL16E/CLK          n/a            0.980         7.692       6.712      SLICE_X14Y108    my_rect_char/delay_in_draw_rect_char/del_mem_reg[0][0]_srl2___my_rect_char_delay_in_draw_rect_char_del_mem_reg_r/CLK
+Low Pulse Width   Slow    FDRE/C              n/a            0.500         7.692       7.192      SLICE_X10Y111    my_MouseDisplay/mousepixel_reg[0]/C
+High Pulse Width  Slow    FDRE/C              n/a            0.500         7.692       7.192      SLICE_X3Y100     b_reg[1]/C
 
 
 
@@ -567,26 +581,26 @@ Max Period  n/a     MMCME2_ADV/CLKFBIN  n/a            100.000       10.000     
 From Clock:  clk100MHz_clock_generator
   To Clock:  clk65MHz_clock_generator
 
-Setup :           23  Failing Endpoints,  Worst Slack       -1.595ns,  Total Violation      -34.129ns
-Hold  :            0  Failing Endpoints,  Worst Slack        0.061ns,  Total Violation        0.000ns
+Setup :           23  Failing Endpoints,  Worst Slack       -1.576ns,  Total Violation      -33.778ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.054ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (VIOLATED) :        -1.595ns  (required time - arrival time)
-  Source:                 my_MouseCtl/xpos_reg[3]/C
+Slack (VIOLATED) :        -1.576ns  (required time - arrival time)
+  Source:                 my_MouseCtl/ypos_reg[7]/C
                             (rising edge-triggered cell FDRE clocked by clk100MHz_clock_generator  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            mouse_pos_delay/del_mem_reg[0][15]/D
+  Destination:            mouse_pos_delay/del_mem_reg[0][7]/D
                             (rising edge-triggered cell FDRE clocked by clk65MHz_clock_generator  {rise@0.000ns fall@7.692ns period=15.385ns})
   Path Group:             clk65MHz_clock_generator
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            0.769ns  (clk65MHz_clock_generator rise@30.769ns - clk100MHz_clock_generator rise@30.000ns)
-  Data Path Delay:        1.892ns  (logic 0.518ns (27.378%)  route 1.374ns (72.622%))
+  Data Path Delay:        1.832ns  (logic 0.456ns (24.885%)  route 1.376ns (75.115%))
   Logic Levels:           0  
-  Clock Path Skew:        -0.211ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    -1.385ns = ( 29.384 - 30.769 ) 
-    Source Clock Delay      (SCD):    -0.777ns = ( 29.223 - 30.000 ) 
+  Clock Path Skew:        -0.212ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    -1.316ns = ( 29.453 - 30.769 ) 
+    Source Clock Delay      (SCD):    -0.707ns = ( 29.293 - 30.000 ) 
     Clock Pessimism Removal (CPR):    0.398ns
   Clock Uncertainty:      0.199ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -606,12 +620,12 @@ Slack (VIOLATED) :        -1.595ns  (required time - arrival time)
                          net (fo=2, routed)           1.661    27.392    my_clock/inst/clk100MHz_clock_generator
     BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
                                                       0.096    27.488 r  my_clock/inst/clkout1_buf/O
-                         net (fo=221, routed)         1.735    29.223    my_MouseCtl/clk100MHz
-    SLICE_X12Y113        FDRE                                         r  my_MouseCtl/xpos_reg[3]/C
+                         net (fo=221, routed)         1.805    29.293    my_MouseCtl/clk100MHz
+    SLICE_X5Y111         FDRE                                         r  my_MouseCtl/ypos_reg[7]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X12Y113        FDRE (Prop_fdre_C_Q)         0.518    29.741 r  my_MouseCtl/xpos_reg[3]/Q
-                         net (fo=1, routed)           1.374    31.115    mouse_pos_delay/D[14]
-    SLICE_X15Y113        FDRE                                         r  mouse_pos_delay/del_mem_reg[0][15]/D
+    SLICE_X5Y111         FDRE (Prop_fdre_C_Q)         0.456    29.749 r  my_MouseCtl/ypos_reg[7]/Q
+                         net (fo=1, routed)           1.376    31.126    mouse_pos_delay/D[7]
+    SLICE_X4Y111         FDRE                                         r  mouse_pos_delay/del_mem_reg[0][7]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk65MHz_clock_generator rise edge)
@@ -625,16 +639,16 @@ Slack (VIOLATED) :        -1.595ns  (required time - arrival time)
                          net (fo=2, routed)           1.581    27.683    my_clock/inst/clk65MHz_clock_generator
     BUFGCTRL_X0Y1        BUFGCTRL (Prop_bufgctrl_I0_O)
                                                       0.091    27.774 r  my_clock/inst/clkout2_buf/O
-                         net (fo=212, routed)         1.610    29.384    mouse_pos_delay/clk65MHz
-    SLICE_X15Y113        FDRE                                         r  mouse_pos_delay/del_mem_reg[0][15]/C
-                         clock pessimism              0.398    29.782    
-                         clock uncertainty           -0.199    29.583    
-    SLICE_X15Y113        FDRE (Setup_fdre_C_D)       -0.062    29.521    mouse_pos_delay/del_mem_reg[0][15]
+                         net (fo=136, routed)         1.679    29.453    mouse_pos_delay/clk65MHz
+    SLICE_X4Y111         FDRE                                         r  mouse_pos_delay/del_mem_reg[0][7]/C
+                         clock pessimism              0.398    29.851    
+                         clock uncertainty           -0.199    29.652    
+    SLICE_X4Y111         FDRE (Setup_fdre_C_D)       -0.102    29.550    mouse_pos_delay/del_mem_reg[0][7]
   -------------------------------------------------------------------
-                         required time                         29.521    
-                         arrival time                         -31.115    
+                         required time                         29.550    
+                         arrival time                         -31.126    
   -------------------------------------------------------------------
-                         slack                                 -1.595    
+                         slack                                 -1.576    
 
 
 
@@ -642,19 +656,19 @@ Slack (VIOLATED) :        -1.595ns  (required time - arrival time)
 
 Min Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             0.061ns  (arrival time - required time)
-  Source:                 my_MouseCtl/xpos_reg[2]/C
+Slack (MET) :             0.054ns  (arrival time - required time)
+  Source:                 my_MouseCtl/ypos_reg[7]/C
                             (rising edge-triggered cell FDRE clocked by clk100MHz_clock_generator  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            mouse_pos_delay/del_mem_reg[0][14]/D
+  Destination:            mouse_pos_delay/del_mem_reg[0][7]/D
                             (rising edge-triggered cell FDRE clocked by clk65MHz_clock_generator  {rise@0.000ns fall@7.692ns period=15.385ns})
   Path Group:             clk65MHz_clock_generator
   Path Type:              Hold (Min at Fast Process Corner)
   Requirement:            0.000ns  (clk65MHz_clock_generator rise@0.000ns - clk100MHz_clock_generator rise@0.000ns)
-  Data Path Delay:        0.655ns  (logic 0.164ns (25.051%)  route 0.491ns (74.949%))
+  Data Path Delay:        0.635ns  (logic 0.141ns (22.190%)  route 0.494ns (77.810%))
   Logic Levels:           0  
-  Clock Path Skew:        0.320ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    -0.774ns
-    Source Clock Delay      (SCD):    -0.539ns
+  Clock Path Skew:        0.321ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    -0.743ns
+    Source Clock Delay      (SCD):    -0.509ns
     Clock Pessimism Removal (CPR):    -0.555ns
   Clock Uncertainty:      0.199ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
@@ -674,12 +688,12 @@ Slack (MET) :             0.061ns  (arrival time - required time)
                          net (fo=2, routed)           0.486    -1.207    my_clock/inst/clk100MHz_clock_generator
     BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
                                                       0.026    -1.181 r  my_clock/inst/clkout1_buf/O
-                         net (fo=221, routed)         0.642    -0.539    my_MouseCtl/clk100MHz
-    SLICE_X12Y113        FDRE                                         r  my_MouseCtl/xpos_reg[2]/C
+                         net (fo=221, routed)         0.672    -0.509    my_MouseCtl/clk100MHz
+    SLICE_X5Y111         FDRE                                         r  my_MouseCtl/ypos_reg[7]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X12Y113        FDRE (Prop_fdre_C_Q)         0.164    -0.375 r  my_MouseCtl/xpos_reg[2]/Q
-                         net (fo=1, routed)           0.491     0.116    mouse_pos_delay/D[13]
-    SLICE_X13Y113        FDRE                                         r  mouse_pos_delay/del_mem_reg[0][14]/D
+    SLICE_X5Y111         FDRE (Prop_fdre_C_Q)         0.141    -0.368 r  my_MouseCtl/ypos_reg[7]/Q
+                         net (fo=1, routed)           0.494     0.127    mouse_pos_delay/D[7]
+    SLICE_X4Y111         FDRE                                         r  mouse_pos_delay/del_mem_reg[0][7]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk65MHz_clock_generator rise edge)
@@ -693,16 +707,16 @@ Slack (MET) :             0.061ns  (arrival time - required time)
                          net (fo=2, routed)           0.530    -1.718    my_clock/inst/clk65MHz_clock_generator
     BUFGCTRL_X0Y1        BUFGCTRL (Prop_bufgctrl_I0_O)
                                                       0.029    -1.689 r  my_clock/inst/clkout2_buf/O
-                         net (fo=212, routed)         0.915    -0.774    mouse_pos_delay/clk65MHz
-    SLICE_X13Y113        FDRE                                         r  mouse_pos_delay/del_mem_reg[0][14]/C
-                         clock pessimism              0.555    -0.219    
-                         clock uncertainty            0.199    -0.020    
-    SLICE_X13Y113        FDRE (Hold_fdre_C_D)         0.075     0.055    mouse_pos_delay/del_mem_reg[0][14]
+                         net (fo=136, routed)         0.946    -0.743    mouse_pos_delay/clk65MHz
+    SLICE_X4Y111         FDRE                                         r  mouse_pos_delay/del_mem_reg[0][7]/C
+                         clock pessimism              0.555    -0.188    
+                         clock uncertainty            0.199     0.011    
+    SLICE_X4Y111         FDRE (Hold_fdre_C_D)         0.061     0.072    mouse_pos_delay/del_mem_reg[0][7]
   -------------------------------------------------------------------
-                         required time                         -0.055    
-                         arrival time                           0.116    
+                         required time                         -0.072    
+                         arrival time                           0.127    
   -------------------------------------------------------------------
-                         slack                                  0.061    
+                         slack                                  0.054    
 
 
 
