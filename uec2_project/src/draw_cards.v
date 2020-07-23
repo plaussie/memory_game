@@ -3,8 +3,8 @@
 // Company: AGH UST
 // Engineers: Krzysztof Cislo & Jakub Dzialowy
 // 
-// Create Date: 11.07.2020 13:59:37
-// Module Name: draw_rect
+// Create Date: 23.07.2020 21:17:47
+// Module Name: draw_cards
 // Project Name: Memory Game
 // Target Devices: Basys3
 // Tool Versions: Vivado 2017.3
@@ -19,15 +19,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module draw_rect
-    #( parameter
-        X_POS   = 312,
-        Y_POS   = 284,
-        WIDTH   = 400,
-        HEIGHT  = 200,
-        COLOR   = 12'h0_A_A
-    )
-    (
+module draw_cards(
     input wire          do,
     
     input wire [10:0]   vcount_in,
@@ -51,9 +43,16 @@ module draw_rect
     input wire          pclk,
     input wire          rst
     );
-
-    reg [11:0] rgb_nxt;
     
+    localparam
+    X_POS = 50,
+    Y_POS = 50,
+    WIDTH = 100,
+    HEIGHT = 200,
+    COLOR = 12'hF_0_0;
+    
+    reg [11:0] rgb_nxt;
+       
     always @(posedge pclk)
     begin
         if(rst) begin
@@ -79,13 +78,12 @@ module draw_rect
     end
     
     always @*
-    begin
-        if (do && ((hcount_in >= X_POS) && (hcount_in < X_POS+WIDTH) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
-            rgb_nxt <= COLOR;
+        begin
+            if (do && ((hcount_in >= X_POS) && (hcount_in < X_POS+WIDTH) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
+                rgb_nxt <= COLOR;
+            end
+            else begin
+                rgb_nxt <= rgb_in;
+            end
         end
-        else begin
-            rgb_nxt <= rgb_in;
-        end
-    end
-
 endmodule

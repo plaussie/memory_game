@@ -32,6 +32,14 @@ module top (
     output reg [3:0] g,
     output reg [3:0] b
     );
+    
+    //params
+    localparam
+    START_BUTTON_X = 312,
+    START_BUTTON_Y = 284,
+    START_BUTTON_WIDTH = 400,
+    START_BUTTON_HEIGHT = 200,
+    START_BUTTON_COLOR = 12'h0_A_A;
 
     //CLOCK GENERATING
     
@@ -140,15 +148,55 @@ module top (
         .rst(rst)
     );
     
+    //State machine for all game
+    wire draw_start_button;
+    wire start_button_pressed;
+    wire draw_cards;
+    
+    state_machine my_state_machine(
+        .clk(clk65MHz),
+        .start_button_pressed(start_button_pressed),
+        .draw_start_button(draw_start_button),
+        .draw_cards(draw_cards),
+        .rst(rst)
+    );
+    
+    
+    //Checking if start button is pressed
+       
+
+    event_checker check_if_left_clicked_start_button (
+        .clk(clk65MHz),
+        .start(draw_start_button),
+        .x_begin(START_BUTTON_X),
+        .x_end(START_BUTTON_X+START_BUTTON_WIDTH),
+        .y_begin(START_BUTTON_Y),
+        .y_end(START_BUTTON_Y+START_BUTTON_HEIGHT),
+        .kind_of_event(left),
+        .mouse_xpos(xpos),
+        .mouse_ypos(ypos),
+        .event_occured(start_button_pressed),
+        .rst(rst)
+    );
+    
     //DRAWING START BUTTON
     
-    wire [11:0] rgb_mousedispl_in;
-    wire vsync_mousedispl_in, hsync_mousedispl_in;
-    wire vblnk_mousedispl_in, hblnk_mousedispl_in;
-    wire [10:0] vcount_mousedispl_in, hcount_mousedispl_in;
+    wire [11:0] rgb_drawcards_in;
+    wire vsync_drawcards_in, hsync_drawcards_in;
+    wire vblnk_drawcards_in, hblnk_drawcards_in;
+    wire [10:0] vcount_drawcards_in, hcount_drawcards_in;
     
-    draw_rect my_start_button(
+    draw_rect 
+    #(
+        .X_POS(START_BUTTON_X),
+        .Y_POS(START_BUTTON_Y),
+        .WIDTH(START_BUTTON_WIDTH),
+        .HEIGHT(START_BUTTON_HEIGHT),
+        .COLOR(12'h0_A_A)
+    )
+    display_start_button(
         .pclk(clk65MHz),
+        .do(draw_start_button),
         .vcount_in(vcount_start_button_in),
         .vsync_in(vsync_start_button_in),
         .vblnk_in(vblnk_start_button_in),
@@ -156,6 +204,32 @@ module top (
         .hsync_in(hsync_start_button_in),
         .hblnk_in(hblnk_start_button_in),
         .rgb_in(rgb_start_button_in),
+        .vcount_out(vcount_drawcards_in),
+        .vsync_out(vsync_drawcards_in),
+        .vblnk_out(vblnk_drawcards_in),
+        .hcount_out(hcount_drawcards_in),
+        .hsync_out(hsync_drawcards_in),
+        .hblnk_out(hblnk_drawcards_in),
+        .rgb_out(rgb_drawcards_in),
+        .rst(rst)
+    );
+    
+    //Draw Cards
+    wire [11:0] rgb_mousedispl_in;
+    wire vsync_mousedispl_in, hsync_mousedispl_in;
+    wire vblnk_mousedispl_in, hblnk_mousedispl_in;
+    wire [10:0] vcount_mousedispl_in, hcount_mousedispl_in;
+    
+    draw_cards display_cards(
+        .pclk(clk65MHz),
+        .do(draw_cards),
+        .vcount_in(vcount_drawcards_in),
+        .vsync_in(vsync_drawcards_in),
+        .vblnk_in(vblnk_drawcards_in),
+        .hcount_in(hcount_drawcards_in),
+        .hsync_in(hsync_drawcards_in),
+        .hblnk_in(hblnk_drawcards_in),
+        .rgb_in(rgb_drawcards_in),
         .vcount_out(vcount_mousedispl_in),
         .vsync_out(vsync_mousedispl_in),
         .vblnk_out(vblnk_mousedispl_in),
@@ -164,7 +238,7 @@ module top (
         .hblnk_out(hblnk_mousedispl_in),
         .rgb_out(rgb_mousedispl_in),
         .rst(rst)
-    );
+        );
     
     //MOUSE CURSOR DISPLAYING
     
