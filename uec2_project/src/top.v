@@ -14,32 +14,36 @@
 // Revision:
 // Revision 0.01 - File Created
 // Revision 0.10 - File Copied from UEC2 Lab
+// Revision 0.30 - Added VGA bus
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
 `timescale 1 ns / 1 ps
 
-
 module top (
     inout wire ps2_clk,
     inout wire ps2_data,
     input wire clk,
     input wire rst,
-    output reg vs,
-    output reg hs,
-    output reg [3:0] r,
-    output reg [3:0] g,
-    output reg [3:0] b
+    output wire vs,
+    output wire hs,
+    output wire [3:0] r,
+    output wire [3:0] g,
+    output wire [3:0] b
     );
     
     //params
     localparam
+    NUM_MODULES = 3,
     START_BUTTON_X = 312,
     START_BUTTON_Y = 284,
     START_BUTTON_WIDTH = 400,
     START_BUTTON_HEIGHT = 200,
     START_BUTTON_COLOR = 12'h0_A_A;
+    
+    //VGA bus
+    wire [`VGA_BUS_SIZE-1:0] vga_bus [NUM_MODULES:0];
 
     //CLOCK GENERATING
     
@@ -107,45 +111,20 @@ module top (
     );
     
     //TIMINGS GENERATING
-    
-    wire [10:0] vcount_background_in, hcount_background_in;
-    wire vsync_background_in, hsync_background_in;
-    wire vblnk_background_in, hblnk_background_in;
 
     vga_timing my_timing (
-        .vcount(vcount_background_in),
-        .vsync(vsync_background_in),
-        .vblnk(vblnk_background_in),
-        .hcount(hcount_background_in),
-        .hsync(hsync_background_in),
-        .hblnk(hblnk_background_in),
         .pclk(clk65MHz),
-        .rst(rst)
+        .rst(rst),
+        .vga_out(vga_bus[0])
     );
 
     //BACKGROUND DRAWING
-    
-    wire [11:0] rgb_start_button_in;
-    wire vsync_start_button_in, hsync_start_button_in;
-    wire vblnk_start_button_in, hblnk_start_button_in;
-    wire [10:0] vcount_start_button_in, hcount_start_button_in;
 
-    draw_background my_background(
+    draw_background display_background(
         .pclk(clk65MHz),
-        .vcount_in(vcount_background_in),
-        .vsync_in(vsync_background_in),
-        .vblnk_in(vblnk_background_in),
-        .hcount_in(hcount_background_in),
-        .hsync_in(hsync_background_in),
-        .hblnk_in(hblnk_background_in),
-        .vcount_out(vcount_start_button_in),
-        .vsync_out(vsync_start_button_in),
-        .vblnk_out(vblnk_start_button_in),
-        .hcount_out(hcount_start_button_in),
-        .hsync_out(hsync_start_button_in),
-        .hblnk_out(hblnk_start_button_in),
-        .rgb_out(rgb_start_button_in),
-        .rst(rst)
+        .rst(rst),
+        .vga_in(vga_bus[0]),
+        .vga_out(vga_bus[1])
     );
     
     //State machine for all game
@@ -181,11 +160,6 @@ module top (
     
     //DRAWING START BUTTON
     
-    wire [11:0] rgb_drawcards_in;
-    wire vsync_drawcards_in, hsync_drawcards_in;
-    wire vblnk_drawcards_in, hblnk_drawcards_in;
-    wire [10:0] vcount_drawcards_in, hcount_drawcards_in;
-    
     draw_rect 
     #(
         .X_POS(START_BUTTON_X),
@@ -196,54 +170,26 @@ module top (
     )
     display_start_button(
         .pclk(clk65MHz),
+        .rst(rst),
         .do(draw_start_button),
-        .vcount_in(vcount_start_button_in),
-        .vsync_in(vsync_start_button_in),
-        .vblnk_in(vblnk_start_button_in),
-        .hcount_in(hcount_start_button_in),
-        .hsync_in(hsync_start_button_in),
-        .hblnk_in(hblnk_start_button_in),
-        .rgb_in(rgb_start_button_in),
-        .vcount_out(vcount_drawcards_in),
-        .vsync_out(vsync_drawcards_in),
-        .vblnk_out(vblnk_drawcards_in),
-        .hcount_out(hcount_drawcards_in),
-        .hsync_out(hsync_drawcards_in),
-        .hblnk_out(hblnk_drawcards_in),
-        .rgb_out(rgb_drawcards_in),
-        .rst(rst)
+        .vga_in(vga_bus[1]),
+        .vga_out(vga_bus[2])
     );
     
     //Draw Cards
-    wire [11:0] rgb_mousedispl_in;
-    wire vsync_mousedispl_in, hsync_mousedispl_in;
-    wire vblnk_mousedispl_in, hblnk_mousedispl_in;
-    wire [10:0] vcount_mousedispl_in, hcount_mousedispl_in;
     
     draw_cards display_cards(
         .pclk(clk65MHz),
+        .rst(rst),
         .do(draw_cards),
-        .vcount_in(vcount_drawcards_in),
-        .vsync_in(vsync_drawcards_in),
-        .vblnk_in(vblnk_drawcards_in),
-        .hcount_in(hcount_drawcards_in),
-        .hsync_in(hsync_drawcards_in),
-        .hblnk_in(hblnk_drawcards_in),
-        .rgb_in(rgb_drawcards_in),
-        .vcount_out(vcount_mousedispl_in),
-        .vsync_out(vsync_mousedispl_in),
-        .vblnk_out(vblnk_mousedispl_in),
-        .hcount_out(hcount_mousedispl_in),
-        .hsync_out(hsync_mousedispl_in),
-        .hblnk_out(hblnk_mousedispl_in),
-        .rgb_out(rgb_mousedispl_in),
-        .rst(rst)
-        );
+        .vga_in(vga_bus[2]),
+        .vga_out(vga_bus[3])
+    );
     
     //MOUSE CURSOR DISPLAYING
+    wire [`VGA_BUS_SIZE-1:0] vga_last;
+    assign vga_last = vga_bus[NUM_MODULES];
     
-    wire [3:0] r_last, g_last, b_last;
-    wire vs_last, hs_last;
     //unused
     wire enable_mouse_display_out;
     
@@ -251,24 +197,20 @@ module top (
         .pixel_clk(clk65MHz),
         .xpos(xpos),
         .ypos(ypos),
-        .hcount(hcount_mousedispl_in),
-        .vcount(vcount_mousedispl_in),
-        .blank(vblnk_mousedispl_in||hblnk_mousedispl_in),
-        .red_in(rgb_mousedispl_in[11:8]),
-        .green_in(rgb_mousedispl_in[7:4]),
-        .blue_in(rgb_mousedispl_in[3:0]),
-        .red_out(r_last),
-        .green_out(g_last),
-        .blue_out(b_last),
-        .vs_in(vsync_mousedispl_in),
-        .hs_in(hsync_mousedispl_in),
-        .vs_out(vs_last),
-        .hs_out(hs_last),
+        .vs_in(vga_last[37]),
+        .hs_in(vga_last[36]),
+        .blank(vga_last[34]||vga_last[35]),
+        .vcount(vga_last[33:23]),
+        .hcount(vga_last[22:12]),
+        .red_in(vga_last[11:8]),
+        .green_in(vga_last[7:4]),
+        .blue_in(vga_last[3:0]),
+        .red_out(r),
+        .green_out(g),
+        .blue_out(b),
+        .vs_out(vs),
+        .hs_out(hs),
         .enable_mouse_display_out(enable_mouse_display_out)
     );
 
-    always @(posedge clk65MHz) begin
-        {r,g,b}  <= {r_last, g_last, b_last};
-        {vs, hs} <= {vs_last, hs_last};
-    end
 endmodule
