@@ -15,6 +15,7 @@
 // Revision 0.01 - File Created
 // Revision 0.10 - File Copied from UEC2 Lab
 // Revision 0.30 - Added VGA bus
+// Revision 0.31 - Fixing Timing Critical Error
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +76,7 @@ module top (
     wire new_event;
     
     MouseCtl my_MouseCtl(
-        .clk(clk100MHz),
+        .clk(clk65MHz),
         .ps2_clk(ps2_clk),
         .ps2_data(ps2_data),
         .xpos(xpos_mousectl_out),

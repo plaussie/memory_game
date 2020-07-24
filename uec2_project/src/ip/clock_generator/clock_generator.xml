@@ -1144,7 +1144,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:b98369be</spirit:value>
+            <spirit:value>7:bebfd756</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1159,11 +1159,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Sat Jul 11 10:55:58 UTC 2020</spirit:value>
+            <spirit:value>Fri Jul 24 15:32:20 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:e2c757a2</spirit:value>
+            <spirit:value>7:095ec3bb</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1177,11 +1177,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Sat Jul 11 10:55:59 UTC 2020</spirit:value>
+            <spirit:value>Fri Jul 24 15:32:20 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:e2c757a2</spirit:value>
+            <spirit:value>7:095ec3bb</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1195,11 +1195,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Sat Jul 11 10:55:59 UTC 2020</spirit:value>
+            <spirit:value>Fri Jul 24 15:32:20 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:e2c757a2</spirit:value>
+            <spirit:value>7:095ec3bb</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1213,11 +1213,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Sat Jul 11 10:55:59 UTC 2020</spirit:value>
+            <spirit:value>Fri Jul 24 15:32:20 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:08450107</spirit:value>
+            <spirit:value>7:ef92fd33</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1231,11 +1231,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Sat Jul 11 10:55:59 UTC 2020</spirit:value>
+            <spirit:value>Fri Jul 24 15:32:20 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:08450107</spirit:value>
+            <spirit:value>7:ef92fd33</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1249,11 +1249,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Sat Jul 11 10:55:59 UTC 2020</spirit:value>
+            <spirit:value>Fri Jul 24 15:32:21 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:e2c757a2</spirit:value>
+            <spirit:value>7:095ec3bb</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1267,11 +1267,11 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>GENtimestamp</spirit:name>
-            <spirit:value>Sat Jul 11 10:55:59 UTC 2020</spirit:value>
+            <spirit:value>Fri Jul 24 15:32:21 UTC 2020</spirit:value>
           </spirit:parameter>
           <spirit:parameter>
             <spirit:name>outputProductCRC</spirit:name>
-            <spirit:value>7:e2c757a2</spirit:value>
+            <spirit:value>7:095ec3bb</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -3166,7 +3166,7 @@
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="STRING">
         <spirit:name>C_CLKIN2_JITTER_PS</spirit:name>
-        <spirit:value spirit:format="float" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_CLKIN2_JITTER_PS" spirit:order="403">166.66</spirit:value>
+        <spirit:value spirit:format="float" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_CLKIN2_JITTER_PS" spirit:order="403">162.49</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="STRING">
         <spirit:name>C_PRIMITIVE</spirit:name>
@@ -3916,7 +3916,7 @@
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>CLKIN2_JITTER_PS</spirit:name>
-      <spirit:value spirit:format="float" spirit:resolve="user" spirit:id="PARAM_VALUE.CLKIN2_JITTER_PS" spirit:order="28" spirit:configGroups="0 NoDisplay">166.66</spirit:value>
+      <spirit:value spirit:format="float" spirit:resolve="user" spirit:id="PARAM_VALUE.CLKIN2_JITTER_PS" spirit:order="28" spirit:configGroups="0 NoDisplay">162.49</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>CLKOUT1_USED</spirit:name>
@@ -4801,6 +4801,8 @@
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.CLKOUT1_DRIVES" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.CLKOUT1_JITTER" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.CLKOUT1_PHASE_ERROR" xilinx:valueSource="user"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.CLKOUT1_REQUESTED_OUT_FREQ" xilinx:valueSource="user"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.CLKOUT1_USED" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.CLKOUT2_DRIVES" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.CLKOUT2_JITTER" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.CLKOUT2_PHASE_ERROR" xilinx:valueSource="user"/>
@@ -4818,12 +4820,17 @@
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.MMCM_CLKIN2_PERIOD" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.MMCM_CLKOUT0_DIVIDE_F" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.MMCM_CLKOUT1_DIVIDE" xilinx:valueSource="user"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.MMCM_COMPENSATION" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.MMCM_DIVCLK_DIVIDE" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.NUM_OUT_CLKS" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.PRIMARY_PORT" xilinx:valueSource="user"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.PRIMITIVE" xilinx:valueSource="user"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.RESET_PORT" xilinx:valueSource="user"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.RESET_TYPE" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.SECONDARY_IN_FREQ" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.SECONDARY_SOURCE" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.USE_INCLK_SWITCHOVER" xilinx:valueSource="user"/>
+        <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.USE_RESET" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="PARAM_VALUE.USE_SAFE_CLOCK_STARTUP" xilinx:valueSource="user"/>
       </xilinx:configElementInfos>
     </xilinx:coreExtensions>
