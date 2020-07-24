@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 //////////////////////////////////////////////////////////////////////////////////
 // Company: AGH UST
 // Engineers: Krzysztof Cislo & Jakub Dzialowy
@@ -15,40 +17,31 @@
 // Revision 0.01 - File Created
 // Revision 0.10 - File Copied from UEC2 Lab
 // Revision 0.20 - Resolution changed to 1024x768@60fps
+// Revision 0.30 - Added VGA bus
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-`timescale 1ns / 1ps
+`include "_vga_macros.vh"
 
 module draw_background(
-    input wire          pclk,
-    input wire          rst,
-    
-    input wire [10:0]   vcount_in,
-    input wire [10:0]   hcount_in,
-    input wire          vsync_in,
-    input wire          hsync_in,
-    input wire          vblnk_in,
-    input wire          hblnk_in,
-
-    output reg [10:0]   vcount_out,
-    output reg [10:0]   hcount_out,
-    output reg          vsync_out,
-    output reg          hsync_out,
-    output reg          vblnk_out,
-    output reg          hblnk_out,
-
-    output reg [11:0]   rgb_out    
+    input wire pclk,
+    input wire rst,
+    input wire [`VGA_BUS_SIZE-1:0] vga_in,
+    output wire [`VGA_BUS_SIZE-1:0] vga_out  
     );
+    
+    `VGA_SPLIT_INPUT(vga_in)
+    `VGA_OUT_REG
+    `VGA_MERGE_OUTPUT(vga_out)
     
     reg [11:0] rgb_nxt;
     
     always @(posedge pclk)
     begin
         if(rst) begin
-            hsync_out <= 0;
-            vsync_out <= 0;
+            vs_out <= 0;
+            hs_out <= 0;
             hblnk_out <= 0;
             vblnk_out <= 0;
             hcount_out <= 0;
@@ -57,12 +50,13 @@ module draw_background(
         end
         else begin
             // Just pass these through.
-            hsync_out <= hsync_in;
-            vsync_out <= vsync_in;
+            hs_out <= hs_in;
+            vs_out <= vs_in;
             hblnk_out <= hblnk_in;
             vblnk_out <= vblnk_in;
             hcount_out <= hcount_in;
             vcount_out <= vcount_in;
+            //edit color
             rgb_out <= rgb_nxt;            
         end
     end  
@@ -82,7 +76,7 @@ module draw_background(
             else if (hcount_in == 1023) rgb_nxt <= 12'h0_0_f;
             // Active display, interior, fill with gray.
             else
-                rgb_nxt <= 12'h8_8_8;
+                rgb_nxt <= rgb_in;
         end
     end 
 endmodule

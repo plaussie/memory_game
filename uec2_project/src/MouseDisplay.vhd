@@ -96,6 +96,8 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 -- the mouse_displayer entity declaration
 -- read above for behavioral description and port definitions.
+
+
 entity MouseDisplay is
 port (
    pixel_clk: in std_logic;
