@@ -15,9 +15,11 @@
 // Revision 0.01 - File Created
 // Revision 0.10 - File Copied from UEC2 Lab
 // Revision 0.30 - Added VGA bus
-// Revision 0.31 - Fixing Timing Critical Error
+// Revision 0.31 - Fixed Timing Critical Error
+// Revision 0.32 - Deleted mouse delay
+// Revision 0.33 - Added genvar in drawing cards
 // Additional Comments:
-// 
+// Zastanowiæ siê, jak przechowywaæ kolory
 //////////////////////////////////////////////////////////////////////////////////
 
 `timescale 1 ns / 1 ps
@@ -43,6 +45,10 @@ module top (
     START_BUTTON_HEIGHT = 200,
     START_BUTTON_COLOR = 12'h0_A_A;
     
+    `define NUM_CARDS_X 5
+    `define NUM_CARDS_Y 3
+    `define NUM_CARDS `NUM_CARDS_X*`NUM_CARDS_Y
+    
     //VGA bus
     wire [`VGA_BUS_SIZE-1:0] vga_bus [NUM_MODULES:0];
 
@@ -66,8 +72,8 @@ module top (
     
     //MOUSE Controller
     
-    wire [11:0] xpos_mousectl_out;
-    wire [11:0] ypos_mousectl_out;
+    wire [11:0] xpos;
+    wire [11:0] ypos;
     wire left;
     //unused
     wire [3:0] zpos;
@@ -79,8 +85,8 @@ module top (
         .clk(clk65MHz),
         .ps2_clk(ps2_clk),
         .ps2_data(ps2_data),
-        .xpos(xpos_mousectl_out),
-        .ypos(ypos_mousectl_out),
+        .xpos(xpos),
+        .ypos(ypos),
         .zpos(zpos),
         .left(left),
         .middle(middle),
@@ -94,24 +100,7 @@ module top (
         .setmax_y(1'b0)
     );
     
-    //DELAYS ALIGNMENT
-    
-    wire [11:0] xpos;
-    wire [11:0] ypos;
-    
-    delay
-    #(
-        .WIDTH(24),
-        .CLK_DEL(1)
-    )    
-    mouse_pos_delay (
-        .clk(clk65MHz),
-        .rst(rst),
-        .din({xpos_mousectl_out, ypos_mousectl_out}),
-        .dout({xpos, ypos})
-    );
-    
-    //TIMINGS GENERATING
+    //VGA TIMINGS GENERATING
 
     vga_timing my_timing (
         .pclk(clk65MHz),
@@ -129,16 +118,44 @@ module top (
     );
     
     //State machine for all game
-    wire draw_start_button;
-    wire start_button_pressed;
-    wire draw_cards;
+    wire state_draw_start_button;
+    wire state_start_button_pressed;
+    wire state_draw_cards;
+    wire state_compute_colors;
+    wire computing_colors_finished;
     
     state_machine my_state_machine(
         .clk(clk65MHz),
-        .start_button_pressed(start_button_pressed),
-        .draw_start_button(draw_start_button),
-        .draw_cards(draw_cards),
+        .start_button_pressed(state_start_button_pressed),
+        .computing_colors_finished(computing_colors_finished),
+        .draw_start_button(state_draw_start_button),
+        .draw_cards(state_draw_cards),
+        .compute_colors(state_compute_colors),
         .rst(rst)
+    );
+    
+    wire [11:0] actual_computed_color;
+    wire [3:0] card_write_address;
+    
+    compute_colors my_colors(
+        .clk(clk65MHz),
+        .rst(rst),
+        .enable(state_compute_colors),
+        .finished(computing_colors_finished),
+        .computed_color(actual_computed_color),
+        .mem_address(card_write_address)
+    );
+    
+    //modu³ zamiana obszaru na adres
+    
+    regfile my_memory(
+        .clk(clk65MHz),
+        .rst(rst),
+        .w_enable(state_compute_colors),
+        .w_data(actual_computed_color),
+        .w_address(card_write_address),
+        .r_data(),
+        .r_address()
     );
     
     
@@ -147,7 +164,7 @@ module top (
 
     event_checker check_if_left_clicked_start_button (
         .clk(clk65MHz),
-        .start(draw_start_button),
+        .start(state_draw_start_button),
         .x_begin(START_BUTTON_X),
         .x_end(START_BUTTON_X+START_BUTTON_WIDTH),
         .y_begin(START_BUTTON_Y),
@@ -155,7 +172,7 @@ module top (
         .kind_of_event(left),
         .mouse_xpos(xpos),
         .mouse_ypos(ypos),
-        .event_occured(start_button_pressed),
+        .event_occured(state_start_button_pressed),
         .rst(rst)
     );
     
@@ -172,7 +189,7 @@ module top (
     display_start_button(
         .pclk(clk65MHz),
         .rst(rst),
-        .do(draw_start_button),
+        .do(state_draw_start_button),
         .vga_in(vga_bus[1]),
         .vga_out(vga_bus[2])
     );
@@ -182,7 +199,7 @@ module top (
     draw_cards display_cards(
         .pclk(clk65MHz),
         .rst(rst),
-        .do(draw_cards),
+        .do(state_draw_cards),
         .vga_in(vga_bus[2]),
         .vga_out(vga_bus[3])
     );
