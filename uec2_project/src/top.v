@@ -136,6 +136,7 @@ module top (
     
     wire [11:0] actual_computed_color;
     wire [3:0] card_write_address;
+    wire done;
     
     compute_colors my_colors(
         .clk(clk65MHz),
@@ -200,6 +201,7 @@ module top (
         .pclk(clk65MHz),
         .rst(rst),
         .do(state_draw_cards),
+        .done(),
         .vga_in(vga_bus[2]),
         .vga_out(vga_bus[3])
     );

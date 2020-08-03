@@ -67,12 +67,12 @@ module state_machine(
             end
             
             COMPUTING_COLORS: begin
-                state_nxt = computing_colors_finished ? DISPLAYING_CARDS : COMPUTING_COLORS;
+                state_nxt = DISPLAYING_CARDS; //computing_colors_finished ? DISPLAYING_CARDS : COMPUTING_COLORS;
                 compute_colors_nxt = 1;
             end
             
             DISPLAYING_CARDS: begin
-                state_nxt = WAITING_FOR_CLICK;
+                state_nxt = state; //WAITING_FOR_CLICK;
                 draw_cards_nxt = 1;
             end
             
