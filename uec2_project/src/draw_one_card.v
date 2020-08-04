@@ -34,6 +34,7 @@ module draw_one_card
     input wire rst,
     input wire do,
     input wire [`VGA_BUS_SIZE-1:0] vga_in,
+    output reg done,
     output wire [`VGA_BUS_SIZE-1:0] vga_out
     );
     
@@ -42,6 +43,7 @@ module draw_one_card
     `VGA_MERGE_OUTPUT(vga_out)
     
     reg [11:0] rgb_nxt;
+    wire done_nxt;
        
     always @(posedge pclk)
     begin
@@ -53,6 +55,7 @@ module draw_one_card
             hcount_out <= 0;
             vcount_out <= 0;
             rgb_out <= 0;
+            done <= 0;
         end
         else begin
             // Just pass these through.
@@ -62,6 +65,8 @@ module draw_one_card
             vblnk_out <= vblnk_in;
             hcount_out <= hcount_in;
             vcount_out <= vcount_in;
+            // done signal
+            done <= done_nxt;
             // Changing color in rectangle place
             rgb_out <= rgb_nxt;
         end
@@ -76,4 +81,7 @@ module draw_one_card
                 rgb_nxt <= rgb_in;
             end
         end
+        
+    assign done_nxt = do;
+    
 endmodule

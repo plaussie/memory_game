@@ -26,6 +26,7 @@ module draw_cards(
     input wire rst,
     input wire do,
     input wire [`VGA_BUS_SIZE-1:0] vga_in,
+    output wire done,
     output wire [`VGA_BUS_SIZE-1:0] vga_out
     );
     
@@ -37,6 +38,10 @@ module draw_cards(
     wire [`VGA_BUS_SIZE-1:0] vga_internal_bus [NUM_CARDS:0];
     assign vga_internal_bus[0] = vga_in;
     assign vga_out = vga_internal_bus[NUM_CARDS];
+    
+    wire done_bus [NUM_CARDS:0];
+    assign done_bus[0] = do;
+    assign done = done_bus[NUM_CARDS];
     
     genvar i;
     generate
@@ -51,7 +56,8 @@ module draw_cards(
         u_card(
             .pclk(pclk),
             .rst(rst),
-            .do(do),
+            .do(done_bus[i]),
+            .done(done_bus[i+1]),
             .vga_in(vga_internal_bus[i]),
             .vga_out(vga_internal_bus[i+1])
         );
@@ -71,7 +77,8 @@ module draw_cards(
         u_card(
             .pclk(pclk),
             .rst(rst),
-            .do(do),
+            .do(done_bus[y]),
+            .done(done_bus[y+1]),
             .vga_in(vga_internal_bus[y]),
             .vga_out(vga_internal_bus[y+1])
         );
@@ -91,7 +98,8 @@ module draw_cards(
         u_card(
             .pclk(pclk),
             .rst(rst),
-            .do(do),
+            .do(done_bus[z]),
+            .done(done_bus[z+1]),
             .vga_in(vga_internal_bus[z]),
             .vga_out(vga_internal_bus[z+1])
         );
