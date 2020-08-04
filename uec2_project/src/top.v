@@ -19,7 +19,7 @@
 // Revision 0.32 - Deleted mouse delay
 // Revision 0.33 - Added genvar in drawing cards
 // Additional Comments:
-// Zastanowiæ siê, jak przechowywaæ kolory
+// 
 //////////////////////////////////////////////////////////////////////////////////
 
 `timescale 1 ns / 1 ps
@@ -45,10 +45,6 @@ module top (
     START_BUTTON_HEIGHT = 200,
     START_BUTTON_COLOR = 12'h0_A_A;
     
-    `define NUM_CARDS_X 5
-    `define NUM_CARDS_Y 3
-    `define NUM_CARDS `NUM_CARDS_X*`NUM_CARDS_Y
-    
     //VGA bus
     wire [`VGA_BUS_SIZE-1:0] vga_bus [NUM_MODULES:0];
 
@@ -58,7 +54,7 @@ module top (
     wire clk65MHz;
     wire locked;
 
-    clock_generator my_clock (
+    clock_generator MG_clock (
         // Clock out ports
         .clk100MHz(clk100MHz),
         .clk65MHz(clk65MHz),
@@ -81,7 +77,7 @@ module top (
     wire right;
     wire new_event;
     
-    MouseCtl my_MouseCtl(
+    MouseCtl MG_MouseCtl(
         .clk(clk65MHz),
         .ps2_clk(ps2_clk),
         .ps2_data(ps2_data),
@@ -102,13 +98,13 @@ module top (
     
     //VGA TIMINGS GENERATING
 
-    vga_timing my_timing (
+    vga_timing MG_vga_timing (
         .pclk(clk65MHz),
         .rst(rst),
         .vga_out(vga_bus[0])
     );
 
-    //BACKGROUND DRAWING
+    //DISPLAY BACKGROUND
 
     draw_background display_background(
         .pclk(clk65MHz),
@@ -118,54 +114,85 @@ module top (
     );
     
     //State machine for all game
-    wire state_draw_start_button;
-    wire state_start_button_pressed;
-    wire state_draw_cards;
-    wire state_compute_colors;
-    wire computing_colors_finished;
-    
-    state_machine my_state_machine(
+    wire start_butt_pressed, card_pressed;
+    wire compute_done;
+    wire start_butt_en, compute_colors_en, update_cards_en;
+
+    state_machine MG_state_machine(
         .clk(clk65MHz),
-        .start_button_pressed(state_start_button_pressed),
-        .computing_colors_finished(computing_colors_finished),
-        .draw_start_button(state_draw_start_button),
-        .draw_cards(state_draw_cards),
-        .compute_colors(state_compute_colors),
-        .rst(rst)
+        .rst(rst),
+        .start_butt_pressed(start_butt_pressed),
+        .compute_done(compute_done),
+        .card_pressed(card_pressed),
+        .start_butt_en(start_butt_en),
+        .update_cards_en(update_cards_en),
+        .compute_colors_en(compute_colors_en)
     );
     
-    wire [11:0] actual_computed_color;
+    wire [13:0] card_write_data;
     wire [3:0] card_write_address;
-    wire done;
     
-    compute_colors my_colors(
+    compute_colors MG_compute_colors(
         .clk(clk65MHz),
         .rst(rst),
-        .enable(state_compute_colors),
-        .finished(computing_colors_finished),
-        .computed_color(actual_computed_color),
-        .mem_address(card_write_address)
+        .enable(compute_colors_en),
+        .done(compute_done),
+        .computed_data(card_write_data),
+        .computed_address(card_write_address)
     );
     
-    //modu³ zamiana obszaru na adres
+    //Delay update_cards_en
+    /*wire compute_colors_en_delayed;
     
-    regfile my_memory(
+    delay
+    #(
+        .WIDTH(1),
+        .CLK_DEL(1)
+    )
+    delayed_compute_colors_en(
         .clk(clk65MHz),
         .rst(rst),
-        .w_enable(state_compute_colors),
-        .w_data(actual_computed_color),
-        .w_address(card_write_address),
-        .r_data(),
-        .r_address()
+        .din(compute_colors_en),
+        .dout(compute_colors_en_delayed)
+    );*/
+    
+    //modu³ zamiana obszaru na adres -- do zrobienia
+    
+    // regfileCtl 
+    wire regfile_w_enable;
+    wire [13:0] regfile_w_data, regfile_r_data;
+    wire [3:0] regfile_w_address, regfile_r_address;
+    
+    regfileCtl MG_regfileCtl(
+        .clk(clk65MHz),
+        .rst(rst),
+        .update_cards_en(update_cards_en),
+        .write_data_1({card_write_data, card_write_address, compute_colors_en}),
+        .regfile_w_enable(regfile_w_enable),
+        .regfile_w_address(regfile_w_address),
+        .regfile_w_data(regfile_w_data),
+        .regfile_r_address(regfile_r_address)
+    );
+    
+    
+    // regfile
+    
+    regfile MG_regfile(
+        .clk(clk65MHz),
+        .w_enable(regfile_w_enable),
+        .w_data(regfile_w_data),
+        .w_address(regfile_w_address),
+        .r_data(regfile_r_data),
+        .r_address(regfile_r_address)
     );
     
     
     //Checking if start button is pressed
        
 
-    event_checker check_if_left_clicked_start_button (
+    event_checker check_if_left_clicked_start_butt (
         .clk(clk65MHz),
-        .start(state_draw_start_button),
+        .start(start_butt_en),
         .x_begin(START_BUTTON_X),
         .x_end(START_BUTTON_X+START_BUTTON_WIDTH),
         .y_begin(START_BUTTON_Y),
@@ -173,7 +200,7 @@ module top (
         .kind_of_event(left),
         .mouse_xpos(xpos),
         .mouse_ypos(ypos),
-        .event_occured(state_start_button_pressed),
+        .event_occured(start_butt_pressed),
         .rst(rst)
     );
     
@@ -190,18 +217,34 @@ module top (
     display_start_button(
         .pclk(clk65MHz),
         .rst(rst),
-        .do(state_draw_start_button),
+        .enable(start_butt_en),
         .vga_in(vga_bus[1]),
         .vga_out(vga_bus[2])
     );
+    
+    //Delay update_cards_en
+    /*wire update_cards_en_delayed;
+    
+    delay
+    #(
+        .WIDTH(1),
+        .CLK_DEL(1)
+    )
+    delayed_update_cards_en(
+        .clk(clk65MHz),
+        .rst(rst),
+        .din(update_cards_en),
+        .dout(update_cards_en_delayed)
+    );*/
     
     //Draw Cards
     
     draw_cards display_cards(
         .pclk(clk65MHz),
         .rst(rst),
-        .do(state_draw_cards),
-        .done(),
+        .regfile_in(regfile_r_data),
+        .regfile_sync(update_cards_en),
+        .regfile_sync_done(),
         .vga_in(vga_bus[2]),
         .vga_out(vga_bus[3])
     );
@@ -213,7 +256,7 @@ module top (
     //unused
     wire enable_mouse_display_out;
     
-    MouseDisplay my_MouseDisplay(
+    MouseDisplay MG_MouseDisplay(
         .pixel_clk(clk65MHz),
         .xpos(xpos),
         .ypos(ypos),

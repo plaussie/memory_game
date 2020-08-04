@@ -23,7 +23,6 @@
 
 module regfile(
     input wire clk,
-    input wire rst,
     input wire w_enable,
     input wire [13:0] w_data,
     input wire [3:0] w_address,
