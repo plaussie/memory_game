@@ -14,6 +14,7 @@
 // 
 // Revision:
 // Revision 0.01 - File Created
+// Revision 0.40 - Added regfile with its control unit
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
@@ -36,12 +37,13 @@ module regfileCtl(
     
     localparam
     NUM_CARDS = 12,
+    FIRST_CARD_INDEX = 1,
     IDLE = 0,
     INCREMENT_READ_ADDRESS = 1;
     
     always @(posedge clk) begin
         if(rst) begin
-            regfile_r_address <= 0;
+            regfile_r_address <= FIRST_CARD_INDEX;
             state <= IDLE;
         end
         else begin
@@ -51,13 +53,17 @@ module regfileCtl(
     end
     
     always @* begin
-        regfile_r_address_nxt = 0;
+        regfile_r_address_nxt = FIRST_CARD_INDEX;
         case(state)
-            IDLE:                   state_nxt = update_cards_en ? INCREMENT_READ_ADDRESS : IDLE;
+            IDLE:
+            begin                
+                                state_nxt = update_cards_en ? INCREMENT_READ_ADDRESS : IDLE;
+                                regfile_r_address_nxt = update_cards_en ? regfile_r_address + 1 : 0;
+            end
             INCREMENT_READ_ADDRESS: 
             begin
-                                    regfile_r_address_nxt = regfile_r_address + 1;
-                                    state_nxt = (regfile_r_address == NUM_CARDS) ? IDLE : INCREMENT_READ_ADDRESS;
+                                state_nxt = (regfile_r_address == NUM_CARDS+FIRST_CARD_INDEX) ? IDLE : INCREMENT_READ_ADDRESS;
+                                regfile_r_address_nxt = regfile_r_address + 1;
             end
         endcase
     end

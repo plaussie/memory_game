@@ -15,6 +15,7 @@
 // Revision:
 // Revision 0.01 - File Created
 // Revision 0.30 - Added VGA bus
+// Revision 0.40 - Added regfile with its control unit
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////

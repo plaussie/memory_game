@@ -15,6 +15,7 @@
 // Revision:
 // Revision 0.01 - File Created
 // Revision 0.30 - Added VGA bus
+// Revision 0.40 - Added regfile with its control unit
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +55,7 @@ module draw_cards(
                 .HEIGHT(200),
                 .COLOR(12'h0_F_0)
             )
-            u_card(
+            u_card_1(
                 .pclk(pclk),
                 .rst(rst),
                 .regfile_in(regfile_in),
