@@ -12,20 +12,14 @@
 // Dependencies: 
 // 
 // Revision:
-// Revision 0.01 - File Created
-// Revision 0.10 - File Copied from UEC2 Lab
-// Revision 0.30 - Added VGA bus
-// Revision 0.31 - Fixed Timing Critical Error
-// Revision 0.32 - Deleted mouse delay
-// Revision 0.33 - Added genvar in drawing cards
-// Revision 0.40 - Added regfile with its control unit
+// It is a module created only for testing. Do not use this.
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
 `timescale 1 ns / 1 ps
 
-module top (
+module top_testing (
     inout wire ps2_clk,
     inout wire ps2_data,
     input wire clk,
@@ -49,7 +43,7 @@ module top (
     //VGA bus
     wire [`VGA_BUS_SIZE-1:0] vga_bus [NUM_MODULES:0];
 
-    //***Clock Generator***//
+    //CLOCK GENERATING
     
     wire clk100MHz;
     wire clk65MHz;
@@ -67,7 +61,7 @@ module top (
     );
 
     
-    //***Mouse Controller with PS2 Interface***//
+    //MOUSE Controller
     
     wire [11:0] xpos;
     wire [11:0] ypos;
@@ -97,7 +91,7 @@ module top (
         .setmax_y(1'b0)
     );
     
-    //***VGA Timings Generator***//
+    //VGA TIMINGS GENERATING
 
     vga_timing MG_vga_timing (
         .pclk(clk65MHz),
@@ -105,7 +99,7 @@ module top (
         .vga_out(vga_bus[0])
     );
 
-    //***Background Display***//
+    //DISPLAY BACKGROUND
 
     draw_background display_background(
         .pclk(clk65MHz),
@@ -114,8 +108,7 @@ module top (
         .vga_out(vga_bus[1])
     );
     
-    //***The Main State Machine***//
-    
+    //State machine for all game
     wire start_butt_pressed, card_pressed;
     wire compute_done;
     wire start_butt_en, compute_colors_en, update_cards_en;
@@ -131,11 +124,9 @@ module top (
         .compute_colors_en(compute_colors_en)
     );
     
-    //***Cards Colors Generator***//
-    
     wire [13:0] card_write_data;
     wire [3:0] card_write_address;
-
+    //wire compute_colors_en_delayed;
     compute_colors MG_compute_colors(
         .clk(clk65MHz),
         .rst(rst),
@@ -145,10 +136,24 @@ module top (
         .computed_address(card_write_address)
     );
     
+    //Delay update_cards_en
+    
+    /*
+    delay
+    #(
+        .WIDTH(1),
+        .CLK_DEL(1)
+    )
+    delayed_compute_colors_en(
+        .clk(clk65MHz),
+        .rst(rst),
+        .din(compute_colors_en),
+        .dout(compute_colors_en_delayed)
+    );*/
+    
     //modu³ zamiana obszaru na adres -- do zrobienia
     
-    //***RegFile Controller***//
-    
+    // regfileCtl 
     wire regfile_w_enable;
     wire [13:0] regfile_w_data, regfile_r_data;
     wire [3:0] regfile_w_address, regfile_r_address;
@@ -162,20 +167,23 @@ module top (
         .regfile_w_address(regfile_w_address),
         .regfile_w_data(regfile_w_data),
         .regfile_r_address(regfile_r_address)
-    );    
+    );
     
-    //***RegFile***//
+    
+    // regfile
     
     regfile MG_regfile(
         .clk(clk65MHz),
-        .w_enable(regfile_w_enable),
-        .w_data(regfile_w_data),
-        .w_address(regfile_w_address),
+        .w_enable(compute_colors_en),
+        .w_data(card_write_data),
+        .w_address(card_write_address),
         .r_data(regfile_r_data),
-        .r_address(regfile_r_address)
-    );    
+        .r_address(4'h1)
+    );
     
-    //***Start Button Press Checker***//       
+    
+    //Checking if start button is pressed
+       
 
     event_checker check_if_left_clicked_start_butt (
         .clk(clk65MHz),
@@ -191,7 +199,7 @@ module top (
         .rst(rst)
     );
     
-    //***Start Button Display***//
+    //DRAWING START BUTTON
     
     draw_rect 
     #(
@@ -209,43 +217,58 @@ module top (
         .vga_out(vga_bus[2])
     );
     
-    //***update_cards_en Delayer***//
-    
-    wire update_cards_en_delayed;
+    //Delay update_cards_en
+    /*wire update_cards_en_delayed;
     
     delay
     #(
         .WIDTH(1),
         .CLK_DEL(1)
     )
-    delay_update_cards_en(
+    delayed_update_cards_en(
         .clk(clk65MHz),
         .rst(rst),
         .din(update_cards_en),
         .dout(update_cards_en_delayed)
-    );
+    );*/
     
-    //***Cards Display***//
+    //Draw Cards
     
-    draw_cards display_cards(
+    draw_one_card #(
+        .X_POS(250),
+        .Y_POS(250),
+        .WIDTH(300),
+        .HEIGHT(400),
+        .COLOR(12'h0_F_0)
+    )
+    u_card(
         .pclk(clk65MHz),
         .rst(rst),
         .regfile_in(regfile_r_data),
-        .regfile_sync(update_cards_en_delayed),
+        .regfile_sync(update_cards_en),
         .regfile_sync_done(),
         .vga_in(vga_bus[2]),
         .vga_out(vga_bus[3])
     );
-    
-    //***Mouse Display***//
-    
+    /*
+    draw_cards display_cards(
+        .pclk(clk65MHz),
+        .rst(rst),
+        .regfile_in(regfile_r_data),
+        .regfile_sync(update_cards_en),
+        .regfile_sync_done(),
+        .vga_in(vga_bus[2]),
+        .vga_out(vga_bus[3])
+    );
+    */
+    //MOUSE CURSOR DISPLAYING
     wire [`VGA_BUS_SIZE-1:0] vga_last;
     assign vga_last = vga_bus[NUM_MODULES];
     
     //unused
     wire enable_mouse_display_out;
     
-    MouseDisplay display_mouse(
+    MouseDisplay MG_MouseDisplay(
         .pixel_clk(clk65MHz),
         .xpos(xpos),
         .ypos(ypos),

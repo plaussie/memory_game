@@ -15,6 +15,7 @@
 // Revision:
 // Revision 0.01 - File Created
 // Revision 0.30 - Added VGA bus
+// Revision 0.40 - Added regfile with its control unit
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
@@ -24,55 +25,111 @@
 module draw_cards(
     input wire pclk,
     input wire rst,
-    input wire do,
+    input wire regfile_sync,
+    input wire [13:0] regfile_in,
     input wire [`VGA_BUS_SIZE-1:0] vga_in,
+    output wire regfile_sync_done,
     output wire [`VGA_BUS_SIZE-1:0] vga_out
     );
     
-    `VGA_SPLIT_INPUT(vga_in)
-    `VGA_OUT_REG
-    `VGA_MERGE_OUTPUT(vga_out)
-    
     localparam
-    X_POS = 50,
-    Y_POS = 50,
-    WIDTH = 100,
-    HEIGHT = 200,
-    COLOR = 12'hF_0_0;
+    NUM_CARDS_X = 4,
+    NUM_CARDS_Y = 3,
+    NUM_CARDS = NUM_CARDS_X*NUM_CARDS_Y;
     
-    reg [11:0] rgb_nxt;
-       
-    always @(posedge pclk)
-    begin
-        if(rst) begin
-            hs_out <= 0;
-            vs_out <= 0;
-            hblnk_out <= 0;
-            vblnk_out <= 0;
-            hcount_out <= 0;
-            vcount_out <= 0;
-            rgb_out <= 0;
+    wire [`VGA_BUS_SIZE-1:0] vga_internal_bus [NUM_CARDS:0];
+    assign vga_internal_bus[0] = vga_in;
+    assign vga_out = vga_internal_bus[NUM_CARDS];
+    
+    wire regfile_sync_bus [NUM_CARDS:0];
+    assign regfile_sync_bus[0] = regfile_sync;
+    assign regfile_sync_done = regfile_sync_bus[NUM_CARDS];
+    /*
+    genvar i;
+        generate
+        for(i = 0; i < NUM_CARDS; i = i+1) begin
+            draw_one_card #(
+                .X_POS(60*i + 50),
+                .Y_POS(50),
+                .WIDTH(50),
+                .HEIGHT(200),
+                .COLOR(12'h0_F_0)
+            )
+            u_card_1(
+                .pclk(pclk),
+                .rst(rst),
+                .regfile_in(regfile_in),
+                .regfile_sync(regfile_sync_bus[i]),
+                .regfile_sync_done(regfile_sync_bus[i+1]),
+                .vga_in(vga_internal_bus[i]),
+                .vga_out(vga_internal_bus[i+1])
+            );
         end
-        else begin
-            // Just pass these through.
-            hs_out <= hs_in;
-            vs_out <= vs_in;
-            hblnk_out <= hblnk_in;
-            vblnk_out <= vblnk_in;
-            hcount_out <= hcount_in;
-            vcount_out <= vcount_in;
-            // Changing color in rectangle place
-            rgb_out <= rgb_nxt;
-        end
+        endgenerate
+    */
+    genvar i;
+    generate
+    for(i = 0; i < NUM_CARDS_X; i = i+1) begin
+        draw_one_card #(
+            .X_POS(258*i + 50),
+            .Y_POS(50),
+            .WIDTH(150),
+            .HEIGHT(200),
+            .COLOR(12'h0_F_0)
+        )
+        u_card(
+            .pclk(pclk),
+            .rst(rst),
+            .regfile_in(regfile_in),
+            .regfile_sync(regfile_sync_bus[i]),
+            .regfile_sync_done(regfile_sync_bus[i+1]),
+            .vga_in(vga_internal_bus[i]),
+            .vga_out(vga_internal_bus[i+1])
+        );
     end
+    endgenerate
     
-    always @*
-        begin
-            if (do && ((hcount_in >= X_POS) && (hcount_in < X_POS+WIDTH) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
-                rgb_nxt <= COLOR;
-            end
-            else begin
-                rgb_nxt <= rgb_in;
-            end
-        end
+    genvar y;
+    generate
+    for(y = NUM_CARDS_X; y < 2*NUM_CARDS_X; y = y+1) begin
+        draw_one_card #(
+            .X_POS(258*(y-NUM_CARDS_X) + 50),
+            .Y_POS(234 + 50),
+            .WIDTH(150),
+            .HEIGHT(200),
+            .COLOR(12'h0_F_0)
+        )
+        u_card(
+            .pclk(pclk),
+            .rst(rst),
+            .regfile_in(regfile_in),
+            .regfile_sync(regfile_sync_bus[y]),
+            .regfile_sync_done(regfile_sync_bus[y+1]),
+            .vga_in(vga_internal_bus[y]),
+            .vga_out(vga_internal_bus[y+1])
+        );
+    end
+    endgenerate
+    
+    genvar z;
+    generate
+    for(z = 2*NUM_CARDS_X; z < 3*NUM_CARDS_X; z = z+1) begin
+        draw_one_card #(
+            .X_POS(258*(z-2*NUM_CARDS_X) + 50),
+            .Y_POS(468 + 50),
+            .WIDTH(150),
+            .HEIGHT(200),
+            .COLOR(12'h0_F_0)
+        )
+        u_card(
+            .pclk(pclk),
+            .rst(rst),
+            .regfile_in(regfile_in),
+            .regfile_sync(regfile_sync_bus[z]),
+            .regfile_sync_done(regfile_sync_bus[z+1]),
+            .vga_in(vga_internal_bus[z]),
+            .vga_out(vga_internal_bus[z+1])
+        );
+    end
+    endgenerate
 endmodule

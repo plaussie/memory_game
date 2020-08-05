@@ -7,7 +7,7 @@
 // Module Name: draw_rect
 // Project Name: Memory Game
 // Target Devices: Basys3
-// Tool Versions: Vivado 2017.3
+// Tool Versions: Vivaenable 2017.3
 // Description: 
 // 
 // Dependencies: 
@@ -32,7 +32,7 @@ module draw_rect
     (
     input wire pclk,
     input wire rst,
-    input wire do,
+    input wire enable,
     input wire [`VGA_BUS_SIZE-1:0] vga_in,
     output wire [`VGA_BUS_SIZE-1:0] vga_out
     );
@@ -69,7 +69,7 @@ module draw_rect
     
     always @*
     begin
-        if (do && ((hcount_in >= X_POS) && (hcount_in < X_POS+WIDTH) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
+        if (enable && ((hcount_in >= X_POS) && (hcount_in < X_POS+WIDTH) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
             rgb_nxt <= COLOR;
         end
         else begin
