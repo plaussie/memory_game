@@ -30,12 +30,15 @@ module state_machine(
     
     output reg start_butt_en,
     output reg compute_colors_en,
-    output reg update_cards_en
+    output reg update_cards_en,
+    output reg wait_for_click_en,
+    output reg write_card_en
        
     );
     
     reg [3:0] state, state_nxt;
-    reg start_butt_en_nxt, compute_colors_en_nxt, update_cards_en_nxt;
+    reg start_butt_en_nxt, compute_colors_en_nxt, update_cards_en_nxt, wait_for_click_en_nxt, write_card_en_nxt;
+    reg [26:0] temp_wait_ctr, temp_wait_ctr_nxt;
     
     localparam
     MAIN_MENU = 4'h0,
@@ -48,7 +51,11 @@ module state_machine(
     DISCOVER_SECOND_CARD = 4'h7,
     UPDATE_CARDS_3 = 4'h8,
     CHECK_IF_SAME_CARDS = 4'h9,
-    END_SCREEN = 4'hA;
+    END_SCREEN = 4'ha,
+    TEMP_WAIT1 = 4'hb,
+    TEMP_WAIT2 = 4'hc,
+    TEMP_WAIT3 = 4'hd,
+    TEMP_WAIT4 = 4'he;
     
     
     always @(posedge clk) begin
@@ -57,12 +64,18 @@ module state_machine(
             start_butt_en <= 0;
             compute_colors_en <= 0;
             update_cards_en <= 0;
+            wait_for_click_en <= 0;
+            write_card_en <= 0;
+            temp_wait_ctr <= 0;
         end
         else begin
             state <= state_nxt;
             start_butt_en <= start_butt_en_nxt;
             compute_colors_en <= compute_colors_en_nxt;
             update_cards_en <= update_cards_en_nxt;
+            wait_for_click_en <= wait_for_click_en_nxt;
+            write_card_en <= write_card_en_nxt;
+            temp_wait_ctr <= temp_wait_ctr_nxt;
         end
     end
     
@@ -71,6 +84,9 @@ module state_machine(
         start_butt_en_nxt = 0;
         compute_colors_en_nxt = 0;
         update_cards_en_nxt = 0;
+        wait_for_click_en_nxt = 0;
+        write_card_en_nxt = 0;
+        temp_wait_ctr_nxt = 0;
         
         case(state)
             MAIN_MENU: begin
@@ -84,14 +100,49 @@ module state_machine(
             end
             
             UPDATE_CARDS_1: begin
-                state_nxt = WAIT_FOR_CLICK_1;
+                state_nxt = TEMP_WAIT1;//WAIT_FOR_CLICK_1;
                 update_cards_en_nxt = 1;
+            end
+            
+            TEMP_WAIT1: begin
+                state_nxt = (temp_wait_ctr == 32500000) ? WAIT_FOR_CLICK_1 : TEMP_WAIT1;
+                temp_wait_ctr_nxt = temp_wait_ctr + 1;
             end
             
             WAIT_FOR_CLICK_1: begin
                 state_nxt = card_pressed ? DISCOVER_FIRST_CARD : WAIT_FOR_CLICK_1;
+                wait_for_click_en_nxt = 1;
             end
             
+            DISCOVER_FIRST_CARD: begin
+                state_nxt = UPDATE_CARDS_2;
+                write_card_en_nxt = 1; 
+            end
+            
+            UPDATE_CARDS_2: begin
+                state_nxt = TEMP_WAIT2;//WAIT_FOR_CLICK_2;
+                update_cards_en_nxt = 1;
+            end
+            
+            TEMP_WAIT2: begin
+                state_nxt = (temp_wait_ctr == 13000000) ? WAIT_FOR_CLICK_1 : TEMP_WAIT2;
+                temp_wait_ctr_nxt = temp_wait_ctr + 1;
+            end
+            
+            WAIT_FOR_CLICK_2: begin
+                state_nxt = card_pressed ? DISCOVER_SECOND_CARD : WAIT_FOR_CLICK_2;
+                wait_for_click_en_nxt = 1;
+            end
+            
+            DISCOVER_SECOND_CARD: begin
+                state_nxt = UPDATE_CARDS_3;
+                write_card_en_nxt = 1; 
+            end
+            
+            UPDATE_CARDS_3: begin
+                state_nxt = CHECK_IF_SAME_CARDS;
+                update_cards_en_nxt = 1;
+            end
             default: begin
             end
         endcase

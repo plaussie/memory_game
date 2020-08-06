@@ -30,11 +30,11 @@ module draw_rect
         COLOR   = 12'h0_A_A
     )
     (
-    input wire pclk,
-    input wire rst,
-    input wire enable,
-    input wire [`VGA_BUS_SIZE-1:0] vga_in,
-    output wire [`VGA_BUS_SIZE-1:0] vga_out
+        input wire pclk,
+        input wire rst,
+        input wire enable,
+        input wire [`VGA_BUS_SIZE-1:0] vga_in,
+        output wire [`VGA_BUS_SIZE-1:0] vga_out
     );
 
     `VGA_SPLIT_INPUT(vga_in)
