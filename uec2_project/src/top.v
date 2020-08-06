@@ -45,9 +45,6 @@ module top (
     START_BUTTON_WIDTH = 400,
     START_BUTTON_HEIGHT = 200,
     START_BUTTON_COLOR = 12'h0_A_A;
-    
-    //VGA bus
-    wire [`VGA_BUS_SIZE-1:0] vga_bus [NUM_MODULES:0];
 
     //***Clock Generator***//
     
@@ -65,7 +62,6 @@ module top (
         // Clock in ports
         .clk(clk)
     );
-
     
     //***Mouse Controller with PS2 Interface***//
     
@@ -97,28 +93,11 @@ module top (
         .setmax_y(1'b0)
     );
     
-    //***VGA Timings Generator***//
-
-    vga_timing MG_vga_timing (
-        .pclk(clk65MHz),
-        .rst(rst),
-        .vga_out(vga_bus[0])
-    );
-
-    //***Background Display***//
-
-    draw_background display_background(
-        .pclk(clk65MHz),
-        .rst(rst),
-        .vga_in(vga_bus[0]),
-        .vga_out(vga_bus[1])
-    );
-    
     //***The Main State Machine***//
     
     wire start_butt_pressed, card_pressed;
     wire compute_done;
-    wire start_butt_en, compute_colors_en, update_cards_en;
+    wire start_butt_en, compute_colors_en, update_cards_en, wait_for_click_en, write_card_en;
 
     state_machine MG_state_machine(
         .clk(clk65MHz),
@@ -128,7 +107,9 @@ module top (
         .card_pressed(card_pressed),
         .start_butt_en(start_butt_en),
         .update_cards_en(update_cards_en),
-        .compute_colors_en(compute_colors_en)
+        .compute_colors_en(compute_colors_en),
+        .wait_for_click_en(wait_for_click_en),
+        .write_card_en(write_card_en)
     );
     
     //***Cards Colors Generator***//
@@ -145,19 +126,19 @@ module top (
         .computed_address(card_write_address)
     );
     
-    //modu³ zamiana obszaru na adres -- do zrobienia
-    
     //***RegFile Controller***//
     
-    wire regfile_w_enable;
+    wire [1:0] regfile_w_enable;
     wire [13:0] regfile_w_data, regfile_r_data;
-    wire [3:0] regfile_w_address, regfile_r_address;
+    wire [3:0] regfile_w_address, regfile_r_address, card_clicked_address;
     
     regfileCtl MG_regfileCtl(
         .clk(clk65MHz),
         .rst(rst),
-        .update_cards_en(update_cards_en),
+        .read_all_cards(update_cards_en),
+        .read_one_card(4'h0/*card_clicked_address*/),
         .write_data_1({card_write_data, card_write_address, compute_colors_en}),
+        .write_data_2({2'b11, card_clicked_address, write_card_en}),
         .regfile_w_enable(regfile_w_enable),
         .regfile_w_address(regfile_w_address),
         .regfile_w_data(regfile_w_data),
@@ -173,17 +154,54 @@ module top (
         .w_address(regfile_w_address),
         .r_data(regfile_r_data),
         .r_address(regfile_r_address)
-    );    
+    );
+    
+    //***Card Press Checker with returned card index***// na ten moment, bez zwracania, która karta
+    
+    card_press_checker MG_check_if_left_clicked_card (
+        .clk(clk65MHz),
+        .rst(rst),
+        .enable(wait_for_click_en),
+        .kind_of_event(left),
+        .mouse_xpos(xpos),
+        .mouse_ypos(ypos),
+        .read_card_state(regfile_r_data[1:0]),
+        .card_clicked_address(card_clicked_address),
+        .event_occured(card_pressed)
+    );
+
+    //***VGA Timings Generator***//
+    
+    //VGA bus
+    wire [`VGA_BUS_SIZE-1:0] vga_bus [NUM_MODULES:0];
+
+    vga_timing MG_vga_timing (
+        .pclk(clk65MHz),
+        .rst(rst),
+        .vga_out(vga_bus[0])
+    );
+
+    //***Background Display***//
+
+    draw_background display_background(
+        .pclk(clk65MHz),
+        .rst(rst),
+        .vga_in(vga_bus[0]),
+        .vga_out(vga_bus[1])
+    );  
     
     //***Start Button Press Checker***//       
 
-    event_checker check_if_left_clicked_start_butt (
+    event_checker
+    #(
+        .X_POS(START_BUTTON_X),
+        .Y_POS(START_BUTTON_Y),
+        .WIDTH(START_BUTTON_WIDTH),
+        .HEIGHT(START_BUTTON_HEIGHT)    
+    )
+    MG_check_if_left_clicked_start_butt (
         .clk(clk65MHz),
-        .start(start_butt_en),
-        .x_begin(START_BUTTON_X),
-        .x_end(START_BUTTON_X+START_BUTTON_WIDTH),
-        .y_begin(START_BUTTON_Y),
-        .y_end(START_BUTTON_Y+START_BUTTON_HEIGHT),
+        .enable(start_butt_en),
         .kind_of_event(left),
         .mouse_xpos(xpos),
         .mouse_ypos(ypos),

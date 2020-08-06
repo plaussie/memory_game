@@ -53,7 +53,7 @@ module compute_colors(
             computed_address <= 4'b0000;
         end
         else begin
-            computed_data <= {computed_color_nxt, 2'b11};
+            computed_data <= {computed_color_nxt, 2'b01};
             computed_address <= computed_address_nxt;
         end
     end
