@@ -27,6 +27,7 @@ module state_machine(
     input wire start_butt_pressed,
     input wire compute_done,
     input wire card_pressed,
+    input wire go_to_compare,
     
     output reg start_butt_en,
     output reg compute_colors_en,
@@ -50,7 +51,7 @@ module state_machine(
     WAIT_FOR_CLICK_2 = 4'h6,
     DISCOVER_SECOND_CARD = 4'h7,
     UPDATE_CARDS_3 = 4'h8,
-    CHECK_IF_SAME_CARDS = 4'h9,
+    COMPARE_CARDS = 4'h9,
     END_SCREEN = 4'ha,
     TEMP_WAIT1 = 4'hb,
     TEMP_WAIT2 = 4'hc,
@@ -90,12 +91,12 @@ module state_machine(
         
         case(state)
             MAIN_MENU: begin
-                state_nxt = start_butt_pressed ? COMPUTE_COLORS : MAIN_MENU;
+                state_nxt = start_butt_pressed ? COMPUTE_COLORS : state;
                 start_butt_en_nxt = 1;
             end
             
             COMPUTE_COLORS: begin
-                state_nxt = compute_done ? UPDATE_CARDS_1 : COMPUTE_COLORS;
+                state_nxt = compute_done ? UPDATE_CARDS_1 : state;
                 compute_colors_en_nxt = 1;
             end
             
@@ -105,12 +106,13 @@ module state_machine(
             end
             
             TEMP_WAIT1: begin
-                state_nxt = (temp_wait_ctr == 32500000) ? WAIT_FOR_CLICK_1 : TEMP_WAIT1;
+                state_nxt = (temp_wait_ctr == 32500000) ? WAIT_FOR_CLICK_1 : state;
                 temp_wait_ctr_nxt = temp_wait_ctr + 1;
             end
             
             WAIT_FOR_CLICK_1: begin
-                state_nxt = card_pressed ? DISCOVER_FIRST_CARD : WAIT_FOR_CLICK_1;
+                state_nxt = go_to_compare ? COMPARE_CARDS :
+                            card_pressed ? DISCOVER_FIRST_CARD : state;
                 wait_for_click_en_nxt = 1;
             end
             
@@ -125,7 +127,7 @@ module state_machine(
             end
             
             TEMP_WAIT2: begin
-                state_nxt = (temp_wait_ctr == 13000000) ? WAIT_FOR_CLICK_1 : TEMP_WAIT2;
+                state_nxt = (temp_wait_ctr == 13000000) ? WAIT_FOR_CLICK_2 : state;
                 temp_wait_ctr_nxt = temp_wait_ctr + 1;
             end
             
@@ -140,8 +142,12 @@ module state_machine(
             end
             
             UPDATE_CARDS_3: begin
-                state_nxt = CHECK_IF_SAME_CARDS;
+                state_nxt = COMPARE_CARDS;
                 update_cards_en_nxt = 1;
+            end
+            
+            COMPARE_CARDS: begin
+                state_nxt = state;
             end
             default: begin
             end

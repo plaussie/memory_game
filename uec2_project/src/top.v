@@ -19,6 +19,7 @@
 // Revision 0.32 - Deleted mouse delay
 // Revision 0.33 - Added genvar in drawing cards
 // Revision 0.40 - Added regfile with its control unit
+// Revision 0.50 - 2 cards can be discovered, then game stops
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
@@ -97,6 +98,7 @@ module top (
     
     wire start_butt_pressed, card_pressed;
     wire compute_done;
+    wire go_to_compare;
     wire start_butt_en, compute_colors_en, update_cards_en, wait_for_click_en, write_card_en;
 
     state_machine MG_state_machine(
@@ -105,6 +107,7 @@ module top (
         .start_butt_pressed(start_butt_pressed),
         .compute_done(compute_done),
         .card_pressed(card_pressed),
+        .go_to_compare(go_to_compare),
         .start_butt_en(start_butt_en),
         .update_cards_en(update_cards_en),
         .compute_colors_en(compute_colors_en),
@@ -158,15 +161,17 @@ module top (
     
     //***Card Press Checker with returned card index***// na ten moment, bez zwracania, która karta
     
-    card_press_checker MG_check_if_left_clicked_card (
+    wire [3:0] card1_to_compare, card2_to_compare;
+    
+    card_press_checker MG_card_press_checker (
         .clk(clk65MHz),
         .rst(rst),
         .enable(wait_for_click_en),
         .kind_of_event(left),
         .mouse_xpos(xpos),
         .mouse_ypos(ypos),
-        .read_card_state(regfile_r_data[1:0]),
         .card_clicked_address(card_clicked_address),
+        .cards_to_compare({card1_to_compare, card2_to_compare, go_to_compare}),
         .event_occured(card_pressed)
     );
 

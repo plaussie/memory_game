@@ -15,7 +15,7 @@
 // Revision:
 // Revision 0.01 - File Created
 // Additional Comments:
-// 
+// For this moment, cards_to_compare is unused
 //////////////////////////////////////////////////////////////////////////////////
 
 
@@ -26,10 +26,10 @@ module card_press_checker(
     input wire          kind_of_event,
     input wire [11:0]   mouse_xpos,
     input wire [11:0]   mouse_ypos,
-    input wire [1:0]    read_card_state,
     
-    output reg [3:0]   card_clicked_address,
-    output reg         event_occured
+    output wire [3:0]   card_clicked_address,
+    output wire [8:0]   cards_to_compare, // [8:5] second card address, [4:1] first card address, [0]go_to_compare
+    output wire         event_occured
     );
     
     localparam
@@ -37,10 +37,10 @@ module card_press_checker(
     NUM_CARDS_Y = 3,
     NUM_CARDS = NUM_CARDS_X*NUM_CARDS_Y;
     
-    reg [3:0] card_clicked_address_nxt;
-    reg event_occured_nxt;
-    wire [11:0] event_occured_internal ;
-    reg [11:0] event_occured_internal_reg, event_occured_internal_reg_nxt;
+    reg [3:0] card_address_reg [1:0];
+    reg [3:0] card_address_reg_nxt [1:0];
+    reg [3:0] temp_address;
+    wire [11:0] event_occured_internal;
     
     genvar i;
         generate
@@ -107,61 +107,61 @@ module card_press_checker(
             );
         end
         endgenerate
-    
-    event_checker
-    #(
-        .X_POS(50),
-        .Y_POS(50),
-        .WIDTH(150),
-        .HEIGHT(200)    
-    )
-    MG_check_if_left_clicked_first_card (
-        .clk(clk),
-        .rst(rst),
-        .enable(enable),
-        .kind_of_event(kind_of_event),
-        .mouse_xpos(mouse_xpos),
-        .mouse_ypos(mouse_ypos),
-        .event_occured(event_occured_internal[0])
-    );
 
     always @(posedge clk) begin
         if(rst) begin
-            card_clicked_address <= 4'h0;
-            event_occured <= 0;
-            event_occured_internal_reg <= 0;
+            card_address_reg[0] <= 4'h0;
+            card_address_reg[1] <= 4'h0;
         end
         else begin
-            card_clicked_address <= card_clicked_address_nxt;
-            event_occured <= event_occured_nxt;
-            event_occured_internal_reg <= event_occured_internal_reg_nxt;
+            card_address_reg[0] <= card_address_reg_nxt[0];
+            card_address_reg[1] <= card_address_reg_nxt[1];
         end
     end
     
     always @* begin
-        if(enable) begin
-            case(event_occured_internal_reg)
-                1: card_clicked_address_nxt = 4'h1;
-                2: card_clicked_address_nxt = 4'h2;
-                4: card_clicked_address_nxt = 4'h3;
-                8: card_clicked_address_nxt = 4'h4;
-                16: card_clicked_address_nxt = 4'h5;
-                32: card_clicked_address_nxt = 4'h6;
-                64: card_clicked_address_nxt = 4'h7;
-                128: card_clicked_address_nxt = 4'h8;
-                256: card_clicked_address_nxt = 4'h9;
-                512: card_clicked_address_nxt = 4'ha;
-                1024: card_clicked_address_nxt = 4'hb;
-                2048: card_clicked_address_nxt = 4'hc;
-                default: card_clicked_address_nxt = 4'h0;
+        if(enable) begin 
+            card_address_reg_nxt[0] = (card_address_reg[0] && card_address_reg[1]) ? 4'h0 : card_address_reg[0];
+            card_address_reg_nxt[1] = (card_address_reg[0] && card_address_reg[1]) ? 4'h0 : card_address_reg[1];
+            case(event_occured_internal)
+                1:    temp_address = 4'h1;
+                2:    temp_address = 4'h2;
+                4:    temp_address = 4'h3;
+                8:    temp_address = 4'h4;
+                16:   temp_address = 4'h5;
+                32:   temp_address = 4'h6;
+                64:   temp_address = 4'h7;
+                128:  temp_address = 4'h8;
+                256:  temp_address = 4'h9;
+                512:  temp_address = 4'ha;
+                1024: temp_address = 4'hb;
+                2048: temp_address = 4'hc;
+                default: temp_address = 4'h0;
             endcase
-            event_occured_internal_reg_nxt = event_occured_internal;
-            event_occured_nxt = (event_occured_internal_reg == 0) ? 0 : 1;
+            if(card_address_reg[0] == 4'h0) begin
+                card_address_reg_nxt[0] = temp_address;
+                card_address_reg_nxt[1] = 4'h0;
+            end
+            else if(card_address_reg[1] == 4'h0 && card_address_reg[0] != temp_address) begin
+                card_address_reg_nxt[0] = card_address_reg[0];
+                card_address_reg_nxt[1] = temp_address;
+            end
+            else begin
+                //This situation should never happens, but was left for safety reasons
+                card_address_reg_nxt[0] = temp_address;
+                card_address_reg_nxt[1] = 4'h0;
+            end
         end
         else begin
-            event_occured_internal_reg_nxt = 0;
-            card_clicked_address_nxt = 4'h0;
-            event_occured_nxt = 0;
+            card_address_reg_nxt[0] = card_address_reg[0];
+            card_address_reg_nxt[1] = card_address_reg[1];
+            temp_address = 4'h0;
         end
     end
+    
+    assign event_occured        = event_occured_internal && (card_address_reg[0] != temp_address) ? 1 : 0;
+    assign card_clicked_address = card_address_reg[1] ? card_address_reg[1] :
+                                  card_address_reg[0] ? card_address_reg[0] : 4'h0;
+                                  
+    assign cards_to_compare     = (card_address_reg[0] && card_address_reg[1]) ? {card_address_reg[1], card_address_reg[0], 1'b1} : 0;
 endmodule
