@@ -2,9 +2,12 @@
 
 
 module testbench();
-
-    reg clk, rst, do;
-    wire done;
+    wire compute_done;
+    reg clk, rst, do; 
+    reg compute_colors_en;
+    wire [13:0] card_write_data;
+    wire [3:0] card_write_address;
+    //wire done;
     
     initial begin
         clk = 0;
@@ -14,7 +17,29 @@ module testbench();
     always begin 
     #15 clk = !clk;
     end
-
+    
+    compute_colors MG_compute_colors(
+        .clk(clk),
+        .rst(rst),
+        .enable(compute_colors_en),
+        .done(compute_done),
+        .computed_data(card_write_data),
+        .computed_address(card_write_address)
+    );
+    
+    always @(posedge clk) begin
+        if(compute_done) compute_colors_en = 1'b0;
+    end
+    
+        initial begin
+            #40 rst = 1'b0;
+            #100 rst = 1'b1;
+            #50 rst = 1'b0;
+            #50 compute_colors_en = 1'b1;
+            
+        end
+    
+/*
     draw_cards display_cards(
         .pclk(clk),
         .rst(rst),
@@ -39,6 +64,6 @@ module testbench();
         end
     end
 
-
+*/
     
 endmodule

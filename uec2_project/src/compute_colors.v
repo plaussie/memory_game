@@ -46,43 +46,49 @@ module compute_colors(
     
     reg [11:0] computed_color_nxt;
     reg [3:0] computed_address_nxt;
+    reg [3:0] random_value = 4'b1000;
+    wire [3:0] bit;
+    
+    assign bit = ((random_value >> 0)^(random_value >> 1));
     
     always @(posedge clk) begin
         if(rst) begin
             computed_data <= {12'h0_0_0, 2'b00};
             computed_address <= 4'b0000;
+            random_value <= 4'b1000;
         end
         else begin
-            computed_data <= {computed_color_nxt, 2'b01};
+            computed_data <= {computed_color_nxt, 2'b11};
             computed_address <= computed_address_nxt;
+            random_value <= (random_value >> 1) | (bit << 3);
         end
     end
     
     always @* begin
-        if(enable) begin
-            case(computed_address[3:0])
+        if(enable && ((random_value > 0) && (random_value < 13))) begin
+            case(random_value)
                 // It might be misleading, but when address is 4'h0, color for address 4'h1 is computed. 
                 // It is because the register 4'h0 is left for other variables.
-                4'h0: computed_color_nxt = RED    ; // First card's color (register '4'h1')
-                4'h1: computed_color_nxt = GREEN  ; // and so on
-                4'h2: computed_color_nxt = BLUE   ;
-                4'h3: computed_color_nxt = CYAN   ;
-                4'h4: computed_color_nxt = MAGENTA;
-                4'h5: computed_color_nxt = YELLOW ;
-                4'h6: computed_color_nxt = RED    ;
-                4'h7: computed_color_nxt = GREEN  ;
-                4'h8: computed_color_nxt = BLUE   ;
-                4'h9: computed_color_nxt = CYAN   ;
-                4'ha: computed_color_nxt = MAGENTA;
-                4'hb: computed_color_nxt = YELLOW ; // Last card's color (register '4'hc')
-                default: computed_color_nxt = MINT; // It does not do anything, but was used to help with debugging
+                4'h1: computed_color_nxt = GREEN;
+                4'h2: computed_color_nxt = GREEN;
+                4'h3: computed_color_nxt = YELLOW;
+                4'h4: computed_color_nxt = YELLOW;
+                4'h5: computed_color_nxt = RED;
+                4'h6: computed_color_nxt = RED;
+                4'h7: computed_color_nxt = BLUE    ;
+                4'h8: computed_color_nxt = BLUE  ;
+                4'h9: computed_color_nxt = MAGENTA   ;
+                4'ha: computed_color_nxt = MAGENTA   ;
+                4'hb: computed_color_nxt = MINT;
+                4'hc: computed_color_nxt = MINT ; // Last card's color (register '4'hc') */
+                default: computed_color_nxt = WHITE; // It does not do anything, but was used to help with debugging
             endcase
             computed_address_nxt = computed_address + 1;
         end
         else begin
             // It does not do anything, but was left for safety reasons
-            computed_color_nxt = 12'h0_0_0;
-            computed_address_nxt = 0;
+            //computed_color_nxt = 12'h0_0_0;
+            computed_address_nxt = computed_address;
         end
     end
     
