@@ -19,23 +19,22 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module event_checker (
+module event_checker
+    #( parameter
+        X_POS   = 312,
+        Y_POS   = 284,
+        WIDTH   = 400,
+        HEIGHT  = 200
+    )
+    (
     input wire          clk,
-    
-    input wire          start,
-    
-    input wire [11:0]   x_begin,
-    input wire [11:0]   x_end,
-    input wire [11:0]   y_begin,
-    input wire [11:0]   y_end,
-    
+    input wire          rst,    
+    input wire          enable,
     input wire          kind_of_event,
     input wire [11:0]   mouse_xpos,
     input wire [11:0]   mouse_ypos,
     
-    output reg          event_occured,
-    
-    input wire          rst
+    output reg          event_occured
     );
     
     reg event_occured_nxt;
@@ -50,9 +49,9 @@ module event_checker (
     end
     
     always @* begin
-        if(start) begin
+        if(enable) begin
             if(kind_of_event) begin
-                if(mouse_xpos > x_begin && mouse_xpos < x_end && mouse_ypos > y_begin && mouse_ypos < y_end) begin
+                if((mouse_xpos > X_POS) && (mouse_xpos < X_POS + WIDTH) && (mouse_ypos > Y_POS) && (mouse_ypos < Y_POS + HEIGHT)) begin
                     event_occured_nxt = 1;
                 end
                 else begin
