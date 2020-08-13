@@ -58,7 +58,7 @@ module compute_colors(
             random_value <= 4'b1000;
         end
         else begin
-            computed_data <= {computed_color_nxt, 2'b11};
+            computed_data <= {computed_color_nxt, 2'b01};
             computed_address <= computed_address_nxt;
             random_value <= (random_value >> 1) | (bit << 3);
         end
@@ -81,7 +81,7 @@ module compute_colors(
                 4'ha: computed_color_nxt = MAGENTA   ;
                 4'hb: computed_color_nxt = MINT;
                 4'hc: computed_color_nxt = MINT ; // Last card's color (register '4'hc') */
-                default: computed_color_nxt = WHITE; // It does not do anything, but was used to help with debugging
+                //default: computed_color_nxt = WHITE; // It does not do anything, but was used to help with debugging
             endcase
             computed_address_nxt = computed_address + 1;
         end
