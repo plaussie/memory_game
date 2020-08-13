@@ -79,8 +79,8 @@ module compute_colors(
                 4'h8: computed_color_nxt = BLUE  ;
                 4'h9: computed_color_nxt = MAGENTA   ;
                 4'ha: computed_color_nxt = MAGENTA   ;
-                4'hb: computed_color_nxt = MINT;
-                4'hc: computed_color_nxt = MINT ; // Last card's color (register '4'hc') */
+                4'hb: computed_color_nxt = CYAN;    
+                4'hc: computed_color_nxt = CYAN; // Last card's color (register '4'hc') */
                 //default: computed_color_nxt = WHITE; // It does not do anything, but was used to help with debugging
             endcase
             computed_address_nxt = computed_address + 1;
