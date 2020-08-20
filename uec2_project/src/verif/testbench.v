@@ -7,6 +7,7 @@ module testbench();
     reg clk65MHz, rst, left;
     reg [11:0] xpos, ypos;
     wire done;
+
     
     initial begin
         clk65MHz = 0;
@@ -49,6 +50,7 @@ module testbench();
 
     compute_colors MG_compute_colors(
         .clk(clk65MHz),
+
         .rst(rst),
         .enable(compute_colors_en),
         .done(compute_done),
@@ -86,7 +88,7 @@ module testbench();
         .r_address(regfile_r_address)
     );
     
-    //***Card Press Checker with returned card index***// na ten moment, bez zwracania, która karta
+    //***Card Press Checker with returned card index***// na ten moment, bez zwracania, ktÃ³ra karta
     
     card_press_checker MG_card_press_checker (
         .clk(clk65MHz),
@@ -206,5 +208,4 @@ module testbench();
         #100
         left = 0;
     end
-
 endmodule
