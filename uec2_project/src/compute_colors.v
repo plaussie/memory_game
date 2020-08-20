@@ -75,10 +75,10 @@ module compute_colors(
                 4'h4: computed_color_nxt = YELLOW;
                 4'h5: computed_color_nxt = RED;
                 4'h6: computed_color_nxt = RED;
-                4'h7: computed_color_nxt = BLUE    ;
-                4'h8: computed_color_nxt = BLUE  ;
-                4'h9: computed_color_nxt = MAGENTA   ;
-                4'ha: computed_color_nxt = MAGENTA   ;
+                4'h7: computed_color_nxt = BLUE;
+                4'h8: computed_color_nxt = BLUE;
+                4'h9: computed_color_nxt = MAGENTA;
+                4'ha: computed_color_nxt = MAGENTA;
                 4'hb: computed_color_nxt = CYAN;    
                 4'hc: computed_color_nxt = CYAN; // Last card's color (register '4'hc') */
                 //default: computed_color_nxt = WHITE; // It does not do anything, but was used to help with debugging
