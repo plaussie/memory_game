@@ -71,7 +71,7 @@ module regfileCtl(
             end
             READ_ALL_CARDS: 
             begin
-                if(regfile_r_address == NUM_CARDS+FIRST_CARD_INDEX) begin
+                if(regfile_r_address == NUM_CARDS) begin
                     state_nxt = READ_ONE_CARD;
                     regfile_r_address_nxt = read_one_card;
                 end

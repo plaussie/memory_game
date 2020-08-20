@@ -19,6 +19,8 @@
 // Revision 0.32 - Deleted mouse delay
 // Revision 0.33 - Added genvar in drawing cards
 // Revision 0.40 - Added regfile with its control unit
+// Revision 0.50 - 2 cards can be discovered, then game stops
+// Revision 0.80 - Playable version
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
@@ -94,10 +96,13 @@ module top (
     );
     
     //***The Main State Machine***//
+    wire [13:0] regfile_w_data, regfile_r_data;
     
     wire start_butt_pressed, card_pressed;
     wire compute_done;
     wire start_butt_en, compute_colors_en, update_cards_en, wait_for_click_en, write_card_en;
+    wire [3:0] card_clicked_address, write_card_address;
+    wire [1:0] write_card_state;
 
     state_machine MG_state_machine(
         .clk(clk65MHz),
@@ -105,11 +110,15 @@ module top (
         .start_butt_pressed(start_butt_pressed),
         .compute_done(compute_done),
         .card_pressed(card_pressed),
+        .card_clicked_address(card_clicked_address),
+        .card_clicked_color(regfile_r_data[13:2]),
         .start_butt_en(start_butt_en),
         .update_cards_en(update_cards_en),
         .compute_colors_en(compute_colors_en),
         .wait_for_click_en(wait_for_click_en),
-        .write_card_en(write_card_en)
+        .write_card_en(write_card_en),
+        .write_card_state(write_card_state),
+        .write_card_address(write_card_address)
     );
     
     //***Cards Colors Generator***//
@@ -129,16 +138,16 @@ module top (
     //***RegFile Controller***//
     
     wire [1:0] regfile_w_enable;
-    wire [13:0] regfile_w_data, regfile_r_data;
-    wire [3:0] regfile_w_address, regfile_r_address, card_clicked_address;
+    
+    wire [3:0] regfile_w_address, regfile_r_address, card_to_test_address;
     
     regfileCtl MG_regfileCtl(
         .clk(clk65MHz),
         .rst(rst),
         .read_all_cards(update_cards_en),
-        .read_one_card(4'h0/*card_clicked_address*/),
+        .read_one_card(card_to_test_address),
         .write_data_1({card_write_data, card_write_address, compute_colors_en}),
-        .write_data_2({2'b11, card_clicked_address, write_card_en}),
+        .write_data_2({write_card_state, write_card_address, write_card_en}),
         .regfile_w_enable(regfile_w_enable),
         .regfile_w_address(regfile_w_address),
         .regfile_w_data(regfile_w_data),
@@ -157,17 +166,18 @@ module top (
     );
     
     //***Card Press Checker with returned card index***// na ten moment, bez zwracania, która karta
-    
-    card_press_checker MG_check_if_left_clicked_card (
+
+    card_press_checker MG_card_press_checker (
         .clk(clk65MHz),
         .rst(rst),
         .enable(wait_for_click_en),
         .kind_of_event(left),
         .mouse_xpos(xpos),
         .mouse_ypos(ypos),
-        .read_card_state(regfile_r_data[1:0]),
+        .card_test_state(regfile_r_data[1:0]),
+        .card_to_test_address(card_to_test_address),
         .card_clicked_address(card_clicked_address),
-        .event_occured(card_pressed)
+        .event_occurred(card_pressed)
     );
 
     //***VGA Timings Generator***//
@@ -205,7 +215,7 @@ module top (
         .kind_of_event(left),
         .mouse_xpos(xpos),
         .mouse_ypos(ypos),
-        .event_occured(start_butt_pressed),
+        .event_occurred(start_butt_pressed),
         .rst(rst)
     );
     
