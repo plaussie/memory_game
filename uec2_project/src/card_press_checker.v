@@ -26,10 +26,11 @@ module card_press_checker(
     input wire          kind_of_event,
     input wire [11:0]   mouse_xpos,
     input wire [11:0]   mouse_ypos,
+    input wire [1:0]    card_test_state,
     
-    output wire [3:0]   card_clicked_address,
-    output wire [8:0]   cards_to_compare, // [8:5] second card address, [4:1] first card address, [0]go_to_compare
-    output wire         event_occured
+    output reg [3:0]    card_clicked_address,
+    output reg [3:0]    card_to_test_address,
+    output reg          event_occurred
     );
     
     localparam
@@ -37,77 +38,142 @@ module card_press_checker(
     NUM_CARDS_Y = 3,
     NUM_CARDS = NUM_CARDS_X*NUM_CARDS_Y;
     
-    reg [3:0] card_address_reg [1:0];
-    reg [3:0] card_address_reg_nxt [1:0];
-    reg [3:0] temp_address;
-    wire [11:0] event_occured_internal;
+    localparam
+        WAIT_FOR_EVENT = 2'b00,
+        CHECK_IF_CARD_ACTIVE = 2'b01,
+        GENERATE_EVENT = 2'b10;
     
-    genvar i;
-        generate
-        for(i = 0; i < NUM_CARDS_X; i = i+1) begin
-            event_checker
-            #(
-                .X_POS(258*i + 50),
-                .Y_POS(50),
-                .WIDTH(150),
-                .HEIGHT(200)
-            )
-            MG_check_if_left_clicked_card (
-                .clk(clk),
-                .rst(rst),
-                .enable(enable),
-                .kind_of_event(kind_of_event),
-                .mouse_xpos(mouse_xpos),
-                .mouse_ypos(mouse_ypos),
-                .event_occured(event_occured_internal[i])
-            );
-        end
-        endgenerate
-        
-        genvar y;
-        generate
-        for(y = NUM_CARDS_X; y < 2*NUM_CARDS_X; y = y+1) begin
-            event_checker
-            #(
-                .X_POS(258*(y-NUM_CARDS_X) + 50),
-                .Y_POS(234 + 50),
-                .WIDTH(150),
-                .HEIGHT(200)
-            )
-            MG_check_if_left_clicked_card (
-                .clk(clk),
-                .rst(rst),
-                .enable(enable),
-                .kind_of_event(kind_of_event),
-                .mouse_xpos(mouse_xpos),
-                .mouse_ypos(mouse_ypos),
-                .event_occured(event_occured_internal[y])
-            );
-        end
-        endgenerate
-        
-        genvar z;
-        generate
-        for(z = 2*NUM_CARDS_X; z < 3*NUM_CARDS_X; z = z+1) begin
-            event_checker
-            #(
-                .X_POS(258*(z-2*NUM_CARDS_X) + 50),
-                .Y_POS(468 + 50),
-                .WIDTH(150),
-                .HEIGHT(200)
-            )
-            MG_check_if_left_clicked_card (
-                .clk(clk),
-                .rst(rst),
-                .enable(enable),
-                .kind_of_event(kind_of_event),
-                .mouse_xpos(mouse_xpos),
-                .mouse_ypos(mouse_ypos),
-                .event_occured(event_occured_internal[z])
-            );
-        end
-        endgenerate
+    wire [11:0] event_occurred_internal;
+    reg enable_internal, enable_internal_nxt, event_occurred_nxt;
+    reg [3:0] card_clicked_address_nxt, card_to_test_address_nxt;
+    reg [1:0] state, state_nxt;
 
+    genvar i;
+    generate
+    for(i = 0; i < NUM_CARDS_X; i = i+1) begin
+        event_checker
+        #(
+            .X_POS(258*i + 50),
+            .Y_POS(50),
+            .WIDTH(150),
+            .HEIGHT(200)
+        )
+        MG_check_if_left_clicked_card (
+            .clk(clk),
+            .rst(rst),
+            .enable(enable_internal),
+            .kind_of_event(kind_of_event),
+            .mouse_xpos(mouse_xpos),
+            .mouse_ypos(mouse_ypos),
+            .event_occurred(event_occurred_internal[i])
+        );
+    end
+    endgenerate
+    
+    genvar y;
+    generate
+    for(y = NUM_CARDS_X; y < 2*NUM_CARDS_X; y = y+1) begin
+        event_checker
+        #(
+            .X_POS(258*(y-NUM_CARDS_X) + 50),
+            .Y_POS(234 + 50),
+            .WIDTH(150),
+            .HEIGHT(200)
+        )
+        MG_check_if_left_clicked_card (
+            .clk(clk),
+            .rst(rst),
+            .enable(enable_internal),
+            .kind_of_event(kind_of_event),
+            .mouse_xpos(mouse_xpos),
+            .mouse_ypos(mouse_ypos),
+            .event_occurred(event_occurred_internal[y])
+        );
+    end
+    endgenerate
+    
+    genvar z;
+    generate
+    for(z = 2*NUM_CARDS_X; z < 3*NUM_CARDS_X; z = z+1) begin
+        event_checker
+        #(
+            .X_POS(258*(z-2*NUM_CARDS_X) + 50),
+            .Y_POS(468 + 50),
+            .WIDTH(150),
+            .HEIGHT(200)
+        )
+        MG_check_if_left_clicked_card (
+            .clk(clk),
+            .rst(rst),
+            .enable(enable_internal),
+            .kind_of_event(kind_of_event),
+            .mouse_xpos(mouse_xpos),
+            .mouse_ypos(mouse_ypos),
+            .event_occurred(event_occurred_internal[z])
+        );
+    end
+    endgenerate
+   
+    always @(posedge clk) begin
+        if(rst) begin
+            state <= WAIT_FOR_EVENT;
+            enable_internal <= 0;
+            card_clicked_address <= 4'h0;
+            card_to_test_address <= 4'h0;
+            event_occurred <= 0;
+        end
+        else begin
+            state <= state_nxt;
+            enable_internal <= enable_internal_nxt;
+            card_clicked_address <= card_clicked_address_nxt;
+            card_to_test_address <= card_to_test_address_nxt;
+            event_occurred <= event_occurred_nxt;
+        end
+    end
+    
+    always @* begin
+        state_nxt = state;
+        enable_internal_nxt = 0;
+        event_occurred_nxt = 0;
+        card_clicked_address_nxt = card_clicked_address;
+        
+        if(enable) begin
+            case(state)
+                WAIT_FOR_EVENT: begin
+                    enable_internal_nxt = 1;
+                    state_nxt = event_occurred_internal ? CHECK_IF_CARD_ACTIVE : state;
+                end
+                CHECK_IF_CARD_ACTIVE: begin
+                    state_nxt = card_test_state[0] == 0 ? WAIT_FOR_EVENT :
+                                card_test_state[1] == 1 ? WAIT_FOR_EVENT : GENERATE_EVENT;
+                end
+                GENERATE_EVENT: begin
+                    event_occurred_nxt = 1;
+                    card_clicked_address_nxt = card_to_test_address;
+                    state_nxt = WAIT_FOR_EVENT;
+                end
+            endcase
+        end
+    end
+    
+    always @* begin
+        case(event_occurred_internal)
+            1:    card_to_test_address_nxt = 4'h1;
+            2:    card_to_test_address_nxt = 4'h2;
+            4:    card_to_test_address_nxt = 4'h3;
+            8:    card_to_test_address_nxt = 4'h4;
+            16:   card_to_test_address_nxt = 4'h5;
+            32:   card_to_test_address_nxt = 4'h6;
+            64:   card_to_test_address_nxt = 4'h7;
+            128:  card_to_test_address_nxt = 4'h8;
+            256:  card_to_test_address_nxt = 4'h9;
+            512:  card_to_test_address_nxt = 4'ha;
+            1024: card_to_test_address_nxt = 4'hb;
+            2048: card_to_test_address_nxt = 4'hc;
+            default: card_to_test_address_nxt = card_to_test_address;
+        endcase
+    end
+    /*
     always @(posedge clk) begin
         if(rst) begin
             card_address_reg[0] <= 4'h0;
@@ -118,12 +184,14 @@ module card_press_checker(
             card_address_reg[1] <= card_address_reg_nxt[1];
         end
     end
+    */
     
+    /*
     always @* begin
         if(enable) begin 
             card_address_reg_nxt[0] = (card_address_reg[0] && card_address_reg[1]) ? 4'h0 : card_address_reg[0];
             card_address_reg_nxt[1] = (card_address_reg[0] && card_address_reg[1]) ? 4'h0 : card_address_reg[1];
-            case(event_occured_internal)
+            case(event_occurred_internal)
                 1:    temp_address = 4'h1;
                 2:    temp_address = 4'h2;
                 4:    temp_address = 4'h3;
@@ -159,9 +227,10 @@ module card_press_checker(
         end
     end
     
-    assign event_occured        = event_occured_internal && (card_address_reg[0] != temp_address) ? 1 : 0;
+    assign event_occurred        = event_occurred_internal && (card_address_reg[0] != temp_address) ? 1 : 0;
     assign card_clicked_address = card_address_reg[1] ? card_address_reg[1] :
                                   card_address_reg[0] ? card_address_reg[0] : 4'h0;
                                   
     assign cards_to_compare     = (card_address_reg[0] && card_address_reg[1]) ? {card_address_reg[1], card_address_reg[0], 1'b1} : 0;
+    */
 endmodule
