@@ -34,17 +34,17 @@ module event_checker
     input wire [11:0]   mouse_xpos,
     input wire [11:0]   mouse_ypos,
     
-    output reg          event_occured
+    output reg          event_occurred
     );
     
-    reg event_occured_nxt;
+    reg event_occurred_nxt;
     
     always @(posedge clk) begin
         if(rst) begin
-            event_occured <= 0;
+            event_occurred <= 0;
         end
         else begin
-            event_occured <= event_occured_nxt;
+            event_occurred <= event_occurred_nxt;
         end
     end
     
@@ -52,18 +52,18 @@ module event_checker
         if(enable) begin
             if(kind_of_event) begin
                 if((mouse_xpos > X_POS) && (mouse_xpos < X_POS + WIDTH) && (mouse_ypos > Y_POS) && (mouse_ypos < Y_POS + HEIGHT)) begin
-                    event_occured_nxt = 1;
+                    event_occurred_nxt = 1;
                 end
                 else begin
-                    event_occured_nxt = 0;
+                    event_occurred_nxt = 0;
                 end
             end
             else begin
-                event_occured_nxt = 0;
+                event_occurred_nxt = 0;
             end
         end
         else begin
-            event_occured_nxt = 0;
+            event_occurred_nxt = 0;
         end
     end
 endmodule
