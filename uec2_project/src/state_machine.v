@@ -53,7 +53,7 @@ module state_machine(
     reg [11:0] card_color_reg [1:0];
     reg [11:0] card_color_reg_nxt [1:0];
     
-    reg [2:0] cards_to_end, cards_to_end_nxt;
+    reg [2:0] cards_left, cards_left_nxt;
     
     localparam
     VALUE_EQUAL_1000MS = 32500000,
@@ -96,7 +96,7 @@ module state_machine(
             card_address_reg[1] <= 4'h0;
             card_color_reg[0] <= 12'h0_0_0;
             card_color_reg[1] <= 12'h0_0_0;
-            cards_to_end <= 6;
+            cards_left <= 6;
         end
         else begin
             state <= state_nxt;
@@ -113,7 +113,7 @@ module state_machine(
             card_address_reg[1] <= card_address_reg_nxt[1];
             card_color_reg[0] <= card_color_reg_nxt[0];
             card_color_reg[1] <= card_color_reg_nxt[1];
-            cards_to_end <= cards_to_end_nxt;
+            cards_left <= cards_left_nxt;
         end
     end
     
@@ -132,7 +132,7 @@ module state_machine(
         card_address_reg_nxt[1] = card_address_reg[1];
         card_color_reg_nxt[0] = card_color_reg[0];
         card_color_reg_nxt[1] = card_color_reg[1];
-        cards_to_end_nxt = cards_to_end;
+        cards_left_nxt = cards_left;
         
         case(state)
             MAIN_MENU: begin
@@ -141,13 +141,13 @@ module state_machine(
             end
             
             COMPUTE_COLORS: begin
-                cards_to_end_nxt = 6;
+                cards_left_nxt = 6;
                 state_nxt = compute_done ? UPDATE_CARDS_1 : state;
                 compute_colors_en_nxt = 1;
             end
             
             UPDATE_CARDS_1: begin
-                state_nxt = (cards_to_end == 0) ? COMPUTE_COLORS : TEMP_WAIT1;              // TEMP_WAIT only IRL
+                state_nxt = (cards_left == 0) ? COMPUTE_COLORS : TEMP_WAIT1;              // TEMP_WAIT only IRL
 //                state_nxt = WAIT_FOR_CLICK_1;      // For simulation ONLY
                 update_cards_en_nxt = 1;
                 /*card_address_reg_nxt[0] = 4'h0;
@@ -208,10 +208,10 @@ module state_machine(
             CALCULATE_CARDS_LEFT: begin
                 state_nxt = TEMP_WAIT3;
                 if(card_color_reg[0] == card_color_reg[1]) begin
-                    cards_to_end_nxt = cards_to_end - 1;
+                    cards_left_nxt = cards_left - 1;
                 end
                 else begin
-                    cards_to_end_nxt = cards_to_end;
+                    cards_left_nxt = cards_left;
                 end
             end
             
