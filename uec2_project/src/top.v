@@ -42,10 +42,10 @@ module top (
     //params
     localparam
     NUM_MODULES = 3,
-    START_BUTTON_X = 312,
-    START_BUTTON_Y = 284,
-    START_BUTTON_WIDTH = 400,
-    START_BUTTON_HEIGHT = 200,
+    START_BUTTON_X = 412,
+    START_BUTTON_Y = 328,
+    START_BUTTON_WIDTH = 200,
+    START_BUTTON_HEIGHT = 112,
     START_BUTTON_COLOR = 12'h0_A_A;
 
     //***Clock Generator***//
@@ -220,6 +220,8 @@ module top (
     );
     
     //***Start Button Display***//
+    wire [15:0] pixel_address;
+    wire [11:0] rgb_start_button;
     
     draw_rect 
     #(
@@ -233,10 +235,16 @@ module top (
         .pclk(clk65MHz),
         .rst(rst),
         .enable(start_butt_en),
+        .rgb_pixel(rgb_start_button),
         .vga_in(vga_bus[1]),
+        .pixel_address(pixel_address),
         .vga_out(vga_bus[2])
     );
-    
+    start_image_rom start_image(
+        .clk(clk65MHz),
+        .address(pixel_address),
+        .rgb(rgb_start_button)
+    );
     //***update_cards_en Delayer***//
     
     wire update_cards_en_delayed;
