@@ -30,7 +30,7 @@ module stopwatch(
     );
     
     reg [5:0] minutes_nxt, seconds_nxt;
-    reg [24:0] ctr, ctr_nxt;
+    reg [25:0] ctr, ctr_nxt;
     reg [1:0] state, state_nxt;
     
     localparam
@@ -39,7 +39,7 @@ module stopwatch(
     PAUSE = 2'b01;
     
     localparam
-    VALUE_EQUAL_1000MS = 32500000;
+    VALUE_EQUAL_ONE_SEC = 65_000_000;
     
     always @(posedge clk) begin
         if(rst) begin
@@ -76,7 +76,7 @@ module stopwatch(
             COUNT: begin
                 state_nxt = pause ? PAUSE :
                             stop ? IDLE : state;
-                if(ctr == VALUE_EQUAL_1000MS) begin
+                if(ctr == VALUE_EQUAL_ONE_SEC) begin
                     ctr_nxt = 0;
                     if(seconds == 59) begin
                         seconds_nxt = 0;
