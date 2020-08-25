@@ -89,7 +89,8 @@ module compute_colors(
                         4'h8: computed_color_nxt = GREEN;
                         4'h9: computed_color_nxt = MAGENTA;
                         4'ha: computed_color_nxt = RED;    
-                        4'hb: computed_color_nxt = BLUE; 
+                        4'hb: computed_color_nxt = BLUE;
+                        default: computed_color_nxt = WHITE;
                     endcase
                 end
                 3'b001: begin
@@ -107,7 +108,8 @@ module compute_colors(
                         4'h8: computed_color_nxt = CYAN;
                         4'h9: computed_color_nxt = MAGENTA;
                         4'ha: computed_color_nxt = YELLOW;    
-                        4'hb: computed_color_nxt = GREEN; 
+                        4'hb: computed_color_nxt = GREEN;
+                        default: computed_color_nxt = WHITE;
                     endcase
                 end 
                 3'b010: begin
@@ -125,7 +127,8 @@ module compute_colors(
                         4'h8: computed_color_nxt = CYAN;
                         4'h9: computed_color_nxt = RED;
                         4'ha: computed_color_nxt = GREEN;    
-                        4'hb: computed_color_nxt = RED; 
+                        4'hb: computed_color_nxt = RED;
+                        default: computed_color_nxt = WHITE;
                     endcase
                 end
                 3'b011: begin
@@ -143,7 +146,8 @@ module compute_colors(
                         4'h8: computed_color_nxt = MAGENTA;
                         4'h9: computed_color_nxt = RED;
                         4'ha: computed_color_nxt = YELLOW;    
-                        4'hb: computed_color_nxt = YELLOW; 
+                        4'hb: computed_color_nxt = YELLOW;
+                        default: computed_color_nxt = WHITE; 
                     endcase
                 end
                 3'b100: begin
@@ -161,7 +165,8 @@ module compute_colors(
                         4'h8: computed_color_nxt = RED;
                         4'h9: computed_color_nxt = CYAN;
                         4'ha: computed_color_nxt = RED;    
-                        4'hb: computed_color_nxt = BLUE; 
+                        4'hb: computed_color_nxt = BLUE;
+                        default: computed_color_nxt = WHITE; 
                     endcase
                 end 
                 3'b101: begin
@@ -179,7 +184,8 @@ module compute_colors(
                         4'h8: computed_color_nxt = BLUE;
                         4'h9: computed_color_nxt = YELLOW;
                         4'ha: computed_color_nxt = MAGENTA;    
-                        4'hb: computed_color_nxt = BLUE; 
+                        4'hb: computed_color_nxt = BLUE;
+                        default: computed_color_nxt = WHITE; 
                     endcase
                 end  
                 3'b110: begin
@@ -197,7 +203,8 @@ module compute_colors(
                         4'h8: computed_color_nxt = CYAN;
                         4'h9: computed_color_nxt = MAGENTA;
                         4'ha: computed_color_nxt = CYAN;    
-                        4'hb: computed_color_nxt = YELLOW; 
+                        4'hb: computed_color_nxt = YELLOW;
+                        default: computed_color_nxt = WHITE; 
                     endcase
                 end    
                 3'b111: begin
@@ -215,7 +222,8 @@ module compute_colors(
                         4'h8: computed_color_nxt = BLUE;
                         4'h9: computed_color_nxt = MAGENTA;
                         4'ha: computed_color_nxt = CYAN;    
-                        4'hb: computed_color_nxt = BLUE; 
+                        4'hb: computed_color_nxt = BLUE;
+                        default: computed_color_nxt = WHITE; 
                     endcase
                 end                                                                                                        
             endcase
@@ -223,7 +231,7 @@ module compute_colors(
         end
         else begin
             // It does not do anything, but was left for safety reasons
-            //computed_color_nxt = 12'h0_0_0;
+            computed_color_nxt = 12'h0_0_0;
             computed_address_nxt = computed_address;
         end
     end

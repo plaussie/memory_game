@@ -108,7 +108,7 @@ module draw_background(
             else if ((hcount_in >= 719 && hcount_in < 735) && ((vcount_in >= 239 && vcount_in < 255) || (vcount_in >= 287 && vcount_in < 303))) rgb_nxt <= MEMORY_SIGN;
             else if ((hcount_in >= 735 && hcount_in < 751) && (vcount_in >= 175 && vcount_in < 287)) rgb_nxt <= MEMORY_SIGN;
             else
-                rgb_nxt <= 12'h8_8_f;
+                rgb_nxt <= rgb_in;
         end
     end 
 endmodule
