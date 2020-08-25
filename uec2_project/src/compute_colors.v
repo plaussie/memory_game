@@ -46,42 +46,178 @@ module compute_colors(
     
     reg [11:0] computed_color_nxt;
     reg [3:0] computed_address_nxt;
-    reg [3:0] random_value = 4'b1000;
-    wire [3:0] bit;
-    
-    assign bit = ((random_value >> 0)^(random_value >> 1));
+    reg [2:0] game_version, game_version_nxt;
     
     always @(posedge clk) begin
         if(rst) begin
             computed_data <= {12'h0_0_0, 2'b00};
             computed_address <= 4'b0000;
-            random_value <= 4'b1000;
+            game_version <= 0;
         end
         else begin
             computed_data <= {computed_color_nxt, 2'b01};
             computed_address <= computed_address_nxt;
-            random_value <= (random_value >> 1) | (bit << 3);
+            game_version <= game_version_nxt;
         end
     end
     
     always @* begin
-        if(enable && ((random_value > 0) && (random_value < 13))) begin
-            case(random_value)
-                // It might be misleading, but when address is 4'h0, color for address 4'h1 is computed. 
-                // It is because the register 4'h0 is left for other variables.
-                4'h1: computed_color_nxt = GREEN;
-                4'h2: computed_color_nxt = GREEN;
-                4'h3: computed_color_nxt = YELLOW;
-                4'h4: computed_color_nxt = YELLOW;
-                4'h5: computed_color_nxt = RED;
-                4'h6: computed_color_nxt = RED;
-                4'h7: computed_color_nxt = BLUE;
-                4'h8: computed_color_nxt = BLUE;
-                4'h9: computed_color_nxt = MAGENTA;
-                4'ha: computed_color_nxt = MAGENTA;
-                4'hb: computed_color_nxt = CYAN;    
-                4'hc: computed_color_nxt = CYAN; // Last card's color (register '4'hc') */
-                //default: computed_color_nxt = WHITE; // It does not do anything, but was used to help with debugging
+        if(enable)
+            game_version_nxt = game_version;
+        else if (3'b111 == game_version)
+            game_version_nxt = 0;
+        else  
+            game_version_nxt = game_version + 1;
+    end
+    
+    
+    always @* begin
+        if(enable) begin
+            case(game_version)
+                3'b000: begin
+                    case(computed_address)
+                        // It might be misleading, but when address is 4'h0, color for address 4'h1 is computed. 
+                        // It is because the register 4'h0 is left for other variables.
+                        4'h0: computed_color_nxt = YELLOW;
+                        4'h1: computed_color_nxt = RED;
+                        4'h2: computed_color_nxt = BLUE;
+                        4'h3: computed_color_nxt = GREEN;
+                        4'h4: computed_color_nxt = CYAN;
+                        4'h5: computed_color_nxt = MAGENTA;
+                        4'h6: computed_color_nxt = CYAN;
+                        4'h7: computed_color_nxt = YELLOW;
+                        4'h8: computed_color_nxt = GREEN;
+                        4'h9: computed_color_nxt = MAGENTA;
+                        4'ha: computed_color_nxt = RED;    
+                        4'hb: computed_color_nxt = BLUE; 
+                    endcase
+                end
+                3'b001: begin
+                    case(computed_address)
+                        // It might be misleading, but when address is 4'h0, color for address 4'h1 is computed. 
+                        // It is because the register 4'h0 is left for other variables.
+                        4'h0: computed_color_nxt = RED;
+                        4'h1: computed_color_nxt = GREEN;
+                        4'h2: computed_color_nxt = BLUE;
+                        4'h3: computed_color_nxt = CYAN;
+                        4'h4: computed_color_nxt = BLUE;
+                        4'h5: computed_color_nxt = RED;
+                        4'h6: computed_color_nxt = YELLOW;
+                        4'h7: computed_color_nxt = MAGENTA;
+                        4'h8: computed_color_nxt = CYAN;
+                        4'h9: computed_color_nxt = MAGENTA;
+                        4'ha: computed_color_nxt = YELLOW;    
+                        4'hb: computed_color_nxt = GREEN; 
+                    endcase
+                end 
+                3'b010: begin
+                    case(computed_address)
+                        // It might be misleading, but when address is 4'h0, color for address 4'h1 is computed. 
+                        // It is because the register 4'h0 is left for other variables.
+                        4'h0: computed_color_nxt = YELLOW;
+                        4'h1: computed_color_nxt = CYAN;
+                        4'h2: computed_color_nxt = GREEN;
+                        4'h3: computed_color_nxt = BLUE;
+                        4'h4: computed_color_nxt = YELLOW;
+                        4'h5: computed_color_nxt = BLUE;
+                        4'h6: computed_color_nxt = MAGENTA;
+                        4'h7: computed_color_nxt = MAGENTA;
+                        4'h8: computed_color_nxt = CYAN;
+                        4'h9: computed_color_nxt = RED;
+                        4'ha: computed_color_nxt = GREEN;    
+                        4'hb: computed_color_nxt = RED; 
+                    endcase
+                end
+                3'b011: begin
+                    case(computed_address)
+                        // It might be misleading, but when address is 4'h0, color for address 4'h1 is computed. 
+                        // It is because the register 4'h0 is left for other variables.
+                        4'h0: computed_color_nxt = BLUE;
+                        4'h1: computed_color_nxt = MAGENTA;
+                        4'h2: computed_color_nxt = BLUE;
+                        4'h3: computed_color_nxt = GREEN;
+                        4'h4: computed_color_nxt = RED;
+                        4'h5: computed_color_nxt = CYAN;
+                        4'h6: computed_color_nxt = GREEN;
+                        4'h7: computed_color_nxt = CYAN;
+                        4'h8: computed_color_nxt = MAGENTA;
+                        4'h9: computed_color_nxt = RED;
+                        4'ha: computed_color_nxt = YELLOW;    
+                        4'hb: computed_color_nxt = YELLOW; 
+                    endcase
+                end
+                3'b100: begin
+                    case(computed_address)
+                        // It might be misleading, but when address is 4'h0, color for address 4'h1 is computed. 
+                        // It is because the register 4'h0 is left for other variables.
+                        4'h0: computed_color_nxt = MAGENTA;
+                        4'h1: computed_color_nxt = CYAN;
+                        4'h2: computed_color_nxt = YELLOW;
+                        4'h3: computed_color_nxt = MAGENTA;
+                        4'h4: computed_color_nxt = GREEN;
+                        4'h5: computed_color_nxt = BLUE;
+                        4'h6: computed_color_nxt = GREEN;
+                        4'h7: computed_color_nxt = YELLOW;
+                        4'h8: computed_color_nxt = RED;
+                        4'h9: computed_color_nxt = CYAN;
+                        4'ha: computed_color_nxt = RED;    
+                        4'hb: computed_color_nxt = BLUE; 
+                    endcase
+                end 
+                3'b101: begin
+                    case(computed_address)
+                        // It might be misleading, but when address is 4'h0, color for address 4'h1 is computed. 
+                        // It is because the register 4'h0 is left for other variables.
+                        4'h0: computed_color_nxt = GREEN;
+                        4'h1: computed_color_nxt = CYAN;
+                        4'h2: computed_color_nxt = GREEN;
+                        4'h3: computed_color_nxt = MAGENTA;
+                        4'h4: computed_color_nxt = YELLOW;
+                        4'h5: computed_color_nxt = CYAN;
+                        4'h6: computed_color_nxt = RED;
+                        4'h7: computed_color_nxt = RED;
+                        4'h8: computed_color_nxt = BLUE;
+                        4'h9: computed_color_nxt = YELLOW;
+                        4'ha: computed_color_nxt = MAGENTA;    
+                        4'hb: computed_color_nxt = BLUE; 
+                    endcase
+                end  
+                3'b110: begin
+                    case(computed_address)
+                        // It might be misleading, but when address is 4'h0, color for address 4'h1 is computed. 
+                        // It is because the register 4'h0 is left for other variables.
+                        4'h0: computed_color_nxt = MAGENTA;
+                        4'h1: computed_color_nxt = GREEN;
+                        4'h2: computed_color_nxt = BLUE;
+                        4'h3: computed_color_nxt = BLUE;
+                        4'h4: computed_color_nxt = GREEN;
+                        4'h5: computed_color_nxt = RED;
+                        4'h6: computed_color_nxt = RED;
+                        4'h7: computed_color_nxt = YELLOW;
+                        4'h8: computed_color_nxt = CYAN;
+                        4'h9: computed_color_nxt = MAGENTA;
+                        4'ha: computed_color_nxt = CYAN;    
+                        4'hb: computed_color_nxt = YELLOW; 
+                    endcase
+                end    
+                3'b111: begin
+                    case(computed_address)
+                        // It might be misleading, but when address is 4'h0, color for address 4'h1 is computed. 
+                        // It is because the register 4'h0 is left for other variables.
+                        4'h0: computed_color_nxt = GREEN;
+                        4'h1: computed_color_nxt = RED;
+                        4'h2: computed_color_nxt = MAGENTA;
+                        4'h3: computed_color_nxt = YELLOW;
+                        4'h4: computed_color_nxt = RED;
+                        4'h5: computed_color_nxt = CYAN;
+                        4'h6: computed_color_nxt = YELLOW;
+                        4'h7: computed_color_nxt = GREEN;
+                        4'h8: computed_color_nxt = BLUE;
+                        4'h9: computed_color_nxt = MAGENTA;
+                        4'ha: computed_color_nxt = CYAN;    
+                        4'hb: computed_color_nxt = BLUE; 
+                    endcase
+                end                                                                                                        
             endcase
             computed_address_nxt = computed_address + 1;
         end

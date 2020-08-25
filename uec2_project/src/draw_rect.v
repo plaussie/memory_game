@@ -23,17 +23,19 @@
 
 module draw_rect
     #( parameter
-        X_POS   = 312,
-        Y_POS   = 284,
-        WIDTH   = 400,
-        HEIGHT  = 200,
+        X_POS   = 412,
+        Y_POS   = 328,
+        WIDTH   = 200,
+        HEIGHT  = 112,
         COLOR   = 12'h0_A_A
     )
     (
         input wire pclk,
         input wire rst,
         input wire enable,
+        input wire [11:0] rgb_pixel,
         input wire [`VGA_BUS_SIZE-1:0] vga_in,
+        output reg [15:0] pixel_address,
         output wire [`VGA_BUS_SIZE-1:0] vga_out
     );
 
@@ -42,6 +44,10 @@ module draw_rect
     `VGA_MERGE_OUTPUT(vga_out)
     
     reg [11:0] rgb_nxt;
+    wire hs_in_delayed, vs_in_delayed, hblnk_in_delayed, vblnk_in_delayed;
+    wire [11:0] rgb_in_delayed;
+    reg [7:0] addry, addrx;
+    wire [10:0] hcount_in_delayed, vcount_in_delayed;
     
     always @(posedge pclk)
     begin
@@ -53,6 +59,7 @@ module draw_rect
             hcount_out <= 0;
             vcount_out <= 0;
             rgb_out <= 0;
+            pixel_address <= 16'bx;
         end
         else begin
             // Just pass these through.
@@ -64,17 +71,42 @@ module draw_rect
             vcount_out <= vcount_in;
             // Changing color in rectangle place
             rgb_out <= rgb_nxt;
+            pixel_address <= {addry[7:0],addrx[7:0]};
         end
     end
     
     always @*
     begin
-        if (enable && ((hcount_in >= X_POS) && (hcount_in < X_POS+WIDTH) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
-            rgb_nxt <= COLOR;
+        if (enable && ((hcount_in_delayed >= X_POS) && (hcount_in_delayed < X_POS+WIDTH) && (vcount_in_delayed >= Y_POS) && (vcount_in_delayed < Y_POS+HEIGHT))) begin
+            rgb_nxt <= rgb_pixel;
         end
         else begin
-            rgb_nxt <= rgb_in;
+            rgb_nxt <= rgb_in_delayed;
         end
     end
 
+    always @*
+    begin
+        if (enable && ((hcount_in >= X_POS) && (hcount_in < X_POS+WIDTH) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
+            addrx = hcount_in-X_POS;
+            addry = vcount_in-Y_POS;
+        end
+        else begin
+            addrx = 8'bx;
+            addry = 8'bx;
+        end
+    end
+    
+    delay
+    #(
+        .WIDTH(38),
+        .CLK_DEL(2)
+    )
+    delay_in_draw_rect (
+        .clk(pclk),
+        .rst(rst),
+        .din({rgb_in, hcount_in, vcount_in, hs_in, vs_in, hblnk_in, vblnk_in}),
+        .dout({rgb_in_delayed, hcount_in_delayed, vcount_in_delayed, hs_in_delayed, vs_in_delayed, hblnk_in_delayed, vblnk_in_delayed})
+    );
+    
 endmodule
