@@ -33,9 +33,12 @@ module state_machine(
     
     output reg start_butt_en,
     output reg compute_colors_en,
+    output reg stopwatch_en,
+    output reg stopwatch_disable,
     output reg update_cards_en,
     output reg wait_for_click_en,
     output reg write_card_en,
+    output reg end_screen_en,
     output reg [1:0] write_card_state,
     output reg [3:0] write_card_address
        
@@ -44,8 +47,9 @@ module state_machine(
     reg [3:0] state, state_nxt;
     reg [1:0] write_card_state_nxt;
     reg [3:0] write_card_address_nxt;
-    reg start_butt_en_nxt, compute_colors_en_nxt, update_cards_en_nxt, wait_for_click_en_nxt, write_card_en_nxt, summary_ctr, summary_ctr_nxt;
-    reg [26:0] temp_wait_ctr, temp_wait_ctr_nxt;
+    reg start_butt_en_nxt, compute_colors_en_nxt, update_cards_en_nxt, wait_for_click_en_nxt, write_card_en_nxt, summary_ctr, summary_ctr_nxt,
+        stopwatch_en_nxt, stopwatch_disable_nxt, end_screen_en_nxt;
+    reg [24:0] temp_wait_ctr, temp_wait_ctr_nxt;
     
     reg [3:0] card_address_reg [1:0];
     reg [3:0] card_address_reg_nxt [1:0];
@@ -85,9 +89,12 @@ module state_machine(
             state <= MAIN_MENU;
             start_butt_en <= 0;
             compute_colors_en <= 0;
+            stopwatch_en <= 0;
+            stopwatch_disable <= 0;
             update_cards_en <= 0;
             wait_for_click_en <= 0;
             write_card_en <= 0;
+            end_screen_en <= 0;
             write_card_state <= 2'b00;
             write_card_address <= 4'h0;
             temp_wait_ctr <= 0;
@@ -102,9 +109,12 @@ module state_machine(
             state <= state_nxt;
             start_butt_en <= start_butt_en_nxt;
             compute_colors_en <= compute_colors_en_nxt;
+            stopwatch_en <= stopwatch_en_nxt;
+            stopwatch_disable <= stopwatch_disable_nxt;
             update_cards_en <= update_cards_en_nxt;
             wait_for_click_en <= wait_for_click_en_nxt;
             write_card_en <= write_card_en_nxt;
+            end_screen_en <= end_screen_en_nxt;
             write_card_state <= write_card_state_nxt;
             write_card_address <= write_card_address_nxt;
             temp_wait_ctr <= temp_wait_ctr_nxt;
@@ -121,9 +131,12 @@ module state_machine(
         state_nxt = state;
         start_butt_en_nxt = 0;
         compute_colors_en_nxt = 0;
+        stopwatch_en_nxt = 0;
+        stopwatch_disable_nxt = 0;
         update_cards_en_nxt = 0;
         wait_for_click_en_nxt = 0;
         write_card_en_nxt = 0;
+        end_screen_en_nxt = 0;
         write_card_state_nxt = 2'b00;
         write_card_address_nxt = 4'h0;
         temp_wait_ctr_nxt = 0;
@@ -144,11 +157,12 @@ module state_machine(
                 cards_left_nxt = 6;
                 state_nxt = compute_done ? UPDATE_CARDS_1 : state;
                 compute_colors_en_nxt = 1;
+                stopwatch_en_nxt = 1;
             end
             
             UPDATE_CARDS_1: begin
-                state_nxt = (cards_left == 0) ? COMPUTE_COLORS : TEMP_WAIT1;              // TEMP_WAIT only IRL
-//                state_nxt = WAIT_FOR_CLICK_1;      // For simulation ONLY
+                state_nxt = (cards_left == 0) ? END_SCREEN : TEMP_WAIT1;              // TEMP_WAIT only IRL
+//                state_nxt = WAIT_FOR_CLICK_1;                                         // For simulation ONLY
                 update_cards_en_nxt = 1;
                 /*card_address_reg_nxt[0] = 4'h0;
                 card_address_reg_nxt[1] = 4'h0;
@@ -245,6 +259,8 @@ module state_machine(
             
             END_SCREEN: begin
                 state_nxt = state;
+                stopwatch_disable_nxt = 1;
+                end_screen_en_nxt = 1;
             end
             default: begin
             end
