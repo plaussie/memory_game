@@ -41,7 +41,7 @@ module top (
     
     //params
     localparam
-    NUM_MODULES = 3,
+    NUM_MODULES = 4,
     START_BUTTON_X = 412,
     START_BUTTON_Y = 328,
     START_BUTTON_WIDTH = 200,
@@ -100,7 +100,7 @@ module top (
     
     wire start_butt_pressed, card_pressed;
     wire compute_done;
-    wire start_butt_en, compute_colors_en, update_cards_en, wait_for_click_en, write_card_en;
+    wire start_butt_en, compute_colors_en, update_cards_en, wait_for_click_en, write_card_en, end_screen_en;
     wire [3:0] card_clicked_address, write_card_address;
     wire [1:0] write_card_state;
 
@@ -114,6 +114,7 @@ module top (
         .card_clicked_color(regfile_r_data[13:2]),
         .start_butt_en(start_butt_en),
         .update_cards_en(update_cards_en),
+        .end_screen_en(end_screen_en),
         .compute_colors_en(compute_colors_en),
         .wait_for_click_en(wait_for_click_en),
         .write_card_en(write_card_en),
@@ -273,6 +274,13 @@ module top (
         .vga_out(vga_bus[3])
     );
     
+    endgame_screen end_game(
+        .pclk(clk65MHz),
+        .rst(rst),
+        .enable(end_screen_en),
+        .vga_in(vga_bus[3]),
+        .vga_out(vga_bus[4])
+    );
     //***Mouse Display***//
     
     wire [`VGA_BUS_SIZE-1:0] vga_last;

@@ -26,6 +26,7 @@ module state_machine(
     input wire rst,
     
     input wire start_butt_pressed,
+    input wire try_again_butt_pressed,
     input wire compute_done,
     input wire card_pressed,
     input wire [3:0] card_clicked_address,
@@ -36,6 +37,7 @@ module state_machine(
     output reg update_cards_en,
     output reg wait_for_click_en,
     output reg write_card_en,
+    output reg end_screen_en,
     output reg [1:0] write_card_state,
     output reg [3:0] write_card_address
        
@@ -44,7 +46,7 @@ module state_machine(
     reg [3:0] state, state_nxt;
     reg [1:0] write_card_state_nxt;
     reg [3:0] write_card_address_nxt;
-    reg start_butt_en_nxt, compute_colors_en_nxt, update_cards_en_nxt, wait_for_click_en_nxt, write_card_en_nxt, summary_ctr, summary_ctr_nxt;
+    reg start_butt_en_nxt, compute_colors_en_nxt, update_cards_en_nxt, wait_for_click_en_nxt, write_card_en_nxt, summary_ctr, summary_ctr_nxt, end_screen_en_nxt;
     reg [26:0] temp_wait_ctr, temp_wait_ctr_nxt;
     
     reg [3:0] card_address_reg [1:0];
@@ -97,6 +99,7 @@ module state_machine(
             card_color_reg[0] <= 12'h0_0_0;
             card_color_reg[1] <= 12'h0_0_0;
             cards_left <= 6;
+            end_screen_en <= 1'b0;
         end
         else begin
             state <= state_nxt;
@@ -114,12 +117,14 @@ module state_machine(
             card_color_reg[0] <= card_color_reg_nxt[0];
             card_color_reg[1] <= card_color_reg_nxt[1];
             cards_left <= cards_left_nxt;
+            end_screen_en <= end_screen_en_nxt;
         end
     end
     
     always @* begin
         state_nxt = state;
         start_butt_en_nxt = 0;
+        end_screen_en_nxt = 1'b0;
         compute_colors_en_nxt = 0;
         update_cards_en_nxt = 0;
         wait_for_click_en_nxt = 0;
@@ -147,7 +152,7 @@ module state_machine(
             end
             
             UPDATE_CARDS_1: begin
-                state_nxt = (cards_left == 0) ? COMPUTE_COLORS : TEMP_WAIT1;              // TEMP_WAIT only IRL
+                state_nxt = (cards_left == 0) ? END_SCREEN : TEMP_WAIT1;              // TEMP_WAIT only IRL
 //                state_nxt = WAIT_FOR_CLICK_1;      // For simulation ONLY
                 update_cards_en_nxt = 1;
                 /*card_address_reg_nxt[0] = 4'h0;
@@ -244,7 +249,8 @@ module state_machine(
             end
             
             END_SCREEN: begin
-                state_nxt = state;
+                state_nxt = try_again_butt_pressed ? COMPUTE_COLORS : state;
+                end_screen_en_nxt = 1;
             end
             default: begin
             end
