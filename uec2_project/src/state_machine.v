@@ -60,8 +60,8 @@ module state_machine(
     reg [2:0] cards_left, cards_left_nxt;
     
     localparam
-    VALUE_EQUAL_1000MS = 32500000,
-    VALUE_EQUAL_200MS = 13000000;
+    VALUE_EQUAL_500MS = 32_500_000,
+    VALUE_EQUAL_200MS = 13_000_000;
     
     
     localparam
@@ -233,11 +233,11 @@ module state_machine(
                 temp_wait_ctr_nxt = temp_wait_ctr + 1;
                 if(card_color_reg[0] == card_color_reg[1]) begin
 //                    state_nxt = (temp_wait_ctr == 10) ? DEACTIVATE_CARDS : state;  // For simulation ONLY
-                    state_nxt = (temp_wait_ctr == VALUE_EQUAL_1000MS) ? DEACTIVATE_CARDS : state;
+                    state_nxt = (temp_wait_ctr == VALUE_EQUAL_500MS) ? DEACTIVATE_CARDS : state;
                 end
                 else begin
 //                    state_nxt = (temp_wait_ctr == 10) ? COVER_CARDS_AGAIN : state;  // For simulation ONLY
-                    state_nxt = (temp_wait_ctr == VALUE_EQUAL_1000MS) ? COVER_CARDS_AGAIN : state;
+                    state_nxt = (temp_wait_ctr == VALUE_EQUAL_500MS) ? COVER_CARDS_AGAIN : state;
                 end
             end
             
