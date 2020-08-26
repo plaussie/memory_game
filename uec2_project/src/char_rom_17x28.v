@@ -19,17 +19,29 @@
 
 `timescale 1ns / 1ps
 
+
+// minutes_dozens_unity
+
 module char_rom_17x28
     (
         input  wire         clk,
-        input  wire [9:0]   char_yx,           // {char_y[4:0], char_x[4:0]}
-        output reg  [6:0]   char_code          // code of the given char_yx
+        input  wire [6:0]   minutes_dozens_unity,   // {dozens[2:0], unity[3:0]}
+        input  wire [6:0]   seconds_dozens_unity,   // {dozens[2:0], unity[3:0]}
+        input  wire [9:0]   char_yx,                // {char_y[4:0], char_x[4:0]}
+        output reg  [6:0]   char_code               // code of the given char_yx
     );
 
     // signal declaration
+    wire [2:0] minutes_dozens, seconds_dozens;
+    wire [3:0] minutes_unity, seconds_unity;
     reg [6:0] data;
 
     // body
+    assign minutes_dozens = minutes_dozens_unity[6:4];
+    assign minutes_unity = minutes_dozens_unity[3:0];
+    assign seconds_dozens = seconds_dozens_unity[6:4];
+    assign seconds_unity = seconds_dozens_unity[3:0];
+    
     always @(posedge clk)
         char_code <= data;
 
@@ -53,7 +65,7 @@ module char_rom_17x28
             10'h00e: data = 110;
             10'h00f: data = 33;
             10'h010: data = 0;
-            
+
             //2nd line
             10'h020: data = 0;
             10'h021: data = 0;
@@ -72,7 +84,7 @@ module char_rom_17x28
             10'h02e: data = 0;
             10'h02f: data = 0;
             10'h030: data = 0;
-            
+
             //3rd line
             10'h040: data = 0;
             10'h041: data = 89;
@@ -87,47 +99,49 @@ module char_rom_17x28
             10'h04a: data = 101;
             10'h04b: data = 58;
             10'h04c: data = 0;
-            10'h04d: data = 57;
-            10'h04e: data = 57;
-            10'h04f: data = 57;
-            10'h070: data = 0;
-            /*
+            10'h04d: data = 57;         //score
+            10'h04e: data = 57;         //score
+            10'h04f: data = 57;         //score
+            10'h050: data = 57;         //score
+            
             //4th line
-            10'h30: data = 1;
-            10'h31: data = 1;
-            10'h32: data = 1;
-            10'h33: data = 1;
-            10'h34: data = 1;
-            10'h35: data = 1;
-            10'h36: data = 1;
-            10'h37: data = 1;
-            10'h38: data = 1;
-            10'h39: data = 1;
-            10'h3a: data = 1;
-            10'h3b: data = 1;
-            10'h3c: data = 1;
-            10'h3d: data = 1;
-            10'h3e: data = 1;
-            10'h3f: data = 1;
+            10'h060: data = 0;
+            10'h061: data = 0;
+            10'h062: data = 0;
+            10'h063: data = 0;
+            10'h064: data = 0;
+            10'h065: data = 0;
+            10'h066: data = 0;
+            10'h067: data = 0;
+            10'h068: data = 0;
+            10'h069: data = 0;
+            10'h06a: data = 0;
+            10'h06b: data = 0;
+            10'h06c: data = 0;
+            10'h06d: data = 0;
+            10'h06e: data = 0;
+            10'h06f: data = 0;
+            10'h070: data = 0;
             
             //5th line
-            10'h40: data = 2;
-            10'h41: data = 2;
-            10'h42: data = 2;
-            10'h43: data = 2;
-            10'h44: data = 2;
-            10'h45: data = 2;
-            10'h46: data = 2;
-            10'h47: data = 2;
-            10'h48: data = 2;
-            10'h49: data = 2;
-            10'h4a: data = 2;
-            10'h4b: data = 2;
-            10'h4c: data = 2;
-            10'h4d: data = 2;
-            10'h4e: data = 2;
-            10'h4f: data = 2;
-            
+            10'h080: data = 0;
+            10'h081: data = 89;
+            10'h082: data = 111;
+            10'h083: data = 117;
+            10'h084: data = 114;
+            10'h085: data = 0;
+            10'h086: data = 116;
+            10'h087: data = 105;
+            10'h088: data = 109;
+            10'h089: data = 101;
+            10'h08a: data = 58;
+            10'h08b: data = 0;
+            10'h08c: data = 48+minutes_dozens;   //time
+            10'h08d: data = 48+minutes_unity;    //time
+            10'h08e: data = 58;                  //time
+            10'h08f: data = 48+seconds_dozens;   //time
+            10'h090: data = 48+seconds_unity;    //time
+            /*
             //6th line
             10'h50: data = 3;
             10'h51: data = 3;
@@ -326,6 +340,7 @@ module char_rom_17x28
             10'hfe: data = 95;
             10'hff: data = 95; 
             */
+            default: data = 0;
         endcase
-    
-endmodule
+
+endmodule 
