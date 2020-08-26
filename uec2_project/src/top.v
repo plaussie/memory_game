@@ -21,6 +21,8 @@
 // Revision 0.40 - Added regfile with its control unit
 // Revision 0.50 - 2 cards can be discovered, then game stops
 // Revision 0.80 - Playable version
+// Revision 0.81 - Added endscreen
+// Revision 0.82 - Added stopwatch
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
@@ -100,7 +102,7 @@ module top (
     
     wire start_butt_pressed, card_pressed;
     wire compute_done;
-    wire start_butt_en, compute_colors_en, update_cards_en, wait_for_click_en, write_card_en, end_screen_en;
+    wire start_butt_en, compute_colors_en, stopwatch_en, update_cards_en, wait_for_click_en, write_card_en, stopwatch_disable, end_screen_en;
     wire [3:0] card_clicked_address, write_card_address;
     wire [1:0] write_card_state;
 
@@ -116,10 +118,28 @@ module top (
         .update_cards_en(update_cards_en),
         .end_screen_en(end_screen_en),
         .compute_colors_en(compute_colors_en),
+        .stopwatch_en(stopwatch_en),
+        .stopwatch_disable(stopwatch_disable),
         .wait_for_click_en(wait_for_click_en),
         .write_card_en(write_card_en),
+        .end_screen_en(end_screen_en),
         .write_card_state(write_card_state),
         .write_card_address(write_card_address)
+    );
+    
+    //***Stopwatch***//
+    
+    wire [5:0] minutes, seconds;
+    
+    stopwatch MG_stopwatch(
+        .clk(clk65MHz),
+        .rst(rst),
+        .start(stopwatch_en),
+        .pause(1'b0),
+        .stop(stopwatch_disable),
+        .minutes(minutes),
+        .seconds(seconds)
+        
     );
     
     //***Cards Colors Generator***//
@@ -274,13 +294,17 @@ module top (
         .vga_out(vga_bus[3])
     );
     
-    endgame_screen end_game(
+    //***EndScreen Display***//
+    
+    endgame_screen display_endscreen(
         .pclk(clk65MHz),
         .rst(rst),
         .enable(end_screen_en),
+        .game_time({minutes, seconds}),
         .vga_in(vga_bus[3]),
         .vga_out(vga_bus[4])
     );
+    
     //***Mouse Display***//
     
     wire [`VGA_BUS_SIZE-1:0] vga_last;
