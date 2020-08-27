@@ -16,8 +16,9 @@
 // Revision 0.01 - File Created
 // Revision 0.02 - DONE -> Main menu & Compute colors & Update Cards 1
 // Revision 0.10 - DONE -> Everything except for END_SCREEN
+// Revision 0.11 - DONE -> Everything in main path
 // Additional Comments:
-// 
+// TODO - Options and highscores
 //////////////////////////////////////////////////////////////////////////////////
 
 

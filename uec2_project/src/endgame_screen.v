@@ -7,11 +7,8 @@
 // Module Name: endgame_screen
 // Project Name: Memory Game
 // Target Devices: Basys3
-<<<<<<< HEAD
 // Tool Versions: Vivaenable 2017.3
-=======
 // Tool Versions: Vivado 2017.3
->>>>>>> 82b37a1f6e39431d50167686597bc0ff758bccce
 // Description: 
 // 
 // Dependencies: 
