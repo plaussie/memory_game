@@ -7,7 +7,11 @@
 // Module Name: endgame_screen
 // Project Name: Memory Game
 // Target Devices: Basys3
+<<<<<<< HEAD
+// Tool Versions: Vivaenable 2017.3
+=======
 // Tool Versions: Vivado 2017.3
+>>>>>>> 82b37a1f6e39431d50167686597bc0ff758bccce
 // Description: 
 // 
 // Dependencies: 
@@ -35,6 +39,7 @@ module endgame_screen(
     wire [6:0] char_code;
     wire [3:0] char_line;
     
+
     draw_rect_char endscreen_rect(
         .clk(pclk),
         .rst(rst),

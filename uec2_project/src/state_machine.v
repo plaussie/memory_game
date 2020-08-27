@@ -26,6 +26,7 @@ module state_machine(
     input wire rst,
     
     input wire start_butt_pressed,
+    input wire try_again_butt_pressed,
     input wire compute_done,
     input wire card_pressed,
     input wire [3:0] card_clicked_address,
@@ -104,6 +105,7 @@ module state_machine(
             card_color_reg[0] <= 12'h0_0_0;
             card_color_reg[1] <= 12'h0_0_0;
             cards_left <= 6;
+            end_screen_en <= 1'b0;
         end
         else begin
             state <= state_nxt;
@@ -124,12 +126,14 @@ module state_machine(
             card_color_reg[0] <= card_color_reg_nxt[0];
             card_color_reg[1] <= card_color_reg_nxt[1];
             cards_left <= cards_left_nxt;
+            end_screen_en <= end_screen_en_nxt;
         end
     end
     
     always @* begin
         state_nxt = state;
         start_butt_en_nxt = 0;
+        end_screen_en_nxt = 1'b0;
         compute_colors_en_nxt = 0;
         stopwatch_en_nxt = 0;
         stopwatch_disable_nxt = 0;
@@ -163,6 +167,7 @@ module state_machine(
             UPDATE_CARDS_1: begin
                 state_nxt = (cards_left == 0) ? END_SCREEN : TEMP_WAIT1;              // TEMP_WAIT only IRL
 //                state_nxt = WAIT_FOR_CLICK_1;                                         // For simulation ONLY
+
                 update_cards_en_nxt = 1;
                 /*card_address_reg_nxt[0] = 4'h0;
                 card_address_reg_nxt[1] = 4'h0;
