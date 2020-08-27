@@ -116,7 +116,6 @@ module top (
         .card_clicked_color(regfile_r_data[13:2]),
         .start_butt_en(start_butt_en),
         .update_cards_en(update_cards_en),
-        .end_screen_en(end_screen_en),
         .compute_colors_en(compute_colors_en),
         .stopwatch_en(stopwatch_en),
         .stopwatch_disable(stopwatch_disable),

@@ -67,6 +67,6 @@ module vga_timing (
     assign hs_out = ((hcount_reg >= 1048) && (hcount_reg <= 1183));
     assign vblnk_out = (vcount_reg >= 768);
     assign hblnk_out = (hcount_reg >= 1024);
-    assign rgb_out = 12'h8_8_f;
+    assign rgb_out = 12'h8_8_8;
     
 endmodule
