@@ -27,7 +27,6 @@ module state_machine(
     input wire rst,
     
     input wire start_butt_pressed,
-    input wire try_again_butt_pressed,
     input wire compute_done,
     input wire card_pressed,
     input wire [3:0] card_clicked_address,
