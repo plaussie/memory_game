@@ -16,6 +16,10 @@
 `define VGA_HCOUNT_BITS 22:12
 `define VGA_RGB_BITS 11:0
 
+`define VGA_R_BITS 11:8
+`define VGA_G_BITS 7:4
+`define VGA_B_BITS 3:0
+
 // VGA bus split as input port
 `define VGA_SPLIT_INPUT(BUS_NAME) \
     wire vs_in = BUS_NAME[`VGA_VS_BITS]; \
