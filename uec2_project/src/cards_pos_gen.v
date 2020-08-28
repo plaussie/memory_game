@@ -4,7 +4,7 @@
 // Engineers: Krzysztof Cislo & Jakub Dzialowy
 // 
 // Create Date: 28.08.2020 17:28:17
-// Module Name: rom
+// Module Name: cards_pos_gen
 // Project Name: Memory Game
 // Target Devices: Basys3
 // Tool Versions: Vivado 2017.3
@@ -18,24 +18,20 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+`include "_cards_macros.vh"
 
-module rom(
+module cards_pos_gen(
     input wire clk,
     input wire rst,
     input wire read_all_positions,
-    input wire [4:0] num_of_cards,
-    output reg [19:0] yx_card_position          //[19:10] y_position ; [9:0] x_position
+    input wire [`CARD_MAX_NUM_SIZE-1:0] num_of_cards,
+    output reg [`CARD_YX_POSITION_SIZE-1:0] yx_card_position          //[19:10] y_position ; [9:0] x_position
     );
     
     reg state, state_nxt;
-    reg [4:0] card_address_ctr, card_address_ctr_nxt;
-    reg [19:0] yx_card_position_nxt;
-    
-    localparam
-    EASY_MODE = 8,
-    NORMAL_MODE = 12,
-    HARD_MODE = 18;
-    
+    reg [`CARD_MAX_NUM_SIZE-1:0] card_address_ctr, card_address_ctr_nxt;
+    reg [`CARD_YX_POSITION_SIZE-1:0] yx_card_position_nxt;
+
     localparam
     IDLE = 0,
     READ_ALL = 1;
@@ -65,7 +61,7 @@ module rom(
                 state_nxt = (card_address_ctr == num_of_cards-1) ? IDLE : state;
                 card_address_ctr_nxt = card_address_ctr + 1;
                 case(num_of_cards)
-                    EASY_MODE: begin
+                    `CARD_NUM_EASY: begin
                         case(card_address_ctr)
                             0:  yx_card_position_nxt = {10'd50, 10'd50};
                             1:  yx_card_position_nxt = {10'd50, 10'd308};
@@ -78,7 +74,7 @@ module rom(
                             default: yx_card_position_nxt = {10'd1023, 10'd1023};
                         endcase
                     end
-                    NORMAL_MODE: begin
+                    `CARD_NUM_NORMAL: begin
                         case(card_address_ctr)
                             0:  yx_card_position_nxt = {10'd50, 10'd50};
                             1:  yx_card_position_nxt = {10'd50, 10'd308};
@@ -95,7 +91,7 @@ module rom(
                             default: yx_card_position_nxt = {10'd1023, 10'd1023};
                         endcase
                     end
-                    HARD_MODE: begin
+                    `CARD_NUM_HARD: begin
                         case(card_address_ctr)
                             0:  yx_card_position_nxt = {10'd25, 10'd50};
                             1:  yx_card_position_nxt = {10'd25, 10'd308};
