@@ -195,8 +195,8 @@ module state_machine(
             end
             
             UPDATE_CARDS_2: begin
-                state_nxt = TEMP_WAIT2;               // TEMP_WAIT only IRL
-//                state_nxt = WAIT_FOR_CLICK_2;       // For simulation ONLY
+                state_nxt = TEMP_WAIT2;                                        // TEMP_WAIT only IRL
+//                state_nxt = WAIT_FOR_CLICK_2;                                  // For simulation ONLY
                 update_cards_en_nxt = 1;
             end
             
@@ -237,11 +237,11 @@ module state_machine(
             TEMP_WAIT3: begin
                 temp_wait_ctr_nxt = temp_wait_ctr + 1;
                 if(card_color_reg[0] == card_color_reg[1]) begin
-//                    state_nxt = (temp_wait_ctr == 10) ? DEACTIVATE_CARDS : state;  // For simulation ONLY
+//                    state_nxt = (temp_wait_ctr == 10) ? DEACTIVATE_CARDS : state;                 // For simulation ONLY
                     state_nxt = (temp_wait_ctr == VALUE_EQUAL_500MS) ? DEACTIVATE_CARDS : state;
                 end
                 else begin
-//                    state_nxt = (temp_wait_ctr == 10) ? COVER_CARDS_AGAIN : state;  // For simulation ONLY
+//                    state_nxt = (temp_wait_ctr == 10) ? COVER_CARDS_AGAIN : state;                // For simulation ONLY
                     state_nxt = (temp_wait_ctr == VALUE_EQUAL_500MS) ? COVER_CARDS_AGAIN : state;
                 end
             end

@@ -155,16 +155,58 @@ module top (
         .computed_address(card_write_address)
     );
     
+    //***update_cards_en Delayer***//
+    
+    wire update_cards_en_delayed_tact;
+    
+    delay
+    #(
+        .WIDTH(1),
+        .CLK_DEL(1)
+    )
+    delay_update_cards_en_1(
+        .clk(clk65MHz),
+        .rst(rst),
+        .din(update_cards_en),
+        .dout(update_cards_en_delayed_tact)
+    );
+    
+    wire update_cards_en_delayed_2tact;
+        
+    delay
+    #(
+        .WIDTH(1),
+        .CLK_DEL(2)
+    )
+    delay_update_cards_en_2(
+        .clk(clk65MHz),
+        .rst(rst),
+        .din(update_cards_en),
+        .dout(update_cards_en_delayed_2tact)
+    );
+
+    //***Cards Positions***//
+    
+    wire [19:0] yx_card_position;
+    
+    rom MG_cards_positions(
+        .clk(clk65MHz),
+        .rst(rst),
+        .read_all_positions(update_cards_en),
+        .num_of_cards(5'd12),
+        .yx_card_position(yx_card_position)
+    );
+    
     //***RegFile Controller***//
     
     wire [1:0] regfile_w_enable;
     
     wire [3:0] regfile_w_address, regfile_r_address, card_to_test_address;
     
-    regfileCtl MG_regfileCtl(
+    regfileCtl MG_colors_regfileCtl(
         .clk(clk65MHz),
         .rst(rst),
-        .read_all_cards(update_cards_en),
+        .read_all_cards(update_cards_en_delayed_tact),
         .read_one_card(card_to_test_address),
         .write_data_1({card_write_data, card_write_address, compute_colors_en}),
         .write_data_2({write_card_state, write_card_address, write_card_en}),
@@ -176,7 +218,7 @@ module top (
     
     //***RegFile***//
     
-    regfile MG_regfile(
+    regfile MG_colors_regfile(
         .clk(clk65MHz),
         .w_enable(regfile_w_enable),
         .w_data(regfile_w_data),
@@ -265,29 +307,16 @@ module top (
         .address(pixel_address),
         .rgb(rgb_start_button)
     );
-    //***update_cards_en Delayer***//
-    
-    wire update_cards_en_delayed;
-    
-    delay
-    #(
-        .WIDTH(1),
-        .CLK_DEL(1)
-    )
-    delay_update_cards_en(
-        .clk(clk65MHz),
-        .rst(rst),
-        .din(update_cards_en),
-        .dout(update_cards_en_delayed)
-    );
     
     //***Cards Display***//
     
     draw_cards display_cards(
         .pclk(clk65MHz),
         .rst(rst),
+        .num_of_cards(5'd12),
+        .yx_card_position(yx_card_position),
         .regfile_in(regfile_r_data),
-        .regfile_sync(update_cards_en_delayed),
+        .regfile_sync(update_cards_en_delayed_2tact),
         .regfile_sync_done(),
         .vga_in(vga_bus[2]),
         .vga_out(vga_bus[3])
