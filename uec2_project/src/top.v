@@ -31,7 +31,7 @@
 `include "_cards_macros.vh"
 `include "_game_params.vh"
 
-`define TEMPORARY_NUM_OF_CARDS 8
+`define TEMPORARY_NUM_OF_CARDS 16
 
 module top (
     inout wire ps2_clk,
