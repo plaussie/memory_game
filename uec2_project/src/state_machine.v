@@ -239,11 +239,11 @@ module state_machine(
             TEMP_WAIT3: begin
                 temp_wait_ctr_nxt = temp_wait_ctr + 1;
                 if(card_color_reg[0] == card_color_reg[1]) begin
-//                    state_nxt = (temp_wait_ctr == 10) ? DEACTIVATE_CARDS : state;                 // For simulation ONLY
+//                    state_nxt = (temp_wait_ctr == 20) ? DEACTIVATE_CARDS : state;                 // For simulation ONLY
                     state_nxt = (temp_wait_ctr == VALUE_EQUAL_500MS) ? DEACTIVATE_CARDS : state;
                 end
                 else begin
-//                    state_nxt = (temp_wait_ctr == 10) ? COVER_CARDS_AGAIN : state;                // For simulation ONLY
+//                    state_nxt = (temp_wait_ctr == 20) ? COVER_CARDS_AGAIN : state;                // For simulation ONLY
                     state_nxt = (temp_wait_ctr == VALUE_EQUAL_500MS) ? COVER_CARDS_AGAIN : state;
                 end
             end

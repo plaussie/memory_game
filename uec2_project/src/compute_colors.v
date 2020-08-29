@@ -77,8 +77,11 @@ module compute_colors(
     
     
     always @* begin
+        computed_color_nxt = 12'h0_0_0;
+        computed_address_nxt = computed_address;
         if(enable) begin
-            if(12 == num_of_cards) begin
+            computed_address_nxt = computed_address + 1;
+            if(`CARD_NUM_NORMAL == num_of_cards) begin
                 case(game_version)
                     3'b000: begin
                         case(computed_address)
@@ -234,7 +237,7 @@ module compute_colors(
                     end                                                                                                        
                 endcase
             end
-            else if(8 == num_of_cards) begin
+            else if(`CARD_NUM_EASY == num_of_cards) begin
                 case(game_version)
                     3'b000: begin
                         case(computed_address)
@@ -357,7 +360,7 @@ module compute_colors(
                     end                                                                                                        
                 endcase
             end
-            else if (16 == num_of_cards) begin
+            else if (`CARD_NUM_HARD == num_of_cards) begin
                 case(game_version)
                     3'b000: begin
                         case(computed_address)
@@ -544,17 +547,7 @@ module compute_colors(
                         endcase
                     end                                                                                                        
                 endcase
-            end else begin
-                // It does not do anything, but was left for safety reasons
-                computed_color_nxt = 12'h0_0_0;
-                computed_address_nxt = computed_address;
-            end
-            computed_address_nxt = computed_address + 1;
-        end
-        else begin
-            // It does not do anything, but was left for safety reasons
-            computed_color_nxt = 12'h0_0_0;
-            computed_address_nxt = computed_address;
+            end            
         end
     end
     
