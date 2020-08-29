@@ -29,12 +29,16 @@ module state_machine(
     
     input wire [`CARD_MAX_NUM_SIZE-1:0] num_of_cards,
     input wire start_butt_pressed,
+    input wire options_butt_pressed,
+    input wire back_butt_pressed,
     input wire compute_done,
     input wire card_pressed,
     input wire [`CARD_ADDRESS_SIZE-1:0] card_clicked_address,
     input wire [`CARD_COLOR_SIZE-1:0] card_clicked_color,
     
     output reg start_butt_en,
+    output reg options_butt_en,
+    output reg difficulty_butts_en,
     output reg compute_colors_en,
     output reg stopwatch_en,
     output reg stopwatch_disable,
@@ -50,8 +54,8 @@ module state_machine(
     reg [3:0] state, state_nxt;
     reg [`CARD_STATE_SIZE-1:0] write_card_state_nxt;
     reg [`CARD_ADDRESS_SIZE-1:0] write_card_address_nxt;
-    reg start_butt_en_nxt, compute_colors_en_nxt, update_cards_en_nxt, wait_for_click_en_nxt, write_card_en_nxt, summary_ctr, summary_ctr_nxt,
-        stopwatch_en_nxt, stopwatch_disable_nxt, end_screen_en_nxt;
+    reg start_butt_en_nxt, options_butt_en_nxt, difficulty_butts_en_nxt, compute_colors_en_nxt, update_cards_en_nxt, wait_for_click_en_nxt,
+        write_card_en_nxt, summary_ctr, summary_ctr_nxt, stopwatch_en_nxt, stopwatch_disable_nxt, end_screen_en_nxt;
     reg [24:0] temp_wait_ctr, temp_wait_ctr_nxt;
     
     reg [`CARD_ADDRESS_SIZE-1:0] card_address_reg [1:0];
@@ -69,6 +73,7 @@ module state_machine(
     
     localparam
     MAIN_MENU               = 0,
+    OPTIONS                 = 17,
     COMPUTE_COLORS          = 1,
     UPDATE_CARDS_1          = 2,
     WAIT_FOR_CLICK_1        = 3,
@@ -91,6 +96,8 @@ module state_machine(
         if(rst) begin
             state <= MAIN_MENU;
             start_butt_en <= 0;
+            options_butt_en <= 0;
+            difficulty_butts_en <= 0;
             compute_colors_en <= 0;
             stopwatch_en <= 0;
             stopwatch_disable <= 0;
@@ -112,6 +119,8 @@ module state_machine(
         else begin
             state <= state_nxt;
             start_butt_en <= start_butt_en_nxt;
+            options_butt_en <= options_butt_en_nxt;
+            difficulty_butts_en <= difficulty_butts_en_nxt;
             compute_colors_en <= compute_colors_en_nxt;
             stopwatch_en <= stopwatch_en_nxt;
             stopwatch_disable <= stopwatch_disable_nxt;
@@ -135,6 +144,8 @@ module state_machine(
     always @* begin
         state_nxt = state;
         start_butt_en_nxt = 0;
+        options_butt_en_nxt = 0;
+        difficulty_butts_en_nxt = 0;
         end_screen_en_nxt = 0;
         compute_colors_en_nxt = 0;
         stopwatch_en_nxt = 0;
@@ -155,8 +166,15 @@ module state_machine(
         
         case(state)
             MAIN_MENU: begin
-                state_nxt = start_butt_pressed ? COMPUTE_COLORS : state;
+                state_nxt = start_butt_pressed ? COMPUTE_COLORS :
+                            options_butt_pressed ? OPTIONS : state;
                 start_butt_en_nxt = 1;
+                options_butt_en_nxt = 1;
+            end
+            
+            OPTIONS: begin
+                state_nxt = back_butt_pressed ? MAIN_MENU : state;
+                difficulty_butts_en_nxt = 1;
             end
             
             COMPUTE_COLORS: begin
