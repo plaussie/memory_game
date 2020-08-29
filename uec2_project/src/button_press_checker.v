@@ -3,8 +3,8 @@
 // Company: AGH UST
 // Engineers: Krzysztof Cislo & Jakub Dzialowy
 // 
-// Create Date: 23.07.2020 18:40:43
-// Module Name: start_button_ctl
+// Create Date: 23.07.2020 19:44:19
+// Module Name: button_press_checker
 // Project Name: Memory Game
 // Target Devices: Basys3
 // Tool Versions: Vivado 2017.3
@@ -19,45 +19,51 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module start_button_ctl
+module button_press_checker
     #( parameter
         X_POS   = 312,
         Y_POS   = 284,
         WIDTH   = 400,
-        HEIGHT  = 200,
-        COLOR   = 12'h0_A_A
+        HEIGHT  = 200
     )
     (
     input wire          clk,
-    input wire          rst,
+    input wire          rst,    
+    input wire          enable,
     input wire          mouse_left,
     input wire [11:0]   mouse_xpos,
     input wire [11:0]   mouse_ypos,
-    output reg [11:0]   color_out
+    
+    output reg          button_pressed
     );
     
-    reg [11:0] color_out_nxt;
+    reg button_pressed_nxt;
     
     always @(posedge clk) begin
         if(rst) begin
-            color_out <= 12'h0_A_A;
+            button_pressed <= 0;
         end
         else begin
-            color_out <= color_out_nxt;
+            button_pressed <= button_pressed_nxt;
         end
     end
     
     always @* begin
-        if(mouse_left) begin
-            if(mouse_xpos > X_POS && mouse_xpos < X_POS+WIDTH && mouse_ypos > Y_POS && mouse_ypos < Y_POS+HEIGHT) begin
-                color_out_nxt = 12'h0_F_0;
+        if(enable) begin
+            if(mouse_left) begin
+                if((mouse_xpos > X_POS) && (mouse_xpos < X_POS + WIDTH) && (mouse_ypos > Y_POS) && (mouse_ypos < Y_POS + HEIGHT)) begin
+                    button_pressed_nxt = 1;
+                end
+                else begin
+                    button_pressed_nxt = 0;
+                end
             end
             else begin
-                color_out_nxt = color_out;
+                button_pressed_nxt = 0;
             end
         end
         else begin
-            color_out_nxt = color_out;
+            button_pressed_nxt = 0;
         end
     end
 endmodule

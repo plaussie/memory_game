@@ -14,16 +14,11 @@
 // Revision:
 // Revision 0.01 - File Created
 // Revision 0.10 - File Copied from UEC2 Lab
+// Revision 0.20 - File updated for start_button.data image
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-// This is the ROM for the 'AGH48x64.png' image.
-// The image size is 48 x 64 pixels.
-// The input 'address' is a 12-bit number, composed of the concatenated
-// 6-bit y and 6-bit x pixel coordinates.
-// The output 'rgb' is 12-bit number with concatenated
-// red, green and blue color values (4-bit each)
 
 module start_image_rom (
     input wire clk ,
@@ -34,7 +29,7 @@ module start_image_rom (
 
     reg [15:0] rom [0:65535];
     
-    initial $readmemh("./start.data", rom); 
+    initial $readmemh("start_button.data", rom); 
     
     always @(posedge clk)
     begin

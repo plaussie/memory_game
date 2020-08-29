@@ -27,16 +27,18 @@
 // w_enable[0] = 1 write every bit; = 0 write disable
 // w_enable[1] = 1 write [1:0] bits; = 0 write disable
 
+`include "_cards_macros.vh"
+
 module regfile(
     input wire clk,
     input wire  [1:0]  w_enable,
-    input wire  [13:0] w_data,
-    input wire  [3:0]  w_address,
-    input wire  [3:0]  r_address,
-    output wire [13:0] r_data
+    input wire  [`CARD_DATA_SIZE-1:0] w_data,
+    input wire  [`CARD_ADDRESS_SIZE-1:0]  w_address,
+    input wire  [`CARD_ADDRESS_SIZE-1:0]  r_address,
+    output wire [`CARD_DATA_SIZE-1:0] r_data
     );
     
-    reg [13:0] rf [15:0];
+    reg [`CARD_DATA_SIZE-1:0] rf [`CARD_MAX_NUM:0];
     
     always @(posedge clk) begin
         if(w_enable[0]) begin
