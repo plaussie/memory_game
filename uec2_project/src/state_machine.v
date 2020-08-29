@@ -51,7 +51,7 @@ module state_machine(
        
     );
     
-    reg [3:0] state, state_nxt;
+    reg [4:0] state, state_nxt;
     reg [`CARD_STATE_SIZE-1:0] write_card_state_nxt;
     reg [`CARD_ADDRESS_SIZE-1:0] write_card_address_nxt;
     reg start_butt_en_nxt, options_butt_en_nxt, difficulty_butts_en_nxt, compute_colors_en_nxt, update_cards_en_nxt, wait_for_click_en_nxt,
