@@ -89,7 +89,7 @@ module buttonCtl
         .ROM_PIXELS_NUM(ROM_PIXELS_NUM),
         .ROM_PATH(ROM_PATH)
     )    
-    start_image(
+    image_rom(
         .clk(clk),
         .address(pixel_address),
         .rgb(rgb_start_button)

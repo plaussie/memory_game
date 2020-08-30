@@ -3,8 +3,9 @@
 
 //Difficulty Params
 `define CARD_MAX_NUM 16
-
 `define CARD_MAX_NUM_SIZE 5
+
+`define CARD_LEVEL_NUM 3
 `define CARD_NUM_EASY 8
 `define CARD_NUM_NORMAL 12
 `define CARD_NUM_HARD 16
