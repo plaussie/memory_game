@@ -1,9 +1,21 @@
 `ifndef _game_params
 `define _game_params
 
+//Start Button Params
 `define START_BUTTON_X_POS 412
 `define START_BUTTON_Y_POS 328
 `define START_BUTTON_WIDTH 200
 `define START_BUTTON_HEIGHT 112
+`define START_BUTTON_ADDRESS_SIZE 16
+`define START_BUTTON_ROM_PIXELS_NUM 65536
+`define START_BUTTON_ROM_PATH "start_button.data"
+
+`define OPTIONS_BUTTON_X_POS 1
+`define OPTIONS_BUTTON_Y_POS 1
+`define OPTIONS_BUTTON_WIDTH 200
+`define OPTIONS_BUTTON_HEIGHT 112
+`define OPTIONS_BUTTON_ADDRESS_SIZE 16
+`define OPTIONS_BUTTON_ROM_PIXELS_NUM 65536
+`define OPTIONS_BUTTON_ROM_PATH "start_button.data"
 
 `endif

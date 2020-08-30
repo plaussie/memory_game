@@ -30,6 +30,7 @@
 
 `include "_cards_macros.vh"
 `include "_game_params.vh"
+`include "_vga_macros.vh"
 
 `define TEMPORARY_NUM_OF_CARDS 16
 
@@ -47,7 +48,7 @@ module top (
     
     //params
     localparam
-        NUM_MODULES = 4;
+        NUM_MODULES = 5;
 
     //***Clock Generator***//
     
@@ -99,9 +100,10 @@ module top (
     //***The Main State Machine***//
     wire [`CARD_DATA_SIZE-1:0] regfile_w_data, regfile_r_data;
     
-    wire start_butt_pressed, card_pressed;
+    wire start_butt_pressed, options_butt_pressed, back_butt_pressed, card_pressed;
     wire compute_done;
-    wire start_butt_en, compute_colors_en, stopwatch_en, update_cards_en, wait_for_click_en, write_card_en, stopwatch_disable, end_screen_en;
+    wire start_butt_en, options_butt_en, difficulty_butts_en, compute_colors_en, stopwatch_en, update_cards_en,
+         wait_for_click_en, write_card_en, stopwatch_disable, end_screen_en;
     wire [`CARD_ADDRESS_SIZE-1:0] card_clicked_address, write_card_address;
     wire [`CARD_STATE_SIZE-1:0] write_card_state;
 
@@ -110,11 +112,15 @@ module top (
         .rst(rst),
         .num_of_cards(`TEMPORARY_NUM_OF_CARDS),
         .start_butt_pressed(start_butt_pressed),
+        .options_butt_pressed(options_butt_pressed),
+        .back_butt_pressed(back_butt_pressed),
         .compute_done(compute_done),
         .card_pressed(card_pressed),
         .card_clicked_address(card_clicked_address),
         .card_clicked_color(regfile_r_data[`CARD_DATA_SIZE-1:`CARD_STATE_SIZE]),
         .start_butt_en(start_butt_en),
+        .options_butt_en(options_butt_en),
+        .difficulty_butts_en(difficulty_butts_en),
         .update_cards_en(update_cards_en),
         .compute_colors_en(compute_colors_en),
         .stopwatch_en(stopwatch_en),
@@ -249,52 +255,55 @@ module top (
         .vga_out(vga_bus[1])
     );  
     
-    //***Start Button Press Checker***//       
+    //***Start Button Display & Press Checker***//       
 
-    button_press_checker
+    buttonCtl
     #(
         .X_POS(`START_BUTTON_X_POS),
         .Y_POS(`START_BUTTON_Y_POS),
         .WIDTH(`START_BUTTON_WIDTH),
-        .HEIGHT(`START_BUTTON_HEIGHT)    
+        .HEIGHT(`START_BUTTON_HEIGHT),
+        .ROM_ADDRESS_SIZE(`START_BUTTON_ADDRESS_SIZE),
+        .ROM_PIXELS_NUM(`START_BUTTON_ROM_PIXELS_NUM),
+        .ROM_PATH(`START_BUTTON_ROM_PATH)   
     )
-    MG_check_if_left_clicked_start_butt (
+    display_clickable_start (
         .clk(clk65MHz),
+        .rst(rst),
         .enable(start_butt_en),
         .mouse_left(left),
         .mouse_xpos(xpos),
         .mouse_ypos(ypos),
-        .button_pressed(start_butt_pressed),
-        .rst(rst)
-    );
-    
-    //***Start Button Display***//
-    wire [15:0] pixel_address;
-    wire [11:0] rgb_start_button;
-    
-    draw_image_rom 
-    #(
-        .X_POS(`START_BUTTON_X_POS),
-        .Y_POS(`START_BUTTON_Y_POS),
-        .WIDTH(`START_BUTTON_WIDTH),
-        .HEIGHT(`START_BUTTON_HEIGHT)
-    )
-    display_start_button(
-        .pclk(clk65MHz),
-        .rst(rst),
-        .enable(start_butt_en),
-        .rgb_pixel(rgb_start_button),
         .vga_in(vga_bus[1]),
-        .pixel_address(pixel_address),
+        .button_pressed(start_butt_pressed),
         .vga_out(vga_bus[2])
     );
-    start_image_rom start_image(
-        .clk(clk65MHz),
-        .address(pixel_address),
-        .rgb(rgb_start_button)
-    );
     
-    //***Cards Display & Card Press Checker***//
+    //***Start Button Display & Press Checker***//       
+    
+    buttonCtl
+    #(
+        .X_POS(`OPTIONS_BUTTON_X_POS),
+        .Y_POS(`OPTIONS_BUTTON_Y_POS),
+        .WIDTH(`OPTIONS_BUTTON_WIDTH),
+        .HEIGHT(`OPTIONS_BUTTON_HEIGHT),
+        .ROM_ADDRESS_SIZE(`OPTIONS_BUTTON_ADDRESS_SIZE),
+        .ROM_PIXELS_NUM(`OPTIONS_BUTTON_ROM_PIXELS_NUM),
+        .ROM_PATH(`OPTIONS_BUTTON_ROM_PATH)   
+    )
+    display_clickable_options (
+        .clk(clk65MHz),
+        .rst(rst),
+        .enable(options_butt_en),
+        .mouse_left(left),
+        .mouse_xpos(xpos),
+        .mouse_ypos(ypos),
+        .vga_in(vga_bus[2]),
+        .button_pressed(options_butt_pressed),
+        .vga_out(vga_bus[3])
+    );
+        
+    //***Cards Display & Cards Press Checker***//
     
     cardsCtl display_clickable_cards(
         .clk(clk65MHz),
@@ -303,8 +312,8 @@ module top (
         .yx_card_position(yx_card_position),
         .regfile_in(regfile_r_data),
         .regfile_sync(update_cards_en_delayed_2tact),
-        .vga_in(vga_bus[2]),
-        .vga_out(vga_bus[3]),
+        .vga_in(vga_bus[3]),
+        .vga_out(vga_bus[4]),
         .card_press_checker_en(wait_for_click_en),
         .mouse_left(left),
         .mouse_xpos(xpos),
@@ -322,8 +331,8 @@ module top (
         .rst(rst),
         .enable(end_screen_en),
         .game_time({minutes, seconds}),
-        .vga_in(vga_bus[3]),
-        .vga_out(vga_bus[4])
+        .vga_in(vga_bus[4]),
+        .vga_out(vga_bus[5])
     );
     
     //***Mouse Display***//
