@@ -45,7 +45,9 @@ module compute_colors(
     YELLOW  = 12'hF_F_0,
     WHITE   = 12'hF_F_F,
     BLACK   = 12'h0_0_0,
-    MINT    = 12'h0_A_A;
+    MINT    = 12'h0_A_A,
+    ORANGE  = 12'hF_8_2,
+    PURPLE  = 12'h8_0_2;
     
     reg [`CARD_COLOR_SIZE-1:0] computed_color_nxt;
     reg [`CARD_ADDRESS_SIZE-1:0] computed_address_nxt;
@@ -75,167 +77,477 @@ module compute_colors(
     
     
     always @* begin
+        computed_color_nxt = 12'h0_0_0;
+        computed_address_nxt = computed_address;
         if(enable) begin
-            case(game_version)
-                3'b000: begin
-                    case(computed_address)
-                        // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
-                        // It is because the register 4'h0 is left for other variables.
-                        5'd0: computed_color_nxt = YELLOW;
-                        5'd1: computed_color_nxt = RED;
-                        5'd2: computed_color_nxt = BLUE;
-                        5'd3: computed_color_nxt = GREEN;
-                        5'd4: computed_color_nxt = CYAN;
-                        5'd5: computed_color_nxt = MAGENTA;
-                        5'd6: computed_color_nxt = CYAN;
-                        5'd7: computed_color_nxt = YELLOW;
-                        5'd8: computed_color_nxt = GREEN;
-                        5'd9: computed_color_nxt = MAGENTA;
-                        5'd10: computed_color_nxt = RED;    
-                        5'd11: computed_color_nxt = BLUE;
-                        default: computed_color_nxt = WHITE;
-                    endcase
-                end
-                3'b001: begin
-                    case(computed_address)
-                        // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
-                        // It is because the register 4'h0 is left for other variables.
-                        5'd0: computed_color_nxt = RED;
-                        5'd1: computed_color_nxt = GREEN;
-                        5'd2: computed_color_nxt = BLUE;
-                        5'd3: computed_color_nxt = CYAN;
-                        5'd4: computed_color_nxt = BLUE;
-                        5'd5: computed_color_nxt = RED;
-                        5'd6: computed_color_nxt = YELLOW;
-                        5'd7: computed_color_nxt = MAGENTA;
-                        5'd8: computed_color_nxt = CYAN;
-                        5'd9: computed_color_nxt = MAGENTA;
-                        5'd10:computed_color_nxt = YELLOW;    
-                        5'd11:computed_color_nxt = GREEN;
-                        default: computed_color_nxt = WHITE;
-                    endcase
-                end 
-                3'b010: begin
-                    case(computed_address)
-                        // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
-                        // It is because the register 4'h0 is left for other variables.
-                        5'd0: computed_color_nxt = YELLOW;
-                        5'd1: computed_color_nxt = CYAN;
-                        5'd2: computed_color_nxt = GREEN;
-                        5'd3: computed_color_nxt = BLUE;
-                        5'd4: computed_color_nxt = YELLOW;
-                        5'd5: computed_color_nxt = BLUE;
-                        5'd6: computed_color_nxt = MAGENTA;
-                        5'd7: computed_color_nxt = MAGENTA;
-                        5'd8: computed_color_nxt = CYAN;
-                        5'd9: computed_color_nxt = RED;
-                        5'd10:computed_color_nxt = GREEN;    
-                        5'd11:computed_color_nxt = RED;
-                        default: computed_color_nxt = WHITE;
-                    endcase
-                end
-                3'b011: begin
-                    case(computed_address)
-                        // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
-                        // It is because the register 4'h0 is left for other variables.
-                        5'd0: computed_color_nxt = BLUE;
-                        5'd1: computed_color_nxt = MAGENTA;
-                        5'd2: computed_color_nxt = BLUE;
-                        5'd3: computed_color_nxt = GREEN;
-                        5'd4: computed_color_nxt = RED;
-                        5'd5: computed_color_nxt = CYAN;
-                        5'd6: computed_color_nxt = GREEN;
-                        5'd7: computed_color_nxt = CYAN;
-                        5'd8: computed_color_nxt = MAGENTA;
-                        5'd9: computed_color_nxt = RED;
-                        5'd10:computed_color_nxt = YELLOW;    
-                        5'd11:computed_color_nxt = YELLOW;
-                        default: computed_color_nxt = WHITE; 
-                    endcase
-                end
-                3'b100: begin
-                    case(computed_address)
-                        // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
-                        // It is because the register 4'h0 is left for other variables.
-                        5'd0: computed_color_nxt = MAGENTA;
-                        5'd1: computed_color_nxt = CYAN;
-                        5'd2: computed_color_nxt = YELLOW;
-                        5'd3: computed_color_nxt = MAGENTA;
-                        5'd4: computed_color_nxt = GREEN;
-                        5'd5: computed_color_nxt = BLUE;
-                        5'd6: computed_color_nxt = GREEN;
-                        5'd7: computed_color_nxt = YELLOW;
-                        5'd8: computed_color_nxt = RED;
-                        5'd9: computed_color_nxt = CYAN;
-                        5'd10:computed_color_nxt = RED;    
-                        5'd11:computed_color_nxt = BLUE;
-                        default: computed_color_nxt = WHITE; 
-                    endcase
-                end 
-                3'b101: begin
-                    case(computed_address)
-                        // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
-                        // It is because the register 4'h0 is left for other variables.
-                        5'd0: computed_color_nxt = GREEN;
-                        5'd1: computed_color_nxt = CYAN;
-                        5'd2: computed_color_nxt = GREEN;
-                        5'd3: computed_color_nxt = MAGENTA;
-                        5'd4: computed_color_nxt = YELLOW;
-                        5'd5: computed_color_nxt = CYAN;
-                        5'd6: computed_color_nxt = RED;
-                        5'd7: computed_color_nxt = RED;
-                        5'd8: computed_color_nxt = BLUE;
-                        5'd9: computed_color_nxt = YELLOW;
-                        5'd10:computed_color_nxt = MAGENTA;    
-                        5'd11:computed_color_nxt = BLUE;
-                        default: computed_color_nxt = WHITE; 
-                    endcase
-                end  
-                3'b110: begin
-                    case(computed_address)
-                        // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
-                        // It is because the register 4'h0 is left for other variables.
-                        5'd0: computed_color_nxt = MAGENTA;
-                        5'd1: computed_color_nxt = GREEN;
-                        5'd2: computed_color_nxt = BLUE;
-                        5'd3: computed_color_nxt = BLUE;
-                        5'd4: computed_color_nxt = GREEN;
-                        5'd5: computed_color_nxt = RED;
-                        5'd6: computed_color_nxt = RED;
-                        5'd7: computed_color_nxt = YELLOW;
-                        5'd8: computed_color_nxt = CYAN;
-                        5'd9: computed_color_nxt = MAGENTA;
-                        5'd10:computed_color_nxt = CYAN;    
-                        5'd11:computed_color_nxt = YELLOW;
-                        default: computed_color_nxt = WHITE; 
-                    endcase
-                end    
-                3'b111: begin
-                    case(computed_address)
-                        // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
-                        // It is because the register 4'h0 is left for other variables.
-                        5'd0: computed_color_nxt = GREEN;
-                        5'd1: computed_color_nxt = RED;
-                        5'd2: computed_color_nxt = MAGENTA;
-                        5'd3: computed_color_nxt = YELLOW;
-                        5'd4: computed_color_nxt = RED;
-                        5'd5: computed_color_nxt = CYAN;
-                        5'd6: computed_color_nxt = YELLOW;
-                        5'd7: computed_color_nxt = GREEN;
-                        5'd8: computed_color_nxt = BLUE;
-                        5'd9: computed_color_nxt = MAGENTA;
-                        5'd10:computed_color_nxt = CYAN;    
-                        5'd11:computed_color_nxt = BLUE;
-                        default: computed_color_nxt = WHITE; 
-                    endcase
-                end                                                                                                        
-            endcase
             computed_address_nxt = computed_address + 1;
-        end
-        else begin
-            // It does not do anything, but was left for safety reasons
-            computed_color_nxt = 12'h0_0_0;
-            computed_address_nxt = computed_address;
+            if(`CARD_NUM_NORMAL == num_of_cards) begin
+                case(game_version)
+                    3'b000: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = YELLOW;
+                            5'd1: computed_color_nxt = RED;
+                            5'd2: computed_color_nxt = BLUE;
+                            5'd3: computed_color_nxt = GREEN;
+                            5'd4: computed_color_nxt = CYAN;
+                            5'd5: computed_color_nxt = MAGENTA;
+                            5'd6: computed_color_nxt = CYAN;
+                            5'd7: computed_color_nxt = YELLOW;
+                            5'd8: computed_color_nxt = GREEN;
+                            5'd9: computed_color_nxt = MAGENTA;
+                            5'd10: computed_color_nxt = RED;    
+                            5'd11: computed_color_nxt = BLUE;
+                            default: computed_color_nxt = WHITE;
+                        endcase
+                    end
+                    3'b001: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = RED;
+                            5'd1: computed_color_nxt = GREEN;
+                            5'd2: computed_color_nxt = BLUE;
+                            5'd3: computed_color_nxt = CYAN;
+                            5'd4: computed_color_nxt = BLUE;
+                            5'd5: computed_color_nxt = RED;
+                            5'd6: computed_color_nxt = YELLOW;
+                            5'd7: computed_color_nxt = MAGENTA;
+                            5'd8: computed_color_nxt = CYAN;
+                            5'd9: computed_color_nxt = MAGENTA;
+                            5'd10:computed_color_nxt = YELLOW;    
+                            5'd11:computed_color_nxt = GREEN;
+                            default: computed_color_nxt = WHITE;
+                        endcase
+                    end 
+                    3'b010: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = YELLOW;
+                            5'd1: computed_color_nxt = CYAN;
+                            5'd2: computed_color_nxt = GREEN;
+                            5'd3: computed_color_nxt = BLUE;
+                            5'd4: computed_color_nxt = YELLOW;
+                            5'd5: computed_color_nxt = BLUE;
+                            5'd6: computed_color_nxt = MAGENTA;
+                            5'd7: computed_color_nxt = MAGENTA;
+                            5'd8: computed_color_nxt = CYAN;
+                            5'd9: computed_color_nxt = RED;
+                            5'd10:computed_color_nxt = GREEN;    
+                            5'd11:computed_color_nxt = RED;
+                            default: computed_color_nxt = WHITE;
+                        endcase
+                    end
+                    3'b011: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = BLUE;
+                            5'd1: computed_color_nxt = MAGENTA;
+                            5'd2: computed_color_nxt = BLUE;
+                            5'd3: computed_color_nxt = GREEN;
+                            5'd4: computed_color_nxt = RED;
+                            5'd5: computed_color_nxt = CYAN;
+                            5'd6: computed_color_nxt = GREEN;
+                            5'd7: computed_color_nxt = CYAN;
+                            5'd8: computed_color_nxt = MAGENTA;
+                            5'd9: computed_color_nxt = RED;
+                            5'd10:computed_color_nxt = YELLOW;    
+                            5'd11:computed_color_nxt = YELLOW;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end
+                    3'b100: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = MAGENTA;
+                            5'd1: computed_color_nxt = CYAN;
+                            5'd2: computed_color_nxt = YELLOW;
+                            5'd3: computed_color_nxt = MAGENTA;
+                            5'd4: computed_color_nxt = GREEN;
+                            5'd5: computed_color_nxt = BLUE;
+                            5'd6: computed_color_nxt = GREEN;
+                            5'd7: computed_color_nxt = YELLOW;
+                            5'd8: computed_color_nxt = RED;
+                            5'd9: computed_color_nxt = CYAN;
+                            5'd10:computed_color_nxt = RED;    
+                            5'd11:computed_color_nxt = BLUE;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end 
+                    3'b101: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = GREEN;
+                            5'd1: computed_color_nxt = CYAN;
+                            5'd2: computed_color_nxt = GREEN;
+                            5'd3: computed_color_nxt = MAGENTA;
+                            5'd4: computed_color_nxt = YELLOW;
+                            5'd5: computed_color_nxt = CYAN;
+                            5'd6: computed_color_nxt = RED;
+                            5'd7: computed_color_nxt = RED;
+                            5'd8: computed_color_nxt = BLUE;
+                            5'd9: computed_color_nxt = YELLOW;
+                            5'd10:computed_color_nxt = MAGENTA;    
+                            5'd11:computed_color_nxt = BLUE;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end  
+                    3'b110: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = MAGENTA;
+                            5'd1: computed_color_nxt = GREEN;
+                            5'd2: computed_color_nxt = BLUE;
+                            5'd3: computed_color_nxt = BLUE;
+                            5'd4: computed_color_nxt = GREEN;
+                            5'd5: computed_color_nxt = RED;
+                            5'd6: computed_color_nxt = RED;
+                            5'd7: computed_color_nxt = YELLOW;
+                            5'd8: computed_color_nxt = CYAN;
+                            5'd9: computed_color_nxt = MAGENTA;
+                            5'd10:computed_color_nxt = CYAN;    
+                            5'd11:computed_color_nxt = YELLOW;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end    
+                    3'b111: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = GREEN;
+                            5'd1: computed_color_nxt = RED;
+                            5'd2: computed_color_nxt = MAGENTA;
+                            5'd3: computed_color_nxt = YELLOW;
+                            5'd4: computed_color_nxt = RED;
+                            5'd5: computed_color_nxt = CYAN;
+                            5'd6: computed_color_nxt = YELLOW;
+                            5'd7: computed_color_nxt = GREEN;
+                            5'd8: computed_color_nxt = BLUE;
+                            5'd9: computed_color_nxt = MAGENTA;
+                            5'd10:computed_color_nxt = CYAN;    
+                            5'd11:computed_color_nxt = BLUE;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end                                                                                                        
+                endcase
+            end
+            else if(`CARD_NUM_EASY == num_of_cards) begin
+                case(game_version)
+                    3'b000: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = GREEN;
+                            5'd1: computed_color_nxt = BLUE;
+                            5'd2: computed_color_nxt = BLUE;
+                            5'd3: computed_color_nxt = RED;
+                            5'd4: computed_color_nxt = GREEN;
+                            5'd5: computed_color_nxt = YELLOW;
+                            5'd6: computed_color_nxt = YELLOW;
+                            5'd7: computed_color_nxt = RED;
+                            default: computed_color_nxt = WHITE;
+                        endcase
+                    end
+                    3'b001: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = RED;
+                            5'd1: computed_color_nxt = GREEN;
+                            5'd2: computed_color_nxt = YELLOW;
+                            5'd3: computed_color_nxt = BLUE;
+                            5'd4: computed_color_nxt = YELLOW;
+                            5'd5: computed_color_nxt = BLUE;
+                            5'd6: computed_color_nxt = GREEN;
+                            5'd7: computed_color_nxt = RED;
+                            default: computed_color_nxt = WHITE;
+                        endcase
+                    end 
+                    3'b010: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = BLUE;
+                            5'd1: computed_color_nxt = RED;
+                            5'd2: computed_color_nxt = BLUE;
+                            5'd3: computed_color_nxt = RED;
+                            5'd4: computed_color_nxt = GREEN;
+                            5'd5: computed_color_nxt = YELLOW;
+                            5'd6: computed_color_nxt = YELLOW;
+                            5'd7: computed_color_nxt = GREEN;
+                            default: computed_color_nxt = WHITE;
+                        endcase
+                    end
+                    3'b011: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = RED;
+                            5'd1: computed_color_nxt = RED;
+                            5'd2: computed_color_nxt = BLUE;
+                            5'd3: computed_color_nxt = YELLOW;
+                            5'd4: computed_color_nxt = BLUE;
+                            5'd5: computed_color_nxt = GREEN;
+                            5'd6: computed_color_nxt = GREEN;
+                            5'd7: computed_color_nxt = YELLOW;
+                        endcase
+                    end
+                    3'b100: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = GREEN;
+                            5'd1: computed_color_nxt = RED;
+                            5'd2: computed_color_nxt = BLUE;
+                            5'd3: computed_color_nxt = RED;
+                            5'd4: computed_color_nxt = YELLOW;
+                            5'd5: computed_color_nxt = YELLOW;
+                            5'd6: computed_color_nxt = BLUE;
+                            5'd7: computed_color_nxt = GREEN;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end 
+                    3'b101: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = GREEN;
+                            5'd1: computed_color_nxt = YELLOW;
+                            5'd2: computed_color_nxt = GREEN;
+                            5'd3: computed_color_nxt = RED;
+                            5'd4: computed_color_nxt = BLUE;
+                            5'd5: computed_color_nxt = YELLOW;
+                            5'd6: computed_color_nxt = RED;
+                            5'd7: computed_color_nxt = BLUE;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end  
+                    3'b110: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = BLUE;
+                            5'd1: computed_color_nxt = RED;
+                            5'd2: computed_color_nxt = GREEN;
+                            5'd3: computed_color_nxt = YELLOW;
+                            5'd4: computed_color_nxt = RED;
+                            5'd5: computed_color_nxt = GREEN;
+                            5'd6: computed_color_nxt = YELLOW;
+                            5'd7: computed_color_nxt = BLUE;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end    
+                    3'b111: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = BLUE;
+                            5'd1: computed_color_nxt = GREEN;
+                            5'd2: computed_color_nxt = RED;
+                            5'd3: computed_color_nxt = RED;
+                            5'd4: computed_color_nxt = BLUE;
+                            5'd5: computed_color_nxt = GREEN;
+                            5'd6: computed_color_nxt = YELLOW;
+                            5'd7: computed_color_nxt = YELLOW;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end                                                                                                        
+                endcase
+            end
+            else if (`CARD_NUM_HARD == num_of_cards) begin
+                case(game_version)
+                    3'b000: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = ORANGE;
+                            5'd1: computed_color_nxt = MAGENTA;
+                            5'd2: computed_color_nxt = CYAN;
+                            5'd3: computed_color_nxt = GREEN;
+                            5'd4: computed_color_nxt = PURPLE;
+                            5'd5: computed_color_nxt = RED;
+                            5'd6: computed_color_nxt = YELLOW;
+                            5'd7: computed_color_nxt = CYAN;
+                            5'd8: computed_color_nxt = GREEN;
+                            5'd9: computed_color_nxt = BLUE;
+                            5'd10: computed_color_nxt = RED;    
+                            5'd11: computed_color_nxt = ORANGE;
+                            5'd12: computed_color_nxt = MAGENTA;
+                            5'd13: computed_color_nxt = BLUE;
+                            5'd14: computed_color_nxt = PURPLE;
+                            5'd15: computed_color_nxt = YELLOW;
+                            default: computed_color_nxt = WHITE;
+                        endcase
+                    end
+                    3'b001: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = MAGENTA;
+                            5'd1: computed_color_nxt = RED;
+                            5'd2: computed_color_nxt = ORANGE;
+                            5'd3: computed_color_nxt = CYAN;
+                            5'd4: computed_color_nxt = GREEN;
+                            5'd5: computed_color_nxt = YELLOW;
+                            5'd6: computed_color_nxt = MAGENTA;
+                            5'd7: computed_color_nxt = ORANGE;
+                            5'd8: computed_color_nxt = GREEN;
+                            5'd9: computed_color_nxt = CYAN;
+                            5'd10: computed_color_nxt = YELLOW;    
+                            5'd11: computed_color_nxt = PURPLE;
+                            5'd12: computed_color_nxt = PURPLE;
+                            5'd13: computed_color_nxt = BLUE;
+                            5'd14: computed_color_nxt = RED;
+                            5'd15: computed_color_nxt = BLUE;
+                            default: computed_color_nxt = WHITE;
+                        endcase
+                    end 
+                    3'b010: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = PURPLE;
+                            5'd1: computed_color_nxt = YELLOW;
+                            5'd2: computed_color_nxt = RED;
+                            5'd3: computed_color_nxt = MAGENTA;
+                            5'd4: computed_color_nxt = MAGENTA;
+                            5'd5: computed_color_nxt = YELLOW;
+                            5'd6: computed_color_nxt = PURPLE;
+                            5'd7: computed_color_nxt = GREEN;
+                            5'd8: computed_color_nxt = CYAN;
+                            5'd9: computed_color_nxt = BLUE;
+                            5'd10: computed_color_nxt = BLUE;    
+                            5'd11: computed_color_nxt = ORANGE;
+                            5'd12: computed_color_nxt = RED;
+                            5'd13: computed_color_nxt = GREEN;
+                            5'd14: computed_color_nxt = CYAN;
+                            5'd15: computed_color_nxt = ORANGE;
+                            default: computed_color_nxt = WHITE;
+                        endcase
+                    end
+                    3'b011: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = MAGENTA;
+                            5'd1: computed_color_nxt = CYAN;
+                            5'd2: computed_color_nxt = ORANGE;
+                            5'd3: computed_color_nxt = ORANGE;
+                            5'd4: computed_color_nxt = PURPLE;
+                            5'd5: computed_color_nxt = BLUE;
+                            5'd6: computed_color_nxt = BLUE;
+                            5'd7: computed_color_nxt = CYAN;
+                            5'd8: computed_color_nxt = PURPLE;
+                            5'd9: computed_color_nxt = GREEN;
+                            5'd10: computed_color_nxt = RED;    
+                            5'd11: computed_color_nxt = YELLOW;
+                            5'd12: computed_color_nxt = YELLOW;
+                            5'd13: computed_color_nxt = GREEN;
+                            5'd14: computed_color_nxt = RED;
+                            5'd15: computed_color_nxt = MAGENTA;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end
+                    3'b100: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = PURPLE;
+                            5'd1: computed_color_nxt = ORANGE;
+                            5'd2: computed_color_nxt = BLUE;
+                            5'd3: computed_color_nxt = MAGENTA;
+                            5'd4: computed_color_nxt = GREEN;
+                            5'd5: computed_color_nxt = PURPLE;
+                            5'd6: computed_color_nxt = RED;
+                            5'd7: computed_color_nxt = CYAN;
+                            5'd8: computed_color_nxt = YELLOW;
+                            5'd9: computed_color_nxt = ORANGE;
+                            5'd10: computed_color_nxt = RED;    
+                            5'd11: computed_color_nxt = GREEN;
+                            5'd12: computed_color_nxt = BLUE;
+                            5'd13: computed_color_nxt = CYAN;
+                            5'd14: computed_color_nxt = YELLOW;
+                            5'd15: computed_color_nxt = MAGENTA;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end 
+                    3'b101: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = RED;
+                            5'd1: computed_color_nxt = MAGENTA;
+                            5'd2: computed_color_nxt = ORANGE;
+                            5'd3: computed_color_nxt = GREEN;
+                            5'd4: computed_color_nxt = YELLOW;
+                            5'd5: computed_color_nxt = CYAN;
+                            5'd6: computed_color_nxt = CYAN;
+                            5'd7: computed_color_nxt = PURPLE;
+                            5'd8: computed_color_nxt = PURPLE;
+                            5'd9: computed_color_nxt = BLUE;
+                            5'd10: computed_color_nxt = MAGENTA;    
+                            5'd11: computed_color_nxt = BLUE;
+                            5'd12: computed_color_nxt = GREEN;
+                            5'd13: computed_color_nxt = YELLOW;
+                            5'd14: computed_color_nxt = RED;
+                            5'd15: computed_color_nxt = ORANGE;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end  
+                    3'b110: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = ORANGE;
+                            5'd1: computed_color_nxt = RED;
+                            5'd2: computed_color_nxt = ORANGE;
+                            5'd3: computed_color_nxt = PURPLE;
+                            5'd4: computed_color_nxt = YELLOW;
+                            5'd5: computed_color_nxt = BLUE;
+                            5'd6: computed_color_nxt = MAGENTA;
+                            5'd7: computed_color_nxt = GREEN;
+                            5'd8: computed_color_nxt = CYAN;
+                            5'd9: computed_color_nxt = GREEN;
+                            5'd10: computed_color_nxt = RED;    
+                            5'd11: computed_color_nxt = CYAN;
+                            5'd12: computed_color_nxt = BLUE;
+                            5'd13: computed_color_nxt = MAGENTA;
+                            5'd14: computed_color_nxt = YELLOW;
+                            5'd15: computed_color_nxt = PURPLE;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end    
+                    3'b111: begin
+                        case(computed_address)
+                            // It might be misleading, but when computed_address is 5'd0, color for address 5'd1 is computed. 
+                            // It is because the register 4'h0 is left for other variables.
+                            5'd0: computed_color_nxt = BLUE;
+                            5'd1: computed_color_nxt = PURPLE;
+                            5'd2: computed_color_nxt = CYAN;
+                            5'd3: computed_color_nxt = CYAN;
+                            5'd4: computed_color_nxt = YELLOW;
+                            5'd5: computed_color_nxt = RED;
+                            5'd6: computed_color_nxt = YELLOW;
+                            5'd7: computed_color_nxt = GREEN;
+                            5'd8: computed_color_nxt = MAGENTA;
+                            5'd9: computed_color_nxt = BLUE;
+                            5'd10: computed_color_nxt = GREEN;    
+                            5'd11: computed_color_nxt = MAGENTA;
+                            5'd12: computed_color_nxt = ORANGE;
+                            5'd13: computed_color_nxt = PURPLE;
+                            5'd14: computed_color_nxt = ORANGE;
+                            5'd15: computed_color_nxt = RED;
+                            default: computed_color_nxt = WHITE; 
+                        endcase
+                    end                                                                                                        
+                endcase
+            end            
         end
     end
     

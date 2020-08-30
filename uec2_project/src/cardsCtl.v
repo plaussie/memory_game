@@ -51,7 +51,7 @@ module cardsCtl(
         CHECK_IF_CARD_ACTIVE = 2'b01,
         GENERATE_EVENT = 2'b10;
         
-    wire [`CARD_MAX_NUM:0] event_occurred_internal;
+    wire [`CARD_MAX_NUM-1:0] event_occurred_internal;
     reg enable_internal, enable_internal_nxt, event_occurred_nxt;
     reg [`CARD_ADDRESS_SIZE-1:0] card_clicked_address_nxt, card_to_test_address_nxt;
     reg [1:0] state, state_nxt;
@@ -165,12 +165,10 @@ module cardsCtl(
             512:    card_to_test_address_nxt = 5'd10;
             1024:   card_to_test_address_nxt = 5'd11;
             2048:   card_to_test_address_nxt = 5'd12;
-            4098:   card_to_test_address_nxt = 5'd13;
+            4096:   card_to_test_address_nxt = 5'd13;
             8192:   card_to_test_address_nxt = 5'd14;
             16384:  card_to_test_address_nxt = 5'd15;
             32768:  card_to_test_address_nxt = 5'd16;
-            65536:  card_to_test_address_nxt = 5'd17;
-            131072: card_to_test_address_nxt = 5'd18;
             default: card_to_test_address_nxt = card_to_test_address;
         endcase
     end
