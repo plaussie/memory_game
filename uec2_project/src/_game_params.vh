@@ -1,6 +1,11 @@
 `ifndef _game_params
 `define _game_params
 
+`define BACKGROUND_TXT_COLOR 12'hf_8_b
+`define BACKGROUND_COLOR 12'h8_8_f
+`define BUTTON_TXT_COLOR 12'h0_0_0
+`define BUTTON_COLOR 12'hf_8_b
+
 //Start Button Params
 `define START_BUTTON_X_POS 412
 `define START_BUTTON_Y_POS 328
@@ -17,7 +22,7 @@
 `define OPTIONS_BUTTON_HEIGHT 112
 `define OPTIONS_BUTTON_ADDRESS_SIZE 16
 `define OPTIONS_BUTTON_ROM_PIXELS_NUM 65536
-`define OPTIONS_BUTTON_ROM_PATH "start_button.data"
+`define OPTIONS_BUTTON_ROM_PATH "options_button.data"
 
 //Easy Button Params
 `define EASY_BUTTON_X_POS 106
@@ -26,7 +31,7 @@
 `define EASY_BUTTON_HEIGHT 112
 `define EASY_BUTTON_ADDRESS_SIZE 16
 `define EASY_BUTTON_ROM_PIXELS_NUM 65536
-`define EASY_BUTTON_ROM_PATH "start_button.data"
+`define EASY_BUTTON_ROM_PATH "easy_button.data"
 
 //Normal Button Params
 `define NORMAL_BUTTON_X_POS 412
@@ -35,7 +40,7 @@
 `define NORMAL_BUTTON_HEIGHT 112
 `define NORMAL_BUTTON_ADDRESS_SIZE 16
 `define NORMAL_BUTTON_ROM_PIXELS_NUM 65536
-`define NORMAL_BUTTON_ROM_PATH "start_button.data"
+`define NORMAL_BUTTON_ROM_PATH "normal_button.data"
 
 //Hard Button Params
 `define HARD_BUTTON_X_POS 718
@@ -44,7 +49,7 @@
 `define HARD_BUTTON_HEIGHT 112
 `define HARD_BUTTON_ADDRESS_SIZE 16
 `define HARD_BUTTON_ROM_PIXELS_NUM 65536
-`define HARD_BUTTON_ROM_PATH "start_button.data"
+`define HARD_BUTTON_ROM_PATH "hard_button.data"
 
 //Back Button Params
 `define BACK_BUTTON_X_POS 724
@@ -53,6 +58,6 @@
 `define BACK_BUTTON_HEIGHT 112
 `define BACK_BUTTON_ADDRESS_SIZE 16
 `define BACK_BUTTON_ROM_PIXELS_NUM 65536
-`define BACK_BUTTON_ROM_PATH "start_button.data"
+`define BACK_BUTTON_ROM_PATH "back_button.data"
 
 `endif

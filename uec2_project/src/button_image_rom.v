@@ -18,6 +18,8 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+`include "_game_params.vh"
+
 module button_image_rom
     #( parameter
         ROM_ADDRESS_SIZE   = 16,
@@ -37,10 +39,10 @@ module button_image_rom
     
     always @(posedge clk) begin
         if(rom[address] == 1) begin
-            rgb <= 12'h0_0_0;
+            rgb <= `BUTTON_TXT_COLOR;
         end
         else begin
-            rgb <= 12'hF_F_F;
+            rgb <= `BUTTON_COLOR;
         end
     end
 
