@@ -184,12 +184,12 @@ module top (
     delay
     #(
         .WIDTH(1),
-        .CLK_DEL(2)
+        .CLK_DEL(1)
     )
     delay_update_cards_en_2(
         .clk(clk65MHz),
         .rst(rst),
-        .din(update_cards_en),
+        .din(update_cards_en_delayed_tact),
         .dout(update_cards_en_delayed_2tact)
     );
 

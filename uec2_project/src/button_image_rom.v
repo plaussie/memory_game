@@ -31,13 +31,17 @@ module button_image_rom
     );
 
 
-    reg [ROM_ADDRESS_SIZE-1:0] rom [0:ROM_PIXELS_NUM-1];
+    reg rom [0:ROM_PIXELS_NUM-1];
     
-    initial $readmemh(ROM_PATH, rom); 
+    initial $readmemb(ROM_PATH, rom); 
     
-    always @(posedge clk)
-    begin
-        rgb <= rom[address];
+    always @(posedge clk) begin
+        if(rom[address] == 1) begin
+            rgb <= 12'h0_0_0;
+        end
+        else begin
+            rgb <= 12'hF_F_F;
+        end
     end
 
 endmodule

@@ -8,7 +8,7 @@
 // Module Name: draw_image_rom
 // Project Name: Memory Game
 // Target Devices: Basys3
-// Tool Versions: Vivaenable 2017.3
+// Tool Versions: Vivado 2017.3
 // Description: 
 // 
 // Dependencies: 
@@ -44,10 +44,7 @@ module draw_image_rom
     `VGA_MERGE_OUTPUT(vga_out)
     
     reg [11:0] rgb_nxt;
-    wire hs_in_delayed, vs_in_delayed, hblnk_in_delayed, vblnk_in_delayed;
-    wire [11:0] rgb_in_delayed;
     reg [7:0] addry, addrx;
-    wire [10:0] hcount_in_delayed, vcount_in_delayed;
     
     always @(posedge pclk)
     begin
@@ -77,17 +74,17 @@ module draw_image_rom
     
     always @*
     begin
-        if (enable && ((hcount_in_delayed >= X_POS) && (hcount_in_delayed < X_POS+WIDTH) && (vcount_in_delayed >= Y_POS) && (vcount_in_delayed < Y_POS+HEIGHT))) begin
+        if (enable && ((hcount_in >= X_POS) && (hcount_in < X_POS+WIDTH) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
             rgb_nxt <= rgb_pixel;
         end
         else begin
-            rgb_nxt <= rgb_in_delayed;
+            rgb_nxt <= rgb_in;
         end
     end
 
     always @*
     begin
-        if (enable && ((hcount_in >= X_POS) && (hcount_in < X_POS+WIDTH) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
+        if (enable && ((hcount_in >= X_POS-2) && (hcount_in < X_POS+WIDTH-2) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
             addrx = hcount_in-X_POS;
             addry = vcount_in-Y_POS;
         end
@@ -96,17 +93,4 @@ module draw_image_rom
             addry = 8'bx;
         end
     end
-    
-    delay
-    #(
-        .WIDTH(38),
-        .CLK_DEL(2)
-    )
-    delay_in_draw_rect (
-        .clk(pclk),
-        .rst(rst),
-        .din({rgb_in, hcount_in, vcount_in, hs_in, vs_in, hblnk_in, vblnk_in}),
-        .dout({rgb_in_delayed, hcount_in_delayed, vcount_in_delayed, hs_in_delayed, vs_in_delayed, hblnk_in_delayed, vblnk_in_delayed})
-    );
-    
 endmodule
