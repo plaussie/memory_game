@@ -22,28 +22,24 @@
 
 module button_image_rom
     #( parameter
-        ROM_ADDRESS_SIZE   = 16,
-        ROM_PIXELS_NUM   = 20,
+        ROM_WIDTH_SIZE = 8,
+        ROM_HEIGHT_SIZE = 8,
         ROM_PATH   = ""
     )
     (
-    input wire clk ,
-    input wire [ROM_ADDRESS_SIZE-1:0] address,  // address = {addry[7:0], addrx[7:0]}
-    output reg [11:0] rgb
+    input wire [ROM_WIDTH_SIZE+ROM_HEIGHT_SIZE-1:0] address,  // address = {addry[7:0], addrx[7:0]}
+    output wire [11:0] rgb
     );
+    
+    wire [ROM_WIDTH_SIZE-1:0] addrx;
+    wire [ROM_HEIGHT_SIZE-1:0] addry;
+    assign addry = address[ROM_WIDTH_SIZE+ROM_HEIGHT_SIZE-1:ROM_WIDTH_SIZE];
+    assign addrx = address[ROM_WIDTH_SIZE-1:0];
 
-
-    reg rom [0:ROM_PIXELS_NUM-1];
+    reg [2**ROM_WIDTH_SIZE-1:0] rom [0:2**ROM_HEIGHT_SIZE-1];
     
     initial $readmemb(ROM_PATH, rom); 
     
-    always @(posedge clk) begin
-        if(rom[address] == 1) begin
-            rgb <= `BUTTON_TXT_COLOR;
-        end
-        else begin
-            rgb <= `BUTTON_COLOR;
-        end
-    end
+    assign rgb = (rom[addry][addrx] == 1) ? `BUTTON_TXT_COLOR : `BUTTON_COLOR;
 
 endmodule
