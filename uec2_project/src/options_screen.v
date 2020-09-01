@@ -25,17 +25,19 @@
 module options_screen(
     input wire clk,
     input wire rst,
-    input wire difficulty_butts_en,
+    input wire enable,
     input wire mouse_left,
     input wire [11:0]   mouse_xpos,
     input wire [11:0]   mouse_ypos,
     input wire [`VGA_BUS_SIZE-1:0] vga_in,
     
     output wire [`VGA_BUS_SIZE-1:0] vga_out,
+    output wire difficulty_butts_pressed,
     output reg [`CARD_MAX_NUM_SIZE-1:0] num_of_cards
     );
     
     wire easy_butt_pressed, normal_butt_pressed, hard_butt_pressed;
+    assign difficulty_butts_pressed = easy_butt_pressed || normal_butt_pressed || hard_butt_pressed;
     
     reg [`CARD_MAX_NUM_SIZE-1:0] num_of_cards_nxt;
     wire [`VGA_BUS_SIZE-1:0] vga_internal_bus [`CARD_LEVEL_NUM:0];
@@ -57,7 +59,7 @@ module options_screen(
     display_clickable_easy (
         .clk(clk),
         .rst(rst),
-        .enable(difficulty_butts_en),
+        .enable(enable),
         .mouse_left(mouse_left),
         .mouse_xpos(mouse_xpos),
         .mouse_ypos(mouse_ypos),
@@ -81,7 +83,7 @@ module options_screen(
     display_clickable_normal (
         .clk(clk),
         .rst(rst),
-        .enable(difficulty_butts_en),
+        .enable(enable),
         .mouse_left(mouse_left),
         .mouse_xpos(mouse_xpos),
         .mouse_ypos(mouse_ypos),
@@ -105,7 +107,7 @@ module options_screen(
     display_clickable_hard (
         .clk(clk),
         .rst(rst),
-        .enable(difficulty_butts_en),
+        .enable(enable),
         .mouse_left(mouse_left),
         .mouse_xpos(mouse_xpos),
         .mouse_ypos(mouse_ypos),
