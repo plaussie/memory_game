@@ -78,7 +78,7 @@ module compute_colors(
     
     always @* begin
         computed_color_nxt = 12'h0_0_0;
-        computed_address_nxt = computed_address;
+        computed_address_nxt = 0;
         if(enable) begin
             computed_address_nxt = computed_address + 1;
             if(`CARD_NUM_NORMAL == num_of_cards) begin

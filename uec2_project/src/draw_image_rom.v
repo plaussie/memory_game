@@ -8,7 +8,7 @@
 // Module Name: draw_image_rom
 // Project Name: Memory Game
 // Target Devices: Basys3
-// Tool Versions: Vivaenable 2017.3
+// Tool Versions: Vivado 2017.3
 // Description: 
 // 
 // Dependencies: 
@@ -21,21 +21,25 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 `include "_vga_macros.vh"
+`include "_game_params.vh"
 
 module draw_image_rom
     #( parameter
         X_POS   = 412,
         Y_POS   = 328,
         WIDTH   = 200,
-        HEIGHT  = 112
+        HEIGHT  = 112,
+        ROM_WIDTH_SIZE = 8,
+        ROM_HEIGHT_SIZE = 8,
+        ROM_PATH   = ""
     )
     (
         input wire pclk,
         input wire rst,
         input wire enable,
-        input wire [11:0] rgb_pixel,
+//        input wire [11:0] rgb_pixel,
         input wire [`VGA_BUS_SIZE-1:0] vga_in,
-        output reg [15:0] pixel_address,
+//        output reg [15:0] pixel_address,
         output wire [`VGA_BUS_SIZE-1:0] vga_out
     );
 
@@ -43,11 +47,12 @@ module draw_image_rom
     `VGA_OUT_REG
     `VGA_MERGE_OUTPUT(vga_out)
     
+    reg [0:2**ROM_WIDTH_SIZE-1] rom [0:2**ROM_HEIGHT_SIZE-1];
+        
+    initial $readmemb(ROM_PATH, rom); 
+    
     reg [11:0] rgb_nxt;
-    wire hs_in_delayed, vs_in_delayed, hblnk_in_delayed, vblnk_in_delayed;
-    wire [11:0] rgb_in_delayed;
-    reg [7:0] addry, addrx;
-    wire [10:0] hcount_in_delayed, vcount_in_delayed;
+//    reg [7:0] addry, addrx;
     
     always @(posedge pclk)
     begin
@@ -59,7 +64,7 @@ module draw_image_rom
             hcount_out <= 0;
             vcount_out <= 0;
             rgb_out <= 0;
-            pixel_address <= 16'bx;
+//            pixel_address <= 16'bx;
         end
         else begin
             // Just pass these through.
@@ -71,42 +76,29 @@ module draw_image_rom
             vcount_out <= vcount_in;
             // Changing color in rectangle place
             rgb_out <= rgb_nxt;
-            pixel_address <= {addry[7:0],addrx[7:0]};
+//            pixel_address <= {addry, addrx};
         end
     end
     
     always @*
     begin
-        if (enable && ((hcount_in_delayed >= X_POS) && (hcount_in_delayed < X_POS+WIDTH) && (vcount_in_delayed >= Y_POS) && (vcount_in_delayed < Y_POS+HEIGHT))) begin
-            rgb_nxt <= rgb_pixel;
+        if (enable && ((hcount_in >= X_POS) && (hcount_in < X_POS+WIDTH) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
+            rgb_nxt = (rom[vcount_in-Y_POS][hcount_in-X_POS] == 1) ? `BUTTON_TXT_COLOR : `BUTTON_COLOR;
         end
         else begin
-            rgb_nxt <= rgb_in_delayed;
+            rgb_nxt = rgb_in;
         end
     end
-
+/*
     always @*
     begin
-        if (enable && ((hcount_in >= X_POS) && (hcount_in < X_POS+WIDTH) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
-            addrx = hcount_in-X_POS;
+        if (enable && ((hcount_in >= X_POS-2) && (hcount_in < X_POS+WIDTH-2) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
+            addrx = hcount_in-X_POS-2;
             addry = vcount_in-Y_POS;
         end
         else begin
             addrx = 8'bx;
             addry = 8'bx;
         end
-    end
-    
-    delay
-    #(
-        .WIDTH(38),
-        .CLK_DEL(2)
-    )
-    delay_in_draw_rect (
-        .clk(pclk),
-        .rst(rst),
-        .din({rgb_in, hcount_in, vcount_in, hs_in, vs_in, hblnk_in, vblnk_in}),
-        .dout({rgb_in_delayed, hcount_in_delayed, vcount_in_delayed, hs_in_delayed, vs_in_delayed, hblnk_in_delayed, vblnk_in_delayed})
-    );
-    
+    end*/
 endmodule

@@ -24,6 +24,7 @@
 // Revision 0.80 - Playable version
 // Revision 0.81 - Added endscreen
 // Revision 0.82 - Added stopwatch
+// Revision 0.83 - Added options screen
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
@@ -31,8 +32,6 @@
 `include "_cards_macros.vh"
 `include "_game_params.vh"
 `include "_vga_macros.vh"
-
-`define TEMPORARY_NUM_OF_CARDS 16
 
 module top (
     inout wire ps2_clk,
@@ -48,7 +47,7 @@ module top (
     
     //params
     localparam
-        NUM_MODULES = 5;
+        NUM_MODULES = 6;
 
     //***Clock Generator***//
     
@@ -98,33 +97,31 @@ module top (
     );
     
     //***The Main State Machine***//
+    wire [`CARD_MAX_NUM_SIZE-1:0] num_of_cards;
     wire [`CARD_DATA_SIZE-1:0] regfile_w_data, regfile_r_data;
     
-    wire start_butt_pressed, options_butt_pressed, back_butt_pressed, card_pressed;
+    wire start_butt_pressed, difficulty_butts_pressed, back_butt_pressed, card_pressed;
     wire compute_done;
-    wire start_butt_en, options_butt_en, difficulty_butts_en, compute_colors_en, stopwatch_en, update_cards_en,
-         wait_for_click_en, write_card_en, stopwatch_disable, end_screen_en;
+    wire start_butt_en, options_screen_en, start_game_en, update_cards_en,
+         wait_for_click_en, write_card_en, end_screen_en;
     wire [`CARD_ADDRESS_SIZE-1:0] card_clicked_address, write_card_address;
     wire [`CARD_STATE_SIZE-1:0] write_card_state;
 
     state_machine MG_state_machine(
         .clk(clk65MHz),
         .rst(rst),
-        .num_of_cards(`TEMPORARY_NUM_OF_CARDS),
+        .num_of_cards(num_of_cards),
         .start_butt_pressed(start_butt_pressed),
-        .options_butt_pressed(options_butt_pressed),
+        .difficulty_butts_pressed(difficulty_butts_pressed),
         .back_butt_pressed(back_butt_pressed),
         .compute_done(compute_done),
         .card_pressed(card_pressed),
         .card_clicked_address(card_clicked_address),
         .card_clicked_color(regfile_r_data[`CARD_DATA_SIZE-1:`CARD_STATE_SIZE]),
         .start_butt_en(start_butt_en),
-        .options_butt_en(options_butt_en),
-        .difficulty_butts_en(difficulty_butts_en),
+        .options_screen_en(options_screen_en),
         .update_cards_en(update_cards_en),
-        .compute_colors_en(compute_colors_en),
-        .stopwatch_en(stopwatch_en),
-        .stopwatch_disable(stopwatch_disable),
+        .start_game_en(start_game_en),
         .wait_for_click_en(wait_for_click_en),
         .write_card_en(write_card_en),
         .end_screen_en(end_screen_en),
@@ -139,9 +136,9 @@ module top (
     stopwatch MG_stopwatch(
         .clk(clk65MHz),
         .rst(rst),
-        .start(stopwatch_en),
+        .start(start_game_en),
         .pause(1'b0),
-        .stop(stopwatch_disable),
+        .stop(end_screen_en),
         .minutes(minutes),
         .seconds(seconds)
         
@@ -155,8 +152,8 @@ module top (
     compute_colors MG_compute_colors(
         .clk(clk65MHz),
         .rst(rst),
-        .enable(compute_colors_en),
-        .num_of_cards(`TEMPORARY_NUM_OF_CARDS),
+        .enable(start_game_en),
+        .num_of_cards(num_of_cards),
         .done(compute_done),
         .computed_data(card_write_data),
         .computed_address(card_write_address)
@@ -183,12 +180,12 @@ module top (
     delay
     #(
         .WIDTH(1),
-        .CLK_DEL(2)
+        .CLK_DEL(1)
     )
     delay_update_cards_en_2(
         .clk(clk65MHz),
         .rst(rst),
-        .din(update_cards_en),
+        .din(update_cards_en_delayed_tact),
         .dout(update_cards_en_delayed_2tact)
     );
 
@@ -200,7 +197,7 @@ module top (
         .clk(clk65MHz),
         .rst(rst),
         .read_all_positions(update_cards_en),
-        .num_of_cards(`TEMPORARY_NUM_OF_CARDS),
+        .num_of_cards(num_of_cards),
         .yx_card_position(yx_card_position)
     );
     
@@ -213,10 +210,10 @@ module top (
     regfileCtl MG_colors_regfileCtl(
         .clk(clk65MHz),
         .rst(rst),
-        .num_of_cards(`TEMPORARY_NUM_OF_CARDS),
+        .num_of_cards(num_of_cards),
         .read_all_cards(update_cards_en_delayed_tact),
         .read_one_card(card_to_test_address),
-        .write_data_1({card_write_data, card_write_address, compute_colors_en}),
+        .write_data_1({card_write_data, card_write_address, start_game_en}),
         .write_data_2({write_card_state, write_card_address, write_card_en}),
         .regfile_w_enable(regfile_w_enable),
         .regfile_w_address(regfile_w_address),
@@ -263,8 +260,8 @@ module top (
         .Y_POS(`START_BUTTON_Y_POS),
         .WIDTH(`START_BUTTON_WIDTH),
         .HEIGHT(`START_BUTTON_HEIGHT),
-        .ROM_ADDRESS_SIZE(`START_BUTTON_ADDRESS_SIZE),
-        .ROM_PIXELS_NUM(`START_BUTTON_ROM_PIXELS_NUM),
+        .ROM_WIDTH_SIZE(`START_BUTTON_ROM_WIDTH_SIZE),
+        .ROM_HEIGHT_SIZE(`START_BUTTON_ROM_HEIGHT_SIZE),
         .ROM_PATH(`START_BUTTON_ROM_PATH)   
     )
     display_clickable_start (
@@ -279,16 +276,16 @@ module top (
         .vga_out(vga_bus[2])
     );
     
-    //***Start Button Display & Press Checker***//       
-    
+    //***Options Button Display & Press Checker***//       
+    /*
     buttonCtl
     #(
         .X_POS(`OPTIONS_BUTTON_X_POS),
         .Y_POS(`OPTIONS_BUTTON_Y_POS),
         .WIDTH(`OPTIONS_BUTTON_WIDTH),
         .HEIGHT(`OPTIONS_BUTTON_HEIGHT),
-        .ROM_ADDRESS_SIZE(`OPTIONS_BUTTON_ADDRESS_SIZE),
-        .ROM_PIXELS_NUM(`OPTIONS_BUTTON_ROM_PIXELS_NUM),
+        .ROM_WIDTH_SIZE(`OPTIONS_BUTTON_ROM_WIDTH_SIZE),
+        .ROM_HEIGHT_SIZE(`OPTIONS_BUTTON_ROM_HEIGHT_SIZE),
         .ROM_PATH(`OPTIONS_BUTTON_ROM_PATH)   
     )
     display_clickable_options (
@@ -302,18 +299,57 @@ module top (
         .button_pressed(options_butt_pressed),
         .vga_out(vga_bus[3])
     );
+    */
+    //***OptionsScreen Display***//
+    
+    options_screen display_optionsscreen(
+        .clk(clk65MHz),                                  
+        .rst(rst),                                  
+        .enable(options_screen_en),
+        .mouse_left(left),
+        .mouse_xpos(xpos),
+        .mouse_ypos(ypos),
+        .vga_in(vga_bus[2]),
+        .vga_out(vga_bus[3]),
+        .difficulty_butts_pressed(difficulty_butts_pressed),
+        .num_of_cards(num_of_cards)
+    );
+    
+    //***Back Button Display & Press Checker***// 
+        
+    buttonCtl
+    #(
+        .X_POS(`BACK_BUTTON_X_POS),
+        .Y_POS(`BACK_BUTTON_Y_POS),
+        .WIDTH(`BACK_BUTTON_WIDTH),
+        .HEIGHT(`BACK_BUTTON_HEIGHT),
+        .ROM_WIDTH_SIZE(`BACK_BUTTON_ROM_WIDTH_SIZE),
+        .ROM_HEIGHT_SIZE(`BACK_BUTTON_ROM_HEIGHT_SIZE),
+        .ROM_PATH(`BACK_BUTTON_ROM_PATH)
+    )
+    display_clickable_back (
+        .clk(clk65MHz),
+        .rst(rst),
+        .enable(options_screen_en || end_screen_en),
+        .mouse_left(left),
+        .mouse_xpos(xpos),
+        .mouse_ypos(ypos),
+        .vga_in(vga_bus[3]),
+        .button_pressed(back_butt_pressed),
+        .vga_out(vga_bus[4])
+    );
         
     //***Cards Display & Cards Press Checker***//
     
     cardsCtl display_clickable_cards(
         .clk(clk65MHz),
         .rst(rst),
-        .num_of_cards(`TEMPORARY_NUM_OF_CARDS),
+        .num_of_cards(num_of_cards),
         .yx_card_position(yx_card_position),
         .regfile_in(regfile_r_data),
         .regfile_sync(update_cards_en_delayed_2tact),
-        .vga_in(vga_bus[3]),
-        .vga_out(vga_bus[4]),
+        .vga_in(vga_bus[4]),
+        .vga_out(vga_bus[5]),
         .card_press_checker_en(wait_for_click_en),
         .mouse_left(left),
         .mouse_xpos(xpos),
@@ -331,8 +367,8 @@ module top (
         .rst(rst),
         .enable(end_screen_en),
         .game_time({minutes, seconds}),
-        .vga_in(vga_bus[4]),
-        .vga_out(vga_bus[5])
+        .vga_in(vga_bus[5]),
+        .vga_out(vga_bus[6])
     );
     
     //***Mouse Display***//

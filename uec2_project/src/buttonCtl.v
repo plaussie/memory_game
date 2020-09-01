@@ -26,8 +26,8 @@ module buttonCtl
         Y_POS   = 50,
         WIDTH   = 400,
         HEIGHT  = 200,
-        ROM_ADDRESS_SIZE = 16,
-        ROM_PIXELS_NUM = 20,
+        ROM_WIDTH_SIZE = 8,
+        ROM_HEIGHT_SIZE = 8,
         ROM_PATH = ""        
     )
     (
@@ -63,35 +63,37 @@ module buttonCtl
     );
     
     //***Button Display***//
-    wire [15:0] pixel_address;
-    wire [11:0] rgb_start_button;
+//    wire [15:0] pixel_address;
+//    wire [11:0] rgb_button;
     
     draw_image_rom 
     #(
         .X_POS(X_POS),
         .Y_POS(Y_POS),
         .WIDTH(WIDTH),
-        .HEIGHT(HEIGHT)
+        .HEIGHT(HEIGHT),
+        .ROM_WIDTH_SIZE(ROM_WIDTH_SIZE),
+        .ROM_HEIGHT_SIZE(ROM_HEIGHT_SIZE),
+        .ROM_PATH(ROM_PATH)
     )
     display_button(
         .pclk(clk),
         .rst(rst),
         .enable(enable),
-        .rgb_pixel(rgb_start_button),
+//        .rgb_pixel(rgb_button),
         .vga_in(vga_in),
-        .pixel_address(pixel_address),
+//        .pixel_address(pixel_address),
         .vga_out(vga_out)
     );
-    
+    /*
     button_image_rom
     #(
-        .ROM_ADDRESS_SIZE(ROM_ADDRESS_SIZE),
-        .ROM_PIXELS_NUM(ROM_PIXELS_NUM),
+        .ROM_WIDTH_SIZE(ROM_WIDTH_SIZE),
+        .ROM_HEIGHT_SIZE(ROM_HEIGHT_SIZE),
         .ROM_PATH(ROM_PATH)
     )    
-    start_image(
-        .clk(clk),
+    image_rom(
         .address(pixel_address),
         .rgb(rgb_start_button)
-    );
+    );*/
 endmodule
