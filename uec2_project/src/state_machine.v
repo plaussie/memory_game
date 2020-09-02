@@ -25,6 +25,7 @@
 
 `include "_cards_macros.vh"
 
+
 module state_machine(
     input wire clk,
     input wire rst,
@@ -66,10 +67,10 @@ module state_machine(
     reg [`CARD_MAX_NUM_SIZE-1:0] cards_left, cards_left_nxt;
     
     localparam
-    VALUE_EQUAL_500MS = 32_500_000,
+    VALUE_EQUAL_400MS = 26_000_000,
     VALUE_EQUAL_200MS = 13_000_000;
     
-    
+    //State machine states
     localparam
     MAIN_MENU               = 0,
     OPTIONS_SCREEN          = 17,
@@ -110,7 +111,6 @@ module state_machine(
             card_color_reg[0] <= 12'h0_0_0;
             card_color_reg[1] <= 12'h0_0_0;
             cards_left <= num_of_cards;
-            end_screen_en <= 0;
         end
         else begin
             state <= state_nxt;
@@ -130,12 +130,11 @@ module state_machine(
             card_color_reg[0] <= card_color_reg_nxt[0];
             card_color_reg[1] <= card_color_reg_nxt[1];
             cards_left <= cards_left_nxt;
-            end_screen_en <= end_screen_en_nxt;
         end
     end
     
     always @* begin
-        state_nxt = state;
+        state_nxt = MAIN_MENU;
         start_butt_en_nxt = 0;
         options_screen_en_nxt = 0;
         end_screen_en_nxt = 0;
@@ -248,11 +247,11 @@ module state_machine(
                 temp_wait_ctr_nxt = temp_wait_ctr + 1;
                 if(card_color_reg[0] == card_color_reg[1]) begin
 //                    state_nxt = (temp_wait_ctr == 20) ? DEACTIVATE_CARDS : state;                 // For simulation ONLY
-                    state_nxt = (temp_wait_ctr == VALUE_EQUAL_500MS) ? DEACTIVATE_CARDS : state;
+                    state_nxt = (temp_wait_ctr == VALUE_EQUAL_400MS) ? DEACTIVATE_CARDS : state;
                 end
                 else begin
 //                    state_nxt = (temp_wait_ctr == 20) ? COVER_CARDS_AGAIN : state;                // For simulation ONLY
-                    state_nxt = (temp_wait_ctr == VALUE_EQUAL_500MS) ? COVER_CARDS_AGAIN : state;
+                    state_nxt = (temp_wait_ctr == VALUE_EQUAL_400MS) ? COVER_CARDS_AGAIN : state;
                 end
             end
             
