@@ -37,7 +37,7 @@ module top (
     inout wire ps2_clk,
     inout wire ps2_data,
     input wire clk,
-    input wire rst,
+    input wire btnC,
     output wire vs,
     output wire hs,
     output wire [3:0] r,
@@ -60,10 +60,20 @@ module top (
         .clk100MHz(clk100MHz),
         .clk65MHz(clk65MHz),
         // Status and control signals
-        .reset(rst),
+        .reset(1'b0),
         .locked(locked),
         // Clock in ports
         .clk(clk)
+    );
+    
+    //***Reset (buttonC debounced)***//
+    
+    wire rst;
+    
+    debounce MG_reset (
+        .clk(clk65MHz),
+        .butt(btnC),
+        .db_butt(rst)
     );
     
     //***Mouse Controller with PS2 Interface***//
