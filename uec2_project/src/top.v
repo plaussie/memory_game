@@ -45,9 +45,6 @@ module top (
     output wire [3:0] b
     );
     
-    wire rst;
-    assign rst = btnC;
-    
     //params
     localparam
         NUM_MODULES = 6;
@@ -62,6 +59,11 @@ module top (
         // Clock in ports
         .clk(clk)
     );
+    
+    //***Reset***//
+    
+    wire rst;
+    assign rst = btnC;
     
     //***Mouse Controller with PS2 Interface***//
     
