@@ -45,35 +45,22 @@ module top (
     output wire [3:0] b
     );
     
+    wire rst;
+    assign rst = btnC;
+    
     //params
     localparam
         NUM_MODULES = 6;
 
     //***Clock Generator***//
     
-    wire clk100MHz;
     wire clk65MHz;
-    wire locked;
 
     clock_generator MG_clock (
         // Clock out ports
-        .clk100MHz(clk100MHz),
         .clk65MHz(clk65MHz),
-        // Status and control signals
-        .reset(1'b0),
-        .locked(locked),
         // Clock in ports
         .clk(clk)
-    );
-    
-    //***Reset (buttonC debounced)***//
-    
-    wire rst;
-    
-    debounce MG_reset (
-        .clk(clk65MHz),
-        .butt(btnC),
-        .db_butt(rst)
     );
     
     //***Mouse Controller with PS2 Interface***//

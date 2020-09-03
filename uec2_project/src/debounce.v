@@ -20,16 +20,17 @@
 
 module debounce(
     input wire clk,
-    input wire butt,
-    output reg db_butt
+    input wire clock_locked,
+    output wire core_rst
     );
     
-    reg butt_d1, butt_d2;
+    reg d1, d2;
    
     always @(posedge clk) begin
-        butt_d1 <= butt;
-        butt_d2 <= butt_d1;
-        db_butt <= butt_d2;
+        d1 <= clock_locked;
+        d2 <= d1;
     end
+    
+    assign core_rst = !d2;
 
 endmodule
