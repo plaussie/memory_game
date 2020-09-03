@@ -3,9 +3,9 @@
  set_property IOSTANDARD LVCMOS33 [get_ports clk]
 # create_clock -name external_clock -period 10.00 [get_ports clk]
 
-# Constraints for RST
- set_property PACKAGE_PIN U18 [get_ports rst]
- set_property IOSTANDARD LVCMOS33 [get_ports rst]
+# Constraints for btnC
+ set_property PACKAGE_PIN U18 [get_ports btnC]
+ set_property IOSTANDARD LVCMOS33 [get_ports btnC]
 
 # Constraints for ps2interface
 set_property PACKAGE_PIN C17 [get_ports ps2_clk]

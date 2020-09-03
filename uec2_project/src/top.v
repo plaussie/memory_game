@@ -37,7 +37,7 @@ module top (
     inout wire ps2_clk,
     inout wire ps2_data,
     input wire clk,
-    input wire rst,
+    input wire btnC,
     output wire vs,
     output wire hs,
     output wire [3:0] r,
@@ -51,20 +51,19 @@ module top (
 
     //***Clock Generator***//
     
-    wire clk100MHz;
     wire clk65MHz;
-    wire locked;
 
     clock_generator MG_clock (
         // Clock out ports
-        .clk100MHz(clk100MHz),
         .clk65MHz(clk65MHz),
-        // Status and control signals
-        .reset(rst),
-        .locked(locked),
         // Clock in ports
         .clk(clk)
     );
+    
+    //***Reset***//
+    
+    wire rst;
+    assign rst = btnC;
     
     //***Mouse Controller with PS2 Interface***//
     

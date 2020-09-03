@@ -56,8 +56,7 @@
 //  Output     Output      Phase    Duty Cycle   Pk-to-Pk     Phase
 //   Clock     Freq (MHz)  (degrees)    (%)     Jitter (ps)  Error (ps)
 //----------------------------------------------------------------------------
-// clk100MHz___100.000______0.000______50.0______130.067_____99.281
-// clk65MHz____65.000______0.000______50.0______142.278_____99.281
+// clk65MHz____65.000______0.000______50.0______254.866____297.890
 //
 //----------------------------------------------------------------------------
 // Input Clock   Freq (MHz)    Input Jitter (UI)
@@ -70,11 +69,7 @@ module clock_generator_clk_wiz
 
  (// Clock in ports
   // Clock out ports
-  output        clk100MHz,
   output        clk65MHz,
-  // Status and control signals
-  input         reset,
-  output        locked,
   input         clk
  );
   // Input buffering
@@ -95,8 +90,8 @@ wire clk_in2_clock_generator;
   //    * Unused inputs are tied off
   //    * Unused outputs are labeled unused
 
-  wire        clk100MHz_clock_generator;
   wire        clk65MHz_clock_generator;
+  wire        clk_out2_clock_generator;
   wire        clk_out3_clock_generator;
   wire        clk_out4_clock_generator;
   wire        clk_out5_clock_generator;
@@ -111,6 +106,7 @@ wire clk_in2_clock_generator;
   wire        clkfbout_buf_clock_generator;
   wire        clkfboutb_unused;
     wire clkout0b_unused;
+   wire clkout1_unused;
    wire clkout1b_unused;
    wire clkout2_unused;
    wire clkout2b_unused;
@@ -121,40 +117,32 @@ wire clk_in2_clock_generator;
   wire        clkout6_unused;
   wire        clkfbstopped_unused;
   wire        clkinstopped_unused;
-  wire        reset_high;
   (* KEEP = "TRUE" *) 
   (* ASYNC_REG = "TRUE" *)
   reg  [7 :0] seq_reg1 = 0;
-  (* KEEP = "TRUE" *) 
-  (* ASYNC_REG = "TRUE" *)
-  reg  [7 :0] seq_reg2 = 0;
 
   MMCME2_ADV
   #(.BANDWIDTH            ("OPTIMIZED"),
     .CLKOUT4_CASCADE      ("FALSE"),
     .COMPENSATION         ("ZHOLD"),
     .STARTUP_WAIT         ("FALSE"),
-    .DIVCLK_DIVIDE        (1),
-    .CLKFBOUT_MULT_F      (9.750),
+    .DIVCLK_DIVIDE        (5),
+    .CLKFBOUT_MULT_F      (50.375),
     .CLKFBOUT_PHASE       (0.000),
     .CLKFBOUT_USE_FINE_PS ("FALSE"),
-    .CLKOUT0_DIVIDE_F     (9.750),
+    .CLKOUT0_DIVIDE_F     (15.500),
     .CLKOUT0_PHASE        (0.000),
     .CLKOUT0_DUTY_CYCLE   (0.500),
     .CLKOUT0_USE_FINE_PS  ("FALSE"),
-    .CLKOUT1_DIVIDE       (15),
-    .CLKOUT1_PHASE        (0.000),
-    .CLKOUT1_DUTY_CYCLE   (0.500),
-    .CLKOUT1_USE_FINE_PS  ("FALSE"),
     .CLKIN1_PERIOD        (10.000))
   mmcm_adv_inst
     // Output clocks
    (
     .CLKFBOUT            (clkfbout_clock_generator),
     .CLKFBOUTB           (clkfboutb_unused),
-    .CLKOUT0             (clk100MHz_clock_generator),
+    .CLKOUT0             (clk65MHz_clock_generator),
     .CLKOUT0B            (clkout0b_unused),
-    .CLKOUT1             (clk65MHz_clock_generator),
+    .CLKOUT1             (clkout1_unused),
     .CLKOUT1B            (clkout1b_unused),
     .CLKOUT2             (clkout2_unused),
     .CLKOUT2B            (clkout2b_unused),
@@ -187,10 +175,8 @@ wire clk_in2_clock_generator;
     .CLKINSTOPPED        (clkinstopped_unused),
     .CLKFBSTOPPED        (clkfbstopped_unused),
     .PWRDWN              (1'b0),
-    .RST                 (reset_high));
-  assign reset_high = reset; 
+    .RST                 (1'b0));
 
-  assign locked = locked_int;
 // Clock Monitor clock assigning
 //--------------------------------------
  // Output buffering
@@ -207,42 +193,15 @@ wire clk_in2_clock_generator;
 
 
   BUFGCE clkout1_buf
-   (.O   (clk100MHz),
+   (.O   (clk65MHz),
     .CE  (seq_reg1[7]),
-    .I   (clk100MHz_clock_generator));
+    .I   (clk65MHz_clock_generator));
 
   BUFH clkout1_buf_en
-   (.O   (clk100MHz_clock_generator_en_clk),
-    .I   (clk100MHz_clock_generator));
-  always @(posedge clk100MHz_clock_generator_en_clk or posedge reset_high) begin
-    if(reset_high == 1'b1) begin
-	    seq_reg1 <= 8'h00;
-    end
-    else begin
-        seq_reg1 <= {seq_reg1[6:0],locked_int};
-  
-    end
-  end
-
-
-  BUFGCE clkout2_buf
-   (.O   (clk65MHz),
-    .CE  (seq_reg2[7]),
-    .I   (clk65MHz_clock_generator));
- 
-  BUFH clkout2_buf_en
    (.O   (clk65MHz_clock_generator_en_clk),
     .I   (clk65MHz_clock_generator));
- 
-  always @(posedge clk65MHz_clock_generator_en_clk or posedge reset_high) begin
-    if(reset_high == 1'b1) begin
-	  seq_reg2 <= 8'h00;
-    end
-    else begin
-        seq_reg2 <= {seq_reg2[6:0],locked_int};
-  
-    end
-  end
+  always @(posedge clk65MHz_clock_generator_en_clk)
+        seq_reg1 <= {seq_reg1[6:0],locked_int};
 
 
 
