@@ -105,6 +105,7 @@ module top (
          wait_for_click_en, write_card_en, end_screen_en; 
     wire [`CARD_ADDRESS_SIZE-1:0] card_clicked_address, write_card_address;
     wire [`CARD_STATE_SIZE-1:0] write_card_state;
+    wire [5:0] discovered_pairs_ctr;
 
     state_machine MG_state_machine(
         .clk(clk65MHz),
@@ -121,6 +122,7 @@ module top (
         .start_butt_en(start_butt_en),
         .options_screen_en(options_screen_en),
         .update_cards_en(update_cards_en),
+        .discovered_pairs_ctr(discovered_pairs_ctr),
         .start_game_en(start_game_en),
         .wait_for_click_en(wait_for_click_en),
         .write_card_en(write_card_en),
@@ -369,6 +371,7 @@ module top (
         .rst(rst),
         .game_over_en(minute_passed),
         .enable(end_screen_en),
+        .discovered_pairs_ctr(discovered_pairs_ctr),
         .game_time({seconds, hundredths_of_second}),
         .vga_in(vga_bus[5]),
         .vga_out(vga_bus[6])

@@ -23,6 +23,7 @@ module char_rom_17x28
     (
         input  wire         clk,
         input  wire         game_over_en, 
+        input  wire [5:0]   discovered_pairs_ctr,   // {dozens[2:0], unity[2:0]}
         input  wire [6:0]   seconds_dozens_unity,   // {dozens[2:0], unity[3:0]}
         input  wire [7:0]   hundredths_of_second,   // {dozens[3:0], unity[3:0]}
         input  wire [9:0]   char_yx,                // {char_y[4:0], char_x[4:0]}
@@ -30,7 +31,7 @@ module char_rom_17x28
     );
 
     // signal declaration
-    wire [2:0] seconds_dozens;
+    wire [2:0] seconds_dozens, discovered_pairs_ctr_dozens, discovered_pairs_ctr_unity;
     wire [3:0] seconds_unity, hundredths_of_second_unity, hundredths_of_second_dozens;
     reg [6:0] data;
 
@@ -39,6 +40,8 @@ module char_rom_17x28
     assign seconds_unity = seconds_dozens_unity[3:0];
     assign hundredths_of_second_dozens = hundredths_of_second[7:4];
     assign hundredths_of_second_unity = hundredths_of_second[3:0];
+    assign discovered_pairs_ctr_dozens = discovered_pairs_ctr[5:3];
+    assign discovered_pairs_ctr_unity = discovered_pairs_ctr[2:0];
     
     always @(posedge clk) begin
         char_code <= data;
@@ -199,10 +202,10 @@ module char_rom_17x28
                 10'h04a: data = 101;
                 10'h04b: data = 58;
                 10'h04c: data = 0;
-                10'h04d: data = 57;         //score
-                10'h04e: data = 57;         //score
-                10'h04f: data = 57;         //score
-                10'h050: data = 57;         //score
+                10'h04d: data = 48;         //score
+                10'h04e: data = 48;         //score
+                10'h04f: data = 48 + discovered_pairs_ctr_dozens;         //score
+                10'h050: data = 48 + discovered_pairs_ctr_unity;         //score
                 
                 //4th line
                 10'h060: data = 0;

@@ -47,6 +47,7 @@ module state_machine(
     output reg wait_for_click_en,
     output reg write_card_en,
     output reg end_screen_en,
+    output reg [5:0] discovered_pairs_ctr,
     output reg [`CARD_STATE_SIZE-1:0] write_card_state,
     output reg [`CARD_ADDRESS_SIZE-1:0] write_card_address
        
@@ -59,6 +60,7 @@ module state_machine(
     reg start_butt_en_nxt, options_screen_en_nxt, start_game_en_nxt, update_cards_en_nxt, wait_for_click_en_nxt,
         write_card_en_nxt, summary_ctr, summary_ctr_nxt, end_screen_en_nxt;
     reg [24:0] temp_wait_ctr, temp_wait_ctr_nxt;
+    reg [5:0] discovered_pairs_ctr_nxt;
     
     reg [`CARD_ADDRESS_SIZE-1:0] card_address_reg [1:0];
     reg [`CARD_ADDRESS_SIZE-1:0] card_address_reg_nxt [1:0];
@@ -116,6 +118,7 @@ module state_machine(
             card_color_reg[1] <= 12'h0_0_0;
             cards_left <= num_of_cards;
             deactivate_cards_ctr <= 1;
+            discovered_pairs_ctr <= 0;
         end
         else begin
             state <= state_nxt;
@@ -136,6 +139,7 @@ module state_machine(
             card_color_reg[1] <= card_color_reg_nxt[1];
             cards_left <= cards_left_nxt;
             deactivate_cards_ctr <= deactivate_cards_ctr_nxt;
+            discovered_pairs_ctr <= discovered_pairs_ctr_nxt;
         end
     end
     
@@ -154,6 +158,7 @@ module state_machine(
         temp_wait_ctr_nxt = 0;
         summary_ctr_nxt = 0;
         deactivate_cards_ctr_nxt = 1;
+        discovered_pairs_ctr_nxt = discovered_pairs_ctr;
         card_address_reg_nxt[0] = card_address_reg[0];
         card_address_reg_nxt[1] = card_address_reg[1];
         card_color_reg_nxt[0] = card_color_reg[0];
@@ -182,6 +187,7 @@ module state_machine(
                 cards_left_nxt = num_of_cards;
                 state_nxt = compute_done ? UPDATE_CARDS_1 : state;
                 start_game_en_nxt = 1;
+                discovered_pairs_ctr_nxt = 0;
             end
             
             UPDATE_CARDS_1: begin
@@ -228,6 +234,7 @@ module state_machine(
             
             DISCOVER_SECOND_CARD: begin
                 state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : UPDATE_CARDS_3;
+                discovered_pairs_ctr_nxt = (63 == discovered_pairs_ctr) ? 63 : discovered_pairs_ctr + 1;
                 write_card_en_nxt = 1;
                 write_card_state_nxt = 2'b11;
                 write_card_address_nxt = card_clicked_address;
