@@ -36,7 +36,7 @@ module draw_rect_char(
     `VGA_MERGE_OUTPUT(vga_out)  
     
     localparam RECT_POS_X = 439;
-    localparam RECT_POS_Y = 159;
+    localparam RECT_POS_Y = 63;
     localparam RECT_WIDTH = 135;
     localparam RECT_HEIGHT = 447;
 

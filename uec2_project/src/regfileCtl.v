@@ -96,6 +96,6 @@ module regfileCtl(
                                   write_data_2[0] ? write_data_2[`CARD_ADDRESS_SIZE:1] : 5'd0;
     assign regfile_w_data[`CARD_DATA_SIZE-1:`CARD_STATE_SIZE]   = write_data_1[0] ? write_data_1[`REGFILE_WRITE_ALL_SIZE-1:`REGFILE_WRITE_STATE_SIZE] : 0;
     assign regfile_w_data[`CARD_STATE_SIZE-1:0]                 = write_data_1[0] ? write_data_1[`REGFILE_WRITE_STATE_SIZE-1:`CARD_ADDRESS_SIZE+1] :
-                                                                  write_data_2[0] ? write_data_2[`REGFILE_WRITE_STATE_SIZE-1:`CARD_ADDRESS_SIZE+1] : 0;
-    
+                                                                  write_data_2[0] ? write_data_2[`REGFILE_WRITE_STATE_SIZE-1:`CARD_ADDRESS_SIZE+1] : 0;  
+                                                                   
 endmodule
