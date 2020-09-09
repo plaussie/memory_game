@@ -68,22 +68,6 @@ module char_rom_32x32
             10'h00e: data = game_over_en ? 0   : 110;
             10'h00f: data = game_over_en ? 0   : 115;
             10'h010: data = game_over_en ? 0   : 33 ;
-            //test
-            10'h011: data = game_over_en ? 0   : 67 ;
-            10'h012: data = game_over_en ? 0   : 111;
-            10'h013: data = game_over_en ? 71  : 110;
-            10'h014: data = game_over_en ? 65  : 103; 
-            10'h015: data = game_over_en ? 77  : 114; 
-            10'h016: data = game_over_en ? 69  : 97 ;  
-            10'h017: data = game_over_en ? 0   : 116;
-            10'h018: data = game_over_en ? 79  : 117;
-            10'h019: data = game_over_en ? 86  : 108;
-            10'h01a: data = game_over_en ? 69  : 97 ;
-            10'h01b: data = game_over_en ? 82  : 116;
-            10'h01c: data = game_over_en ? 33  : 105;
-            10'h01d: data = game_over_en ? 0   : 111;
-            10'h01e: data = game_over_en ? 0   : 110;
-            10'h01f: data = game_over_en ? 0   : 115;
         
             //2nd line is empty
         
