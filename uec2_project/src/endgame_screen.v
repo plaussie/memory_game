@@ -19,6 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 `include "_vga_macros.vh"
+`include "_game_params.vh"
 
 module endgame_screen(
     input wire pclk,
@@ -39,7 +40,14 @@ module endgame_screen(
     wire [3:0] char_line;
     
 
-    draw_rect_char endscreen_rect(
+    draw_rect_char
+    #(
+        .X_POS(`END_POPUP_X_POS),
+        .Y_POS(`END_POPUP_Y_POS),
+        .WIDTH(`END_POPUP_WIDTH),
+        .HEIGHT(`END_POPUP_HEIGHT)
+    )    
+    endscreen_rect(
         .clk(pclk),
         .rst(rst),
         .char_pixels(char_pixels),
@@ -63,7 +71,7 @@ module endgame_screen(
     assign discovered_pairs_ctr_dozens = discovered_pairs_ctr/4'd10;
     assign discovered_pairs_ctr_unity = discovered_pairs_ctr%4'd10;
     
-    char_rom_17x28 endgame_chars(
+    char_rom_32x32 endgame_chars(
         .clk(pclk),
         .game_over_en(game_over_en),
         .discovered_pairs_ctr({discovered_pairs_ctr_dozens, discovered_pairs_ctr_unity}),

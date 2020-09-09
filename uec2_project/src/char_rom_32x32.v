@@ -5,7 +5,7 @@
 // Engineers: Krzysztof Cislo & Jakub Dzialowy
 // 
 // Create Date: 25.08.2020 19:54:42
-// Module Name: char_rom_17x28
+// Module Name: char_rom_32x32
 // Project Name: Memory Game
 // Target Devices: Basys3
 // Tool Versions: Vivado 2017.3
@@ -15,13 +15,12 @@
 // 
 // Revision:
 // Revision 0.01 - File Created
+// Revision 0.02 - Changed to 32x32
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-// char rom is 32x32
-
-module char_rom_17x28
+module char_rom_32x32
     (
         input  wire         clk,
         input  wire         game_over_en, 

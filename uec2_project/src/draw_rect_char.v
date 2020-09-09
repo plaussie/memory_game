@@ -20,7 +20,14 @@
 //////////////////////////////////////////////////////////////////////////////////
 `include "_vga_macros.vh"
 
-module draw_rect_char(
+module draw_rect_char
+    #( parameter
+        X_POS   = 412,
+        Y_POS   = 328,
+        WIDTH   = 200,
+        HEIGHT  = 112
+    )
+    (
     input wire          clk,
     input wire          rst,
     input wire [7:0]    char_pixels,
@@ -34,11 +41,6 @@ module draw_rect_char(
     `VGA_SPLIT_INPUT(vga_in)
     `VGA_OUT_REG
     `VGA_MERGE_OUTPUT(vga_out)  
-    
-    localparam RECT_POS_X = 439;
-    localparam RECT_POS_Y = 63;
-    localparam RECT_WIDTH = 135;
-    localparam RECT_HEIGHT = 447;
 
     reg [4:0] char_y, char_x;
     reg [3:0] char_line_nxt;
@@ -81,9 +83,9 @@ module draw_rect_char(
     
     always @*
     begin
-        if(enable && ((vcount_in >= RECT_POS_Y) && (vcount_in < RECT_POS_Y+RECT_HEIGHT) && (hcount_in >= RECT_POS_X) && (hcount_in < RECT_POS_X+RECT_WIDTH))) begin
-            xdiff = hcount_in-RECT_POS_X;
-            ydiff = vcount_in-RECT_POS_Y;
+        if(enable && ((vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT) && (hcount_in >= X_POS) && (hcount_in < X_POS+WIDTH))) begin
+            xdiff = hcount_in-X_POS;
+            ydiff = vcount_in-Y_POS;
         end
         else begin
             xdiff = 8'bx;
@@ -102,7 +104,7 @@ module draw_rect_char(
     
     always @*
     begin
-        if(enable && ((vcount_in_delayed >= RECT_POS_Y) && (vcount_in_delayed < RECT_POS_Y+RECT_HEIGHT) && (hcount_in_delayed >= RECT_POS_X) && (hcount_in_delayed < RECT_POS_X+RECT_WIDTH))) begin
+        if(enable && ((vcount_in_delayed >= Y_POS) && (vcount_in_delayed < Y_POS+HEIGHT) && (hcount_in_delayed >= X_POS) && (hcount_in_delayed < X_POS+WIDTH))) begin
             if(char_pixels[7-xdiff_delayed] == 1) begin
                 rgb_nxt = 12'h0_0_0;
             end

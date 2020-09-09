@@ -7,6 +7,12 @@
 `define BUTTON_TXT_COLOR 12'h8_8_f
 `define BUTTON_COLOR 12'hf_8_b
 
+//End Screen Pop Up Params
+`define END_POPUP_X_POS 443
+`define END_POPUP_Y_POS 63 
+`define END_POPUP_WIDTH 255
+`define END_POPUP_HEIGHT 511
+
 //Start Button Params
 `define START_BUTTON_X_POS 412
 `define START_BUTTON_Y_POS 328
