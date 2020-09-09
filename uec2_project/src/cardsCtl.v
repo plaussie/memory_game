@@ -59,12 +59,12 @@ module cardsCtl(
     wire [8:0] height;
     wire [7:0] width;
     
-    assign height = (num_of_cards == `CARD_NUM_EASY) ? 9'd300 :
+    assign height = (num_of_cards == `CARD_NUM_EASY) ? 9'd250 :
                     (num_of_cards == `CARD_NUM_NORMAL) ? 9'd200 :
                     (num_of_cards == `CARD_NUM_HARD) ? 9'd150 : 9'd0;
-    assign width  = (num_of_cards == `CARD_NUM_EASY) ? 8'd200 :
+    assign width  = (num_of_cards == `CARD_NUM_EASY) ? 8'd187 :
                     (num_of_cards == `CARD_NUM_NORMAL) ? 8'd150 :
-                    (num_of_cards == `CARD_NUM_HARD) ? 8'd100 : 8'd0;
+                    (num_of_cards == `CARD_NUM_HARD) ? 8'd112 : 8'd0;
     
     wire [`VGA_BUS_SIZE-1:0] vga_internal_bus [`CARD_MAX_NUM:0];
     assign vga_internal_bus[0] = vga_in;

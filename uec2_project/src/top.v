@@ -105,7 +105,7 @@ module top (
          wait_for_click_en, write_card_en, end_screen_en; 
     wire [`CARD_ADDRESS_SIZE-1:0] card_clicked_address, write_card_address;
     wire [`CARD_STATE_SIZE-1:0] write_card_state;
-    wire [5:0] discovered_pairs_ctr;
+    wire [7:0] discovered_pairs_ctr;
 
     state_machine MG_state_machine(
         .clk(clk65MHz),

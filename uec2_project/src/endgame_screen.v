@@ -25,14 +25,14 @@ module endgame_screen(
     input wire rst,
     input wire enable,
     input wire game_over_en,
-    input wire [5:0] discovered_pairs_ctr,
+    input wire [7:0] discovered_pairs_ctr,
     input wire [12:0] game_time, // {seconds, hundredths_of_second}
     input wire [`VGA_BUS_SIZE-1:0] vga_in,
     output wire [`VGA_BUS_SIZE-1:0] vga_out
     );
      
-    wire [2:0] seconds_dozens, discovered_pairs_ctr_dozens, discovered_pairs_ctr_unity; 
-    wire [3:0] seconds_unity, hundredths_of_second_unity, hundredths_of_second_dozens;
+    wire [2:0] seconds_dozens; 
+    wire [3:0] seconds_unity, hundredths_of_second_unity, hundredths_of_second_dozens, discovered_pairs_ctr_dozens, discovered_pairs_ctr_unity;
     wire [7:0] char_pixels;
     wire [9:0] char_yx;
     wire [6:0] char_code;

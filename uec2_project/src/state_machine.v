@@ -47,7 +47,7 @@ module state_machine(
     output reg wait_for_click_en,
     output reg write_card_en,
     output reg end_screen_en,
-    output reg [5:0] discovered_pairs_ctr,
+    output reg [7:0] discovered_pairs_ctr,
     output reg [`CARD_STATE_SIZE-1:0] write_card_state,
     output reg [`CARD_ADDRESS_SIZE-1:0] write_card_address
        
@@ -60,7 +60,7 @@ module state_machine(
     reg start_butt_en_nxt, options_screen_en_nxt, start_game_en_nxt, update_cards_en_nxt, wait_for_click_en_nxt,
         write_card_en_nxt, summary_ctr, summary_ctr_nxt, end_screen_en_nxt;
     reg [24:0] temp_wait_ctr, temp_wait_ctr_nxt;
-    reg [5:0] discovered_pairs_ctr_nxt;
+    reg [7:0] discovered_pairs_ctr_nxt;
     
     reg [`CARD_ADDRESS_SIZE-1:0] card_address_reg [1:0];
     reg [`CARD_ADDRESS_SIZE-1:0] card_address_reg_nxt [1:0];
@@ -234,7 +234,7 @@ module state_machine(
             
             DISCOVER_SECOND_CARD: begin
                 state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : UPDATE_CARDS_3;
-                discovered_pairs_ctr_nxt = (63 == discovered_pairs_ctr) ? 63 : discovered_pairs_ctr + 1;
+                discovered_pairs_ctr_nxt = (255 == discovered_pairs_ctr) ? 255 : discovered_pairs_ctr + 1;
                 write_card_en_nxt = 1;
                 write_card_state_nxt = 2'b11;
                 write_card_address_nxt = card_clicked_address;
