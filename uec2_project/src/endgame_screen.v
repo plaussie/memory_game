@@ -24,13 +24,15 @@ module endgame_screen(
     input wire pclk,
     input wire rst,
     input wire enable,
-    input wire [11:0] game_time, // {minutes, seconds}
+    input wire game_over_en,
+    input wire [5:0] discovered_pairs_ctr,
+    input wire [12:0] game_time, // {seconds, hundredths_of_second}
     input wire [`VGA_BUS_SIZE-1:0] vga_in,
     output wire [`VGA_BUS_SIZE-1:0] vga_out
     );
      
-    wire [2:0] minutes_dozens, seconds_dozens;
-    wire [3:0] minutes_unity, seconds_unity;
+    wire [2:0] seconds_dozens, discovered_pairs_ctr_dozens, discovered_pairs_ctr_unity; 
+    wire [3:0] seconds_unity, hundredths_of_second_unity, hundredths_of_second_dozens;
     wire [7:0] char_pixels;
     wire [9:0] char_yx;
     wire [6:0] char_code;
@@ -54,15 +56,19 @@ module endgame_screen(
         .char_line_pixels(char_pixels)
     );
     
-    assign minutes_dozens = game_time[11:6]/4'd10;
-    assign minutes_unity = game_time[11:6]%4'd10;
-    assign seconds_dozens = game_time[5:0]/4'd10;
-    assign seconds_unity = game_time[5:0]%4'd10;
+    assign seconds_dozens = game_time[12:7]/4'd10;
+    assign seconds_unity = game_time[12:7]%4'd10;
+    assign hundredths_of_second_dozens = game_time[6:0]/4'd10;
+    assign hundredths_of_second_unity = game_time[6:0]%4'd10;
+    assign discovered_pairs_ctr_dozens = discovered_pairs_ctr/4'd10;
+    assign discovered_pairs_ctr_unity = discovered_pairs_ctr%4'd10;
     
     char_rom_17x28 endgame_chars(
         .clk(pclk),
-        .minutes_dozens_unity({minutes_dozens, minutes_unity}),
+        .game_over_en(game_over_en),
+        .discovered_pairs_ctr({discovered_pairs_ctr_dozens, discovered_pairs_ctr_unity}),
         .seconds_dozens_unity({seconds_dozens, seconds_unity}),
+        .hundredths_of_second({hundredths_of_second_dozens, hundredths_of_second_unity}),
         .char_yx(char_yx),
         .char_code(char_code)
     );

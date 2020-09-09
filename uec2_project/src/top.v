@@ -100,11 +100,12 @@ module top (
     wire [`CARD_DATA_SIZE-1:0] regfile_w_data, regfile_r_data;
     
     wire start_butt_pressed, difficulty_butts_pressed, back_butt_pressed, card_pressed;
-    wire compute_done;
+    wire compute_done, minute_passed;
     wire start_butt_en, options_screen_en, start_game_en, update_cards_en,
-         wait_for_click_en, write_card_en, end_screen_en;
+         wait_for_click_en, write_card_en, end_screen_en; 
     wire [`CARD_ADDRESS_SIZE-1:0] card_clicked_address, write_card_address;
     wire [`CARD_STATE_SIZE-1:0] write_card_state;
+    wire [5:0] discovered_pairs_ctr;
 
     state_machine MG_state_machine(
         .clk(clk65MHz),
@@ -115,11 +116,13 @@ module top (
         .back_butt_pressed(back_butt_pressed),
         .compute_done(compute_done),
         .card_pressed(card_pressed),
+        .time_passed(minute_passed),
         .card_clicked_address(card_clicked_address),
         .card_clicked_color(regfile_r_data[`CARD_DATA_SIZE-1:`CARD_STATE_SIZE]),
         .start_butt_en(start_butt_en),
         .options_screen_en(options_screen_en),
         .update_cards_en(update_cards_en),
+        .discovered_pairs_ctr(discovered_pairs_ctr),
         .start_game_en(start_game_en),
         .wait_for_click_en(wait_for_click_en),
         .write_card_en(write_card_en),
@@ -130,7 +133,8 @@ module top (
     
     //***Stopwatch***//
     
-    wire [5:0] minutes, seconds;
+    wire [6:0] hundredths_of_second;
+    wire [5:0] seconds;
     
     stopwatch MG_stopwatch(
         .clk(clk65MHz),
@@ -138,8 +142,9 @@ module top (
         .start(start_game_en),
         .pause(1'b0),
         .stop(end_screen_en),
-        .minutes(minutes),
-        .seconds(seconds)
+        .minute_passed(minute_passed),
+        .seconds(seconds),
+        .hundredths_of_second(hundredths_of_second)
         
     );
     
@@ -364,8 +369,10 @@ module top (
     endgame_screen display_endscreen(
         .pclk(clk65MHz),
         .rst(rst),
+        .game_over_en(minute_passed),
         .enable(end_screen_en),
-        .game_time({minutes, seconds}),
+        .discovered_pairs_ctr(discovered_pairs_ctr),
+        .game_time({seconds, hundredths_of_second}),
         .vga_in(vga_bus[5]),
         .vga_out(vga_bus[6])
     );

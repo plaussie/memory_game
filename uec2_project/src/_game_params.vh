@@ -4,7 +4,7 @@
 //Colors
 `define BACKGROUND_TXT_COLOR 12'hf_8_b
 `define BACKGROUND_COLOR 12'h8_8_f
-`define BUTTON_TXT_COLOR 12'h3_3_f
+`define BUTTON_TXT_COLOR 12'h8_8_f
 `define BUTTON_COLOR 12'hf_8_b
 
 //Start Button Params
