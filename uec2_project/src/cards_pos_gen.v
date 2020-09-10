@@ -63,14 +63,14 @@ module cards_pos_gen(
                 case(num_of_cards)
                     `CARD_NUM_EASY: begin
                         case(card_address_ctr)
-                            0:  yx_card_position_nxt = {10'd50, 10'd50};
-                            1:  yx_card_position_nxt = {10'd50, 10'd308};
-                            2:  yx_card_position_nxt = {10'd50, 10'd566};
-                            3:  yx_card_position_nxt = {10'd50, 10'd824};
-                            4:  yx_card_position_nxt = {10'd418, 10'd50};
-                            5:  yx_card_position_nxt = {10'd418, 10'd308};
-                            6:  yx_card_position_nxt = {10'd418, 10'd566};
-                            7:  yx_card_position_nxt = {10'd418, 10'd824};
+                            0:  yx_card_position_nxt = {10'd85, 10'd50};
+                            1:  yx_card_position_nxt = {10'd85, 10'd296};
+                            2:  yx_card_position_nxt = {10'd85, 10'd542};
+                            3:  yx_card_position_nxt = {10'd85, 10'd788};
+                            4:  yx_card_position_nxt = {10'd433, 10'd50}; 
+                            5:  yx_card_position_nxt = {10'd433, 10'd296};
+                            6:  yx_card_position_nxt = {10'd433, 10'd542};
+                            7:  yx_card_position_nxt = {10'd433, 10'd788};
                             default: yx_card_position_nxt = {10'd1023, 10'd1023};
                         endcase
                     end
@@ -93,22 +93,22 @@ module cards_pos_gen(
                     end
                     `CARD_NUM_HARD: begin
                         case(card_address_ctr)
-                            0:  yx_card_position_nxt = {10'd25, 10'd50};
-                            1:  yx_card_position_nxt = {10'd25, 10'd308};
-                            2:  yx_card_position_nxt = {10'd25, 10'd566};
-                            3:  yx_card_position_nxt = {10'd25, 10'd824};
-                            4:  yx_card_position_nxt = {10'd200, 10'd50};
-                            5:  yx_card_position_nxt = {10'd200, 10'd308};
-                            6:  yx_card_position_nxt = {10'd200, 10'd566};
-                            7:  yx_card_position_nxt = {10'd200, 10'd824};
-                            8:  yx_card_position_nxt = {10'd375, 10'd50};
-                            9:  yx_card_position_nxt = {10'd375, 10'd308};
-                            10: yx_card_position_nxt = {10'd375, 10'd566};
-                            11: yx_card_position_nxt = {10'd375, 10'd824};
-                            12: yx_card_position_nxt = {10'd550, 10'd50}; 
-                            13: yx_card_position_nxt = {10'd550, 10'd308};
-                            14: yx_card_position_nxt = {10'd550, 10'd566};
-                            15: yx_card_position_nxt = {10'd550, 10'd824};
+                            0:  yx_card_position_nxt = {10'd35, 10'd115};
+                            1:  yx_card_position_nxt = {10'd35, 10'd342};
+                            2:  yx_card_position_nxt = {10'd35, 10'd569};
+                            3:  yx_card_position_nxt = {10'd35, 10'd796};
+                            4:  yx_card_position_nxt = {10'd218, 10'd115};
+                            5:  yx_card_position_nxt = {10'd218, 10'd342};
+                            6:  yx_card_position_nxt = {10'd218, 10'd569};
+                            7:  yx_card_position_nxt = {10'd218, 10'd796};
+                            8:  yx_card_position_nxt = {10'd401, 10'd115};
+                            9:  yx_card_position_nxt = {10'd401, 10'd342};
+                            10: yx_card_position_nxt = {10'd401, 10'd569};
+                            11: yx_card_position_nxt = {10'd401, 10'd796};
+                            12: yx_card_position_nxt = {10'd584, 10'd115}; 
+                            13: yx_card_position_nxt = {10'd584, 10'd342};
+                            14: yx_card_position_nxt = {10'd584, 10'd569};
+                            15: yx_card_position_nxt = {10'd584, 10'd796};
                             default: yx_card_position_nxt = {10'd1023, 10'd1023};
                         endcase
                     end

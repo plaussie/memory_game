@@ -7,6 +7,12 @@
 `define BUTTON_TXT_COLOR 12'h8_8_f
 `define BUTTON_COLOR 12'hf_8_b
 
+//End Screen Pop Up Params
+`define END_POPUP_X_POS 443
+`define END_POPUP_Y_POS 63 
+`define END_POPUP_WIDTH 255
+`define END_POPUP_HEIGHT 511
+
 //Start Button Params
 `define START_BUTTON_X_POS 412
 `define START_BUTTON_Y_POS 328
@@ -53,12 +59,30 @@
 `define HARD_BUTTON_ROM_PATH "hard_button.data"
 
 //Back Button Params
-`define BACK_BUTTON_X_POS 724
-`define BACK_BUTTON_Y_POS 556
+`define BACK_BUTTON_X_POS 774
+`define BACK_BUTTON_Y_POS 606
 `define BACK_BUTTON_WIDTH 200
 `define BACK_BUTTON_HEIGHT 112
 `define BACK_BUTTON_ROM_WIDTH_SIZE 8
 `define BACK_BUTTON_ROM_HEIGHT_SIZE 8
 `define BACK_BUTTON_ROM_PATH "back_button.data"
+
+//Menu Button Params
+`define MENU_BUTTON_X_POS 774
+`define MENU_BUTTON_Y_POS 606
+`define MENU_BUTTON_WIDTH 200
+`define MENU_BUTTON_HEIGHT 112
+`define MENU_BUTTON_ROM_WIDTH_SIZE 8
+`define MENU_BUTTON_ROM_HEIGHT_SIZE 8
+`define MENU_BUTTON_ROM_PATH "menu_button.data"
+
+//Background Params
+`define BACKGROUND_X_POS 0
+`define BACKGROUND_Y_POS 0
+`define BACKGROUND_WIDTH 1024
+`define BACKGROUND_HEIGHT 768
+`define BACKGROUND_ROM_WIDTH_SIZE 10
+`define BACKGROUND_ROM_HEIGHT_SIZE 10
+`define BACKGROUND_ROM_PATH "background.data"
 
 `endif
