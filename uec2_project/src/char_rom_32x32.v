@@ -24,25 +24,27 @@ module char_rom_32x32
     (
         input  wire         clk,
         input  wire         game_over_en, 
-        input  wire [7:0]   discovered_pairs_ctr,   // {dozens[3:0], unity[3:0]}
-        input  wire [6:0]   seconds_dozens_unity,   // {dozens[2:0], unity[3:0]}
-        input  wire [7:0]   hundredths_of_second,   // {dozens[3:0], unity[3:0]}
+        input  wire [7:0]   discovered_pairs_ctr,   
+        input  wire [12:0]  game_time,              // {seconds[12:7], hundredths[3:0]}
         input  wire [9:0]   char_yx,                // {char_y[4:0], char_x[4:0]}
         output reg  [6:0]   char_code               // code of the given char_yx
     );
 
     // signal declaration
+    //if dozens or unity are from 0 to 5 like in stopwatch, you need 3bit wire
+    //if dozens or unity are from 0 to 9 like normal, you need 4bit wire
     wire [2:0] seconds_dozens;
     wire [3:0] seconds_unity, hundredths_of_second_unity, hundredths_of_second_dozens, discovered_pairs_ctr_dozens, discovered_pairs_ctr_unity;
     reg [6:0] data;
-
+    
+    assign seconds_dozens = game_time[12:7]/4'd10;
+    assign seconds_unity = game_time[12:7]%4'd10;
+    assign hundredths_of_second_dozens = game_time[6:0]/4'd10;
+    assign hundredths_of_second_unity = game_time[6:0]%4'd10;
+    assign discovered_pairs_ctr_dozens = discovered_pairs_ctr/4'd10;
+    assign discovered_pairs_ctr_unity = discovered_pairs_ctr%4'd10;
+    
     // body
-    assign seconds_dozens = seconds_dozens_unity[6:4];
-    assign seconds_unity = seconds_dozens_unity[3:0];
-    assign hundredths_of_second_dozens = hundredths_of_second[7:4];
-    assign hundredths_of_second_unity = hundredths_of_second[3:0];
-    assign discovered_pairs_ctr_dozens = discovered_pairs_ctr[7:4];
-    assign discovered_pairs_ctr_unity = discovered_pairs_ctr[3:0];
     
     always @(posedge clk) begin
         char_code <= data;
