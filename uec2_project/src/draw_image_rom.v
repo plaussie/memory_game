@@ -21,7 +21,6 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 `include "_vga_macros.vh"
-`include "_game_params.vh"
 
 module draw_image_rom
     #( parameter
@@ -31,15 +30,15 @@ module draw_image_rom
         HEIGHT  = 112,
         ROM_WIDTH_SIZE = 8,
         ROM_HEIGHT_SIZE = 8,
-        ROM_PATH   = ""
+        ROM_PATH   = "",
+        TXT_COLOR = 12'h0_0_0,
+        BACKGROUND_COLOR = 12'h0_0_0
     )
     (
         input wire pclk,
         input wire rst,
         input wire enable,
-//        input wire [11:0] rgb_pixel,
         input wire [`VGA_BUS_SIZE-1:0] vga_in,
-//        output reg [15:0] pixel_address,
         output wire [`VGA_BUS_SIZE-1:0] vga_out
     );
 
@@ -52,7 +51,6 @@ module draw_image_rom
     initial $readmemb(ROM_PATH, rom); 
     
     reg [11:0] rgb_nxt;
-//    reg [7:0] addry, addrx;
     
     always @(posedge pclk)
     begin
@@ -64,7 +62,6 @@ module draw_image_rom
             hcount_out <= 0;
             vcount_out <= 0;
             rgb_out <= 0;
-//            pixel_address <= 16'bx;
         end
         else begin
             // Just pass these through.
@@ -76,29 +73,17 @@ module draw_image_rom
             vcount_out <= vcount_in;
             // Changing color in rectangle place
             rgb_out <= rgb_nxt;
-//            pixel_address <= {addry, addrx};
         end
     end
     
     always @*
     begin
         if (enable && ((hcount_in >= X_POS) && (hcount_in < X_POS+WIDTH) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
-            rgb_nxt = (rom[vcount_in-Y_POS][hcount_in-X_POS] == 1) ? `BUTTON_TXT_COLOR : `BUTTON_COLOR;
+            rgb_nxt = (rom[vcount_in-Y_POS][hcount_in-X_POS] == 1) ? TXT_COLOR : BACKGROUND_COLOR;
         end
         else begin
             rgb_nxt = rgb_in;
         end
     end
-/*
-    always @*
-    begin
-        if (enable && ((hcount_in >= X_POS-2) && (hcount_in < X_POS+WIDTH-2) && (vcount_in >= Y_POS) && (vcount_in < Y_POS+HEIGHT))) begin
-            addrx = hcount_in-X_POS-2;
-            addry = vcount_in-Y_POS;
-        end
-        else begin
-            addrx = 8'bx;
-            addry = 8'bx;
-        end
-    end*/
+
 endmodule

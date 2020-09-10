@@ -54,7 +54,9 @@ module options_screen(
         .HEIGHT(`EASY_BUTTON_HEIGHT),
         .ROM_WIDTH_SIZE(`EASY_BUTTON_ROM_WIDTH_SIZE),
         .ROM_HEIGHT_SIZE(`EASY_BUTTON_ROM_HEIGHT_SIZE),
-        .ROM_PATH(`EASY_BUTTON_ROM_PATH)
+        .ROM_PATH(`EASY_BUTTON_ROM_PATH),
+        .TXT_COLOR(`BUTTON_TXT_COLOR),
+        .BACKGROUND_COLOR(`BUTTON_COLOR)
     )
     display_clickable_easy (
         .clk(clk),
@@ -78,7 +80,9 @@ module options_screen(
         .HEIGHT(`NORMAL_BUTTON_HEIGHT),
         .ROM_WIDTH_SIZE(`NORMAL_BUTTON_ROM_WIDTH_SIZE),
         .ROM_HEIGHT_SIZE(`NORMAL_BUTTON_ROM_HEIGHT_SIZE),
-        .ROM_PATH(`NORMAL_BUTTON_ROM_PATH)
+        .ROM_PATH(`NORMAL_BUTTON_ROM_PATH),
+        .TXT_COLOR(`BUTTON_TXT_COLOR),
+        .BACKGROUND_COLOR(`BUTTON_COLOR)
     )
     display_clickable_normal (
         .clk(clk),
@@ -102,7 +106,9 @@ module options_screen(
         .HEIGHT(`HARD_BUTTON_HEIGHT),
         .ROM_WIDTH_SIZE(`HARD_BUTTON_ROM_WIDTH_SIZE),
         .ROM_HEIGHT_SIZE(`HARD_BUTTON_ROM_HEIGHT_SIZE),
-        .ROM_PATH(`HARD_BUTTON_ROM_PATH)
+        .ROM_PATH(`HARD_BUTTON_ROM_PATH),
+        .TXT_COLOR(`BUTTON_TXT_COLOR),
+        .BACKGROUND_COLOR(`BUTTON_COLOR)
     )
     display_clickable_hard (
         .clk(clk),

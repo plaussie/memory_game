@@ -47,7 +47,7 @@ module top (
     
     //params
     localparam
-        NUM_MODULES = 6;
+        NUM_MODULES = 7;
 
     //***Clock Generator***//
     
@@ -99,7 +99,7 @@ module top (
     wire [`CARD_MAX_NUM_SIZE-1:0] num_of_cards;
     wire [`CARD_DATA_SIZE-1:0] regfile_w_data, regfile_r_data;
     
-    wire start_butt_pressed, difficulty_butts_pressed, back_butt_pressed, card_pressed;
+    wire start_butt_pressed, difficulty_butts_pressed, back_butt_pressed, menu_butt_pressed, card_pressed;
     wire compute_done, minute_passed;
     wire start_butt_en, options_screen_en, start_game_en, update_cards_en,
          wait_for_click_en, write_card_en, end_screen_en; 
@@ -113,7 +113,7 @@ module top (
         .num_of_cards(num_of_cards),
         .start_butt_pressed(start_butt_pressed),
         .difficulty_butts_pressed(difficulty_butts_pressed),
-        .back_butt_pressed(back_butt_pressed),
+        .back_butt_pressed(back_butt_pressed | menu_butt_pressed),
         .compute_done(compute_done),
         .card_pressed(card_pressed),
         .time_passed(minute_passed),
@@ -248,13 +248,33 @@ module top (
     );
 
     //***Background Display***//
-
-    draw_background display_background(
+    
+    draw_image_rom 
+    #(
+        .X_POS(`BACKGROUND_X_POS),
+        .Y_POS(`BACKGROUND_Y_POS),
+        .WIDTH(`BACKGROUND_WIDTH),
+        .HEIGHT(`BACKGROUND_HEIGHT),
+        .ROM_WIDTH_SIZE(`BACKGROUND_ROM_WIDTH_SIZE),
+        .ROM_HEIGHT_SIZE(`BACKGROUND_ROM_HEIGHT_SIZE),
+        .ROM_PATH(`BACKGROUND_ROM_PATH),
+        .TXT_COLOR(`BACKGROUND_TXT_COLOR),
+        .BACKGROUND_COLOR(`BACKGROUND_COLOR)
+    )
+    display_background(
         .pclk(clk65MHz),
         .rst(rst),
+        .enable(1'b1),
         .vga_in(vga_bus[0]),
         .vga_out(vga_bus[1])
-    );  
+    );
+
+//    draw_background display_background(
+//        .pclk(clk65MHz),
+//        .rst(rst),
+//        .vga_in(vga_bus[0]),
+//        .vga_out(vga_bus[1])
+//    );  
     
     //***Start Button Display & Press Checker***//       
 
@@ -266,7 +286,9 @@ module top (
         .HEIGHT(`START_BUTTON_HEIGHT),
         .ROM_WIDTH_SIZE(`START_BUTTON_ROM_WIDTH_SIZE),
         .ROM_HEIGHT_SIZE(`START_BUTTON_ROM_HEIGHT_SIZE),
-        .ROM_PATH(`START_BUTTON_ROM_PATH)   
+        .ROM_PATH(`START_BUTTON_ROM_PATH),
+        .TXT_COLOR(`BUTTON_TXT_COLOR),
+        .BACKGROUND_COLOR(`BUTTON_COLOR)  
     )
     display_clickable_start (
         .clk(clk65MHz),
@@ -280,30 +302,7 @@ module top (
         .vga_out(vga_bus[2])
     );
     
-    //***Options Button Display & Press Checker***//       
-    /*
-    buttonCtl
-    #(
-        .X_POS(`OPTIONS_BUTTON_X_POS),
-        .Y_POS(`OPTIONS_BUTTON_Y_POS),
-        .WIDTH(`OPTIONS_BUTTON_WIDTH),
-        .HEIGHT(`OPTIONS_BUTTON_HEIGHT),
-        .ROM_WIDTH_SIZE(`OPTIONS_BUTTON_ROM_WIDTH_SIZE),
-        .ROM_HEIGHT_SIZE(`OPTIONS_BUTTON_ROM_HEIGHT_SIZE),
-        .ROM_PATH(`OPTIONS_BUTTON_ROM_PATH)   
-    )
-    display_clickable_options (
-        .clk(clk65MHz),
-        .rst(rst),
-        .enable(options_butt_en),
-        .mouse_left(left),
-        .mouse_xpos(xpos),
-        .mouse_ypos(ypos),
-        .vga_in(vga_bus[2]),
-        .button_pressed(options_butt_pressed),
-        .vga_out(vga_bus[3])
-    );
-    */
+
     //***OptionsScreen Display***//
     
     options_screen display_optionsscreen(
@@ -329,18 +328,46 @@ module top (
         .HEIGHT(`BACK_BUTTON_HEIGHT),
         .ROM_WIDTH_SIZE(`BACK_BUTTON_ROM_WIDTH_SIZE),
         .ROM_HEIGHT_SIZE(`BACK_BUTTON_ROM_HEIGHT_SIZE),
-        .ROM_PATH(`BACK_BUTTON_ROM_PATH)
+        .ROM_PATH(`BACK_BUTTON_ROM_PATH),
+        .TXT_COLOR(`BUTTON_TXT_COLOR),
+        .BACKGROUND_COLOR(`BUTTON_COLOR)
     )
     display_clickable_back (
         .clk(clk65MHz),
         .rst(rst),
-        .enable(options_screen_en || end_screen_en),
+        .enable(options_screen_en),
         .mouse_left(left),
         .mouse_xpos(xpos),
         .mouse_ypos(ypos),
         .vga_in(vga_bus[3]),
         .button_pressed(back_butt_pressed),
         .vga_out(vga_bus[4])
+    );
+    
+    //***Menu Button Display & Press Checker***// 
+            
+    buttonCtl
+    #(
+        .X_POS(`MENU_BUTTON_X_POS),
+        .Y_POS(`MENU_BUTTON_Y_POS),
+        .WIDTH(`MENU_BUTTON_WIDTH),
+        .HEIGHT(`MENU_BUTTON_HEIGHT),
+        .ROM_WIDTH_SIZE(`MENU_BUTTON_ROM_WIDTH_SIZE),
+        .ROM_HEIGHT_SIZE(`MENU_BUTTON_ROM_HEIGHT_SIZE),
+        .ROM_PATH(`MENU_BUTTON_ROM_PATH),
+        .TXT_COLOR(`BUTTON_TXT_COLOR),
+        .BACKGROUND_COLOR(`BUTTON_COLOR)
+    )
+    display_clickable_menu (
+        .clk(clk65MHz),
+        .rst(rst),
+        .enable(end_screen_en),
+        .mouse_left(left),
+        .mouse_xpos(xpos),
+        .mouse_ypos(ypos),
+        .vga_in(vga_bus[4]),
+        .button_pressed(menu_butt_pressed),
+        .vga_out(vga_bus[5])
     );
         
     //***Cards Display & Cards Press Checker***//
@@ -352,8 +379,8 @@ module top (
         .yx_card_position(yx_card_position),
         .regfile_in(regfile_r_data),
         .regfile_sync(update_cards_en_delayed_2tact),
-        .vga_in(vga_bus[4]),
-        .vga_out(vga_bus[5]),
+        .vga_in(vga_bus[5]),
+        .vga_out(vga_bus[6]),
         .card_press_checker_en(wait_for_click_en),
         .mouse_left(left),
         .mouse_xpos(xpos),
@@ -373,8 +400,8 @@ module top (
         .enable(end_screen_en),
         .discovered_pairs_ctr(discovered_pairs_ctr),
         .game_time({seconds, hundredths_of_second}),
-        .vga_in(vga_bus[5]),
-        .vga_out(vga_bus[6])
+        .vga_in(vga_bus[6]),
+        .vga_out(vga_bus[7])
     );
     
     //***Mouse Display***//

@@ -63,6 +63,8 @@ module endgame_screen(
 
     char_rom_32x32 endgame_char_rom(
         .clk(pclk),
+        .rst(rst),
+        .enable(enable),
         .game_over_en(game_over_en),
         .discovered_pairs_ctr(discovered_pairs_ctr),
         .game_time(game_time),
