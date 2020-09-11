@@ -19,6 +19,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+`include "_cards_macros.vh" 
 
 module char_rom_32x32
     (
@@ -26,8 +27,9 @@ module char_rom_32x32
         input  wire         rst,
         input  wire         enable,
         input  wire         game_over_en, 
+        input  wire [`CARD_MAX_NUM_SIZE-1:0] num_of_cards,        
         input  wire [7:0]   discovered_pairs_ctr,   
-        input  wire [12:0]  game_time,              // {seconds[12:7], hundredths[3:0]}
+        input  wire [12:0]  game_time,              // {seconds[12:7], hundredths[6:0]}
         input  wire [9:0]   char_yx,                // {char_y[4:0], char_x[4:0]}
         output reg  [6:0]   char_code               // code of the given char_yx
     );
@@ -44,11 +46,14 @@ module char_rom_32x32
     //if dozens or unity are from 0 to 5 like in stopwatch, you need 3bit wire
     //if dozens or unity are from 0 to 9 like normal, you need 4bit wire
     wire [2:0] seconds_dozens;
-    wire [3:0] seconds_unity, hundredths_of_second_unity, hundredths_of_second_dozens, discovered_pairs_ctr_dozens, discovered_pairs_ctr_unity;
+    wire [3:0] seconds_unity, hundredths_of_second_unity, hundredths_of_second_dozens; 
+    wire [3:0] final_points_thousands, final_points_hundreds, final_points_dozens, final_points_unity;
+    wire points_calculated;
     reg [6:0] data;
     
     reg [1:0] state, state_nxt;
     
+    wire [13:0] final_points;
     reg [13:0] highscores [0:4];
     reg [13:0] highscores_nxt [0:4];
     wire [13:0] current_score;
@@ -57,7 +62,23 @@ module char_rom_32x32
     wire [3:0] highscores_dozens    [0:4];
     wire [3:0] highscores_unity     [0:4];
     
-    assign current_score = discovered_pairs_ctr;
+    points_calculator MG_points_calculator(
+        .clk(clk),
+        .rst(rst),
+        .enable(enable),
+        .num_of_cards(num_of_cards),
+        .discovered_pairs_ctr(discovered_pairs_ctr),
+        .seconds(game_time[12:7]),
+        .points_calculated(points_calculated),
+        .points(final_points)
+    );
+    
+    assign current_score = game_over_en ? 0 : final_points;
+    
+    assign final_points_thousands = final_points/10'd1000;
+    assign final_points_hundreds = (final_points%10'd1000)/7'd100;
+    assign final_points_dozens = ((final_points%10'd1000)%7'd100)/4'd10;
+    assign final_points_unity = ((final_points%10'd1000)%7'd100)%4'd10;
     
     generate
     genvar i;
@@ -73,8 +94,6 @@ module char_rom_32x32
     assign seconds_unity = game_time[12:7]%4'd10;
     assign hundredths_of_second_dozens = game_time[6:0]/4'd10;
     assign hundredths_of_second_unity = game_time[6:0]%4'd10;
-    assign discovered_pairs_ctr_dozens = discovered_pairs_ctr/4'd10;
-    assign discovered_pairs_ctr_unity = discovered_pairs_ctr%4'd10;
     
     // body
     
@@ -107,7 +126,7 @@ module char_rom_32x32
         highscores_nxt[4] = highscores[4];
         case(state)
             IDLE: begin
-                state_nxt = enable ? NEW_RECORD : state;
+                state_nxt = points_calculated ? NEW_RECORD : state;
             end
             NEW_RECORD: begin
                 state_nxt = WAIT_FOR_NEW_GAME;
@@ -188,10 +207,10 @@ module char_rom_32x32
             10'h04a: data = game_over_en ? 101 : 101                             ;
             10'h04b: data = game_over_en ? 58  : 58                              ;
             10'h04c: data = game_over_en ? 0   : 0                               ;
-            10'h04d: data = game_over_en ? 48  : 48                              ;       //score
-            10'h04e: data = game_over_en ? 48  : 48                              ;       //score
-            10'h04f: data = game_over_en ? 48  : 48 + discovered_pairs_ctr_dozens;       //score
-            10'h050: data = game_over_en ? 48  : 48 + discovered_pairs_ctr_unity ;       //score
+            10'h04d: data = game_over_en ? 48  : 48 + final_points_thousands     ;       //score
+            10'h04e: data = game_over_en ? 48  : 48 + final_points_hundreds      ;       //score
+            10'h04f: data = game_over_en ? 48  : 48 + final_points_dozens        ;       //score
+            10'h050: data = game_over_en ? 48  : 48 + final_points_unity         ;       //score
 
             //4th line is empty
             

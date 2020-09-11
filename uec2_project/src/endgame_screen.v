@@ -7,7 +7,6 @@
 // Module Name: endgame_screen
 // Project Name: Memory Game
 // Target Devices: Basys3
-// Tool Versions: Vivaenable 2017.3
 // Tool Versions: Vivado 2017.3
 // Description: 
 // 
@@ -19,12 +18,14 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 `include "_vga_macros.vh"
+`include "_cards_macros.vh" 
 `include "_game_params.vh"
 
 module endgame_screen(
     input wire pclk,
     input wire rst,
     input wire enable,
+    input wire [`CARD_MAX_NUM_SIZE-1:0] num_of_cards,
     input wire game_over_en,
     input wire [7:0] discovered_pairs_ctr,
     input wire [12:0] game_time, // {seconds, hundredths_of_second}
@@ -66,6 +67,7 @@ module endgame_screen(
         .rst(rst),
         .enable(enable),
         .game_over_en(game_over_en),
+        .num_of_cards(num_of_cards),
         .discovered_pairs_ctr(discovered_pairs_ctr),
         .game_time(game_time),
         .char_yx(char_yx),

@@ -396,6 +396,7 @@ module top (
     endgame_screen display_endscreen(
         .pclk(clk65MHz),
         .rst(rst),
+        .num_of_cards(num_of_cards),
         .game_over_en(minute_passed),
         .enable(end_screen_en),
         .discovered_pairs_ctr(discovered_pairs_ctr),
