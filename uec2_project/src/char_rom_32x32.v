@@ -25,12 +25,12 @@ module char_rom_32x32
     (
         input  wire         clk,
         input  wire         rst,
+        input  wire         points_calculated,
         input  wire         enable,
-        input  wire         game_over_en, 
-        input  wire [`CARD_MAX_NUM_SIZE-1:0] num_of_cards,        
-        input  wire [7:0]   discovered_pairs_ctr,   
+        input  wire         game_over_en,          
         input  wire [12:0]  game_time,              // {seconds[12:7], hundredths[6:0]}
         input  wire [9:0]   char_yx,                // {char_y[4:0], char_x[4:0]}
+        input  wire [13:0]  final_score,
         output reg  [6:0]   char_code               // code of the given char_yx
     );
     localparam
@@ -48,12 +48,10 @@ module char_rom_32x32
     wire [2:0] seconds_dozens;
     wire [3:0] seconds_unity, hundredths_of_second_unity, hundredths_of_second_dozens; 
     wire [3:0] final_points_thousands, final_points_hundreds, final_points_dozens, final_points_unity;
-    wire points_calculated;
     reg [6:0] data;
     
     reg [1:0] state, state_nxt;
     
-    wire [13:0] final_points;
     reg [13:0] highscores [0:4];
     reg [13:0] highscores_nxt [0:4];
     wire [13:0] current_score;
@@ -62,23 +60,12 @@ module char_rom_32x32
     wire [3:0] highscores_dozens    [0:4];
     wire [3:0] highscores_unity     [0:4];
     
-    points_calculator MG_points_calculator(
-        .clk(clk),
-        .rst(rst),
-        .enable(enable),
-        .num_of_cards(num_of_cards),
-        .discovered_pairs_ctr(discovered_pairs_ctr),
-        .seconds(game_time[12:7]),
-        .points_calculated(points_calculated),
-        .points(final_points)
-    );
+    assign current_score = game_over_en ? 0 : final_score;
     
-    assign current_score = game_over_en ? 0 : final_points;
-    
-    assign final_points_thousands = final_points/10'd1000;
-    assign final_points_hundreds = (final_points%10'd1000)/7'd100;
-    assign final_points_dozens = ((final_points%10'd1000)%7'd100)/4'd10;
-    assign final_points_unity = ((final_points%10'd1000)%7'd100)%4'd10;
+    assign final_points_thousands = final_score/10'd1000;
+    assign final_points_hundreds = (final_score%10'd1000)/7'd100;
+    assign final_points_dozens = ((final_score%10'd1000)%7'd100)/4'd10;
+    assign final_points_unity = ((final_score%10'd1000)%7'd100)%4'd10;
     
     generate
     genvar i;
