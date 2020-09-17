@@ -77,7 +77,7 @@ module state_machine(
     //State machine states
     localparam
     MAIN_MENU               = 0,
-    OPTIONS_SCREEN          = 17,
+    CHOOSE_LEVEL            = 17,
     COMPUTE_COLORS          = 1,
     UPDATE_CARDS_1          = 2,
     WAIT_FOR_CLICK_1        = 3,
@@ -92,10 +92,10 @@ module state_machine(
     DEACTIVATE_ALL_CARDS    = 18,
     UPDATE_CARDS_4          = 19,    
     END_SCREEN              = 12,
-    TEMP_WAIT1              = 13,
-    TEMP_WAIT2              = 14,
-    TEMP_WAIT3              = 15,
-    TEMP_WAIT4              = 16;
+    TIMER_1                 = 13,
+    TIMER_2                 = 14,
+    TIMER_3                 = 15,
+    TIMER_4                 = 16;
     
     
     always @(posedge clk) begin
@@ -167,17 +167,17 @@ module state_machine(
         
         case(state)
             MAIN_MENU: begin
-                state_nxt = start_butt_pressed ? TEMP_WAIT4 : state;                    // TEMP_WAIT only IRL
-//                state_nxt = start_butt_pressed ? OPTIONS_SCREEN : state;                // For simulation ONLY
+                state_nxt = start_butt_pressed ? TIMER_4 : state;                    // TIMER_ only IRL
+//                state_nxt = start_butt_pressed ? CHOOSE_LEVEL : state;                // For simulation ONLY
                 start_butt_en_nxt = 1;
             end
             
-            TEMP_WAIT4: begin
-                state_nxt = (temp_wait_ctr == VALUE_EQUAL_200MS) ? OPTIONS_SCREEN : state;
+            TIMER_4: begin
+                state_nxt = (temp_wait_ctr == VALUE_EQUAL_200MS) ? CHOOSE_LEVEL : state;
                 temp_wait_ctr_nxt = temp_wait_ctr + 1;
             end
             
-            OPTIONS_SCREEN: begin
+            CHOOSE_LEVEL: begin
                 state_nxt = difficulty_butts_pressed ? COMPUTE_COLORS : 
                             back_butt_pressed ? MAIN_MENU : state;
                 options_screen_en_nxt = 1;
@@ -191,14 +191,14 @@ module state_machine(
             end
             
             UPDATE_CARDS_1: begin
-                state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : ((cards_left == 0) ? END_SCREEN : TEMP_WAIT1);              // TEMP_WAIT only IRL
+                state_nxt = (cards_left == 0) ? END_SCREEN : TIMER_1;              // TIMER_ only IRL
 //                state_nxt = WAIT_FOR_CLICK_1;                                         // For simulation ONLY
 
                 update_cards_en_nxt = 1;
             end
             
-            TEMP_WAIT1: begin
-                state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : ((temp_wait_ctr == VALUE_EQUAL_200MS) ? WAIT_FOR_CLICK_1 : state);
+            TIMER_1: begin
+                state_nxt = (temp_wait_ctr == VALUE_EQUAL_200MS) ? WAIT_FOR_CLICK_1 : state;
                 temp_wait_ctr_nxt = temp_wait_ctr + 1;
             end
             
@@ -208,7 +208,7 @@ module state_machine(
             end
             
             DISCOVER_FIRST_CARD: begin
-                state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : UPDATE_CARDS_2;
+                state_nxt = UPDATE_CARDS_2;
                 write_card_en_nxt = 1;
                 write_card_state_nxt = 2'b11;
                 write_card_address_nxt = card_clicked_address;
@@ -217,13 +217,13 @@ module state_machine(
             end
             
             UPDATE_CARDS_2: begin
-                state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : TEMP_WAIT2;                                             // TEMP_WAIT only IRL
+                state_nxt = TIMER_2;                                             // TIMER_ only IRL
 //                state_nxt = WAIT_FOR_CLICK_2;                                       // For simulation ONLY
                 update_cards_en_nxt = 1;
             end
             
-            TEMP_WAIT2: begin
-                state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : ((temp_wait_ctr == VALUE_EQUAL_200MS) ? WAIT_FOR_CLICK_2 : state);
+            TIMER_2: begin
+                state_nxt = (temp_wait_ctr == VALUE_EQUAL_200MS) ? WAIT_FOR_CLICK_2 : state;
                 temp_wait_ctr_nxt = temp_wait_ctr + 1;
             end
             
@@ -233,7 +233,7 @@ module state_machine(
             end
             
             DISCOVER_SECOND_CARD: begin
-                state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : UPDATE_CARDS_3;
+                state_nxt = UPDATE_CARDS_3;
                 discovered_pairs_ctr_nxt = (255 == discovered_pairs_ctr) ? 255 : discovered_pairs_ctr + 1;
                 write_card_en_nxt = 1;
                 write_card_state_nxt = 2'b11;
@@ -243,12 +243,12 @@ module state_machine(
             end
             
             UPDATE_CARDS_3: begin
-                state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : CALCULATE_CARDS_LEFT;
+                state_nxt = CALCULATE_CARDS_LEFT;
                 update_cards_en_nxt = 1;
             end
             
             CALCULATE_CARDS_LEFT: begin
-                state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : TEMP_WAIT3;
+                state_nxt = TIMER_3;
                 if(card_color_reg[0] == card_color_reg[1]) begin
                     cards_left_nxt = cards_left - 2;
                 end
@@ -257,20 +257,20 @@ module state_machine(
                 end
             end
             
-            TEMP_WAIT3: begin
+            TIMER_3: begin
                 temp_wait_ctr_nxt = temp_wait_ctr + 1;
                 if(card_color_reg[0] == card_color_reg[1]) begin
 //                    state_nxt = (temp_wait_ctr == 20) ? DEACTIVATE_CARDS : state;                 // For simulation ONLY
-                    state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : ((temp_wait_ctr == VALUE_EQUAL_400MS) ? DEACTIVATE_CARDS : state);
+                    state_nxt = (temp_wait_ctr == VALUE_EQUAL_400MS) ? DEACTIVATE_CARDS : state;
                 end
                 else begin
 //                    state_nxt = (temp_wait_ctr == 20) ? COVER_CARDS_AGAIN : state;                // For simulation ONLY
-                    state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : ((temp_wait_ctr == VALUE_EQUAL_400MS) ? COVER_CARDS_AGAIN : state);
+                    state_nxt = (temp_wait_ctr == VALUE_EQUAL_400MS) ? COVER_CARDS_AGAIN : state;
                 end
             end
             
             COVER_CARDS_AGAIN: begin
-                state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : ((summary_ctr) ? UPDATE_CARDS_1 : state);
+                state_nxt = summary_ctr ? UPDATE_CARDS_1 : state;
                 write_card_en_nxt = 1;
                 write_card_state_nxt = 2'b01;
                 write_card_address_nxt = summary_ctr ? card_address_reg[1] : card_address_reg[0];
@@ -278,7 +278,7 @@ module state_machine(
             end
             
             DEACTIVATE_CARDS: begin
-                state_nxt = time_passed ? DEACTIVATE_ALL_CARDS : ((summary_ctr) ? UPDATE_CARDS_1 : state);
+                state_nxt = summary_ctr ? UPDATE_CARDS_1 : state;
                 write_card_en_nxt = 1;                            
                 write_card_state_nxt = 2'b10;
                 write_card_address_nxt = summary_ctr ? card_address_reg[1] : card_address_reg[0];                     

@@ -84,11 +84,11 @@ module points_calculator(
                     time_score = 3333 - mult_time_result;
                 end
                 else if (`CARD_NUM_NORMAL == num_of_cards) begin
-                    diff_lvl_score = 1515;
+                    diff_lvl_score = 1600;
                     time_score = (seconds <= 5) ? 3333 : 3333 - mult_time_result;
                 end
                 else if (`CARD_NUM_HARD == num_of_cards) begin
-                    diff_lvl_score = 3333;
+                    diff_lvl_score = 3300;
                     time_score = (seconds <= 10) ? 3333 : 3333 - mult_time_result;
                 end
                 else begin
