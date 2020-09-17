@@ -1,10 +1,10 @@
 -- Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2017.3 (win64) Build 2018833 Wed Oct  4 19:58:22 MDT 2017
--- Date        : Wed Sep 16 21:35:12 2020
--- Host        : WOLVEPC running 64-bit major release  (build 9200)
--- Command     : write_vhdl -force -mode synth_stub -rename_top multiplier -prefix
---               multiplier_ multiplier_stub.vhdl
+-- Date        : Thu Sep 17 13:04:08 2020
+-- Host        : LAPTOP-IVH6M5RF running 64-bit major release  (build 9200)
+-- Command     : write_vhdl -force -mode synth_stub
+--               C:/Users/dzial/Documents/Mikroelektronika_AGH/II_rok/IV_semestr/UEC/project_uec/uec2_project/src/ip/multiplier/multiplier_stub.vhdl
 -- Design      : multiplier
 -- Purpose     : Stub declaration of top-level module interface
 -- Device      : xc7a35tcpg236-1
