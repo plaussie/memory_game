@@ -81,22 +81,22 @@ module points_calculator(
                 // difficulty level and time
                 if (`CARD_NUM_EASY == num_of_cards) begin
                     diff_lvl_score = 0;
-                    time_score = 3333 - mult_time_result;
+                    time_score = 3300 - mult_time_result;
                 end
                 else if (`CARD_NUM_NORMAL == num_of_cards) begin
                     diff_lvl_score = 1600;
-                    time_score = (seconds <= 5) ? 3333 : 3333 - mult_time_result;
+                    time_score = (seconds <= 5) ? 3300 : 3300 - mult_time_result;
                 end
                 else if (`CARD_NUM_HARD == num_of_cards) begin
                     diff_lvl_score = 3300;
-                    time_score = (seconds <= 10) ? 3333 : 3333 - mult_time_result;
+                    time_score = (seconds <= 10) ? 3300 : 3300 - mult_time_result;
                 end
                 else begin
                     // do nothing                 
                 end
                 
                 // discovered pairs of cards
-                discovered_pairs_score = 3333 - mult_discovered_pairs_result;
+                discovered_pairs_score = 3300 - mult_discovered_pairs_result;
                 points_nxt = diff_lvl_score + time_score + discovered_pairs_score;
             end
           
@@ -109,13 +109,13 @@ module points_calculator(
     end
     
     assign time_multiplier = enable ? 
-                            ((`CARD_NUM_EASY == num_of_cards) && (seconds < 33)) ? seconds :
-                            ((`CARD_NUM_NORMAL == num_of_cards) && (seconds < 38)) ? (seconds - 5) :
-                            ((`CARD_NUM_HARD == num_of_cards) && (seconds < 43)) ? (seconds - 10) : 33  
+                            ((`CARD_NUM_EASY == num_of_cards) && (seconds < 32)) ? seconds :
+                            ((`CARD_NUM_NORMAL == num_of_cards) && (seconds < 37)) ? (seconds - 5) :
+                            ((`CARD_NUM_HARD == num_of_cards) && (seconds < 42)) ? (seconds - 10) : 32  
                             : 0;
                            
-    assign discovered_pairs_multiplier = enable ? (discovered_pairs_ctr < (num_of_cards/2 + 33)) ? 
-                                        (discovered_pairs_ctr - num_of_cards/2) : 33 
+    assign discovered_pairs_multiplier = enable ? (discovered_pairs_ctr < (num_of_cards/2 + 32)) ? 
+                                        (discovered_pairs_ctr - num_of_cards/2) : 32 
                                         : 0;
                                         
 endmodule
